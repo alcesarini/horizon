@@ -7,13 +7,12 @@ DATE= 20131214
 
 
 #include <hl/underlyings/hl_underlying.h>
+#include <hl/math/probMeasures/hl_convAdjMeasureChange.h>
+#include <hl/math/probMeasures/hl_convAdjMeasureChange.h>
+#include <hl/mktData/hl_mktDataCollector.h>
 
 HL_SERIALIZATION_CLASS_EXPORT_GUID(HLUND::HL_Underlying);
 HL_SERIALIZATION_CLASS_EXPORT_GUID(HLUND::HL_UnderlyingCode);
-
-//------------------------------------------------------------------------------------------------------
-
-HL_SERIALIZATION_CLASS_EXPORT_GUID(HLUND::HL_FwdMeasure);
 
 namespace HorizonLib
 {
@@ -21,75 +20,7 @@ namespace HL_MarketData
 {
 namespace HL_Underlyings
 {
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-// class HL_Measure
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
 
-
-HL_Measure::HL_Measure()
-{
-    classDefaultInit();
-
-} // end HL_Measure
-
-//------------------------------------------------------------------------------------------------------
-
-HL_Measure::~HL_Measure()
-{} // end ~HL_Measure
-
-//------------------------------------------------------------------------------------------------------
-
-void HL_Measure::classDefaultInit()
-{} // end classDefaultInit
-
-
-//------------------------------------------------------------------------------------------------------
-
-void HL_Measure::descriptionImpl(std::ostream & os) const
-{
-
-    Descriptable::descriptionImpl(os);
-
-
-} // end descriptionImpl
-
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-// class HL_FwdMeasure
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-
-
-HL_FwdMeasure::HL_FwdMeasure()
-{
-    classDefaultInit();
-
-} // end HL_FwdMeasure
-
-//------------------------------------------------------------------------------------------------------
-
-HL_FwdMeasure::~HL_FwdMeasure()
-{} // end ~HL_FwdMeasure
-
-//------------------------------------------------------------------------------------------------------
-
-void HL_FwdMeasure::classDefaultInit()
-{} // end classDefaultInit
-
-//------------------------------------------------------------------------------------------------------
-
-void HL_FwdMeasure::descriptionImpl(std::ostream & os) const
-{
-
-    HL_Measure::descriptionImpl(os);
-    os << "HL_FwdMeasure:\n";
-    hl_fillDescriptionStream(payDate_);
-    hl_fillDescriptionStream(hl_CcyCode_);
-
-
-} // end descriptionImpl
 
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
@@ -148,44 +79,6 @@ HL_Underlying::~HL_Underlying()
 
 void HL_Underlying::classDefaultInit()
 {} // end classDefaultInit
-//------------------------------------------------------------------------------------------------------
-
-
-HLR HL_Underlying::expectation(const date & fixingDate, const HL_MeasurePtr & hl_MeasurePtr) const
-{
-
-    const HLR * fixPtr = hl_DateRealHistoryPtr_->getFixingPtr(historyTag_,
-                         fixingDate /*time*/,
-                         get_refDate()/*refTime*/);
-
-    HLR expect;
-
-    if(fixPtr)
-    {
-
-        /*
-        case: fixingDate<= get_refDate()
-        */
-        expect = (*fixPtr);
-
-    }
-    else
-    {
-        /*
-        case: fixingDate>get_refDate()
-        */
-        HL_SRE_OBJ(hl_MeasurePtr!=0, "need a non-null hl_MeasurePtr to compute expectation in case fixingDate>get_refDate(), "
-                   << "fixingDate=" << fixingDate << ", get_refDate()=" << get_refDate());
-
-        expect = forecastedExpectation(fixingDate, hl_MeasurePtr);
-    } // end if..else..
-
-
-    return expect;
-
-
-} // end expectation
-
 
 
 
@@ -195,11 +88,181 @@ void HL_Underlying::descriptionImpl(std::ostream & os) const
 {
     HLMD::HL_MktData::descriptionImpl(os);
     hl_fillDescriptionStream(calendar_);
-    hl_fillDescriptionStream(hl_DateRealHistoryPtr_);
-    hl_fillDescriptionStream(historyTag_);
+    hl_fillDescriptionStream(hl_TimeRealHistoryPtr_);
+    hl_fillDescriptionStream(impliedVolSurfaceCode_);
 
 } // end descriptionImpl
 
+
+
+//------------------------------------------------------------------------------------------------------
+
+
+HL_ExpectationPtr HL_Underlying::expectation(const ptime & fixingTime,
+                                             const HL_MeasurePtr & measure,
+                                             const HLSTRING & historyTag) const
+{
+
+
+
+
+    bool pastFixingFound;
+
+    HL_ExpectationPtr expectation = getServiceExpectation(pastFixingFound,
+                                                          fixingTime,
+                                                          measure,
+                                                          historyTag);
+
+
+
+    if(!pastFixingFound)
+    {
+        /*
+        case: fixingDate>get_refDate()
+        */
+        HL_SRE_OBJ(measure!=0, "need a non-null measure to compute expectation in case fixingDate>get_refDate(), "
+                   << "fixingTime=" << fixingTime << ", get_refTime()=" << get_refTime());
+
+        expectation->set_value(forecastExpectation(fixingTime, measure));
+
+
+    } // end if..else..
+
+
+    return expectation;
+
+
+} // end expectation
+
+
+//------------------------------------------------------------------------------------------------------
+
+HL_ExpectationPtr HL_Underlying::quotingMeasureExpectation(const ptime & fixingTime,
+                                                           const HLSTRING & historyTag) const
+{
+
+    bool pastFixingFound;
+
+    HL_ExpectationPtr expectation = getServiceExpectation(pastFixingFound,
+                                                          fixingTime,
+                                                          get_quotingMeasure(fixingTime),
+                                                          historyTag);
+
+
+    if(!pastFixingFound)
+        expectation->set_value(forecastQuotingMeasureExpectationImpl(fixingTime));
+
+    return expectation;
+
+
+} // end quotingMeasureExpectation
+
+//------------------------------------------------------------------------------------------------------
+
+HL_VolSurfacePtr HL_Underlying::get_impliedVolSurface() const
+{
+
+    HL_VolSurfacePtr volSurface =
+            get_mktDataCollector()->get_mktData<HL_VolSurfacePtr>(impliedVolSurfaceCode_);
+
+    return volSurface;
+
+} // end get_impliedVolSurface
+
+//------------------------------------------------------------------------------------------------------
+
+
+HLR HL_Underlying::forecastExpectation(const ptime & fixingTime, const HL_MeasurePtr & measure) const
+{
+
+    HL_ExpectationPtr quotingMeasureExpect = quotingMeasureExpectation(fixingTime);
+
+
+    if(measure->operator ==( quotingMeasureExpect->get_measure()))
+    {
+        return quotingMeasureExpect->get_value();
+    }
+
+    /*
+     * We require this cast since we only know how to change expectations between T_i and T_j fwd measures possibly
+     * of different ccys.
+    */
+    HL_DYN_SHARED_PTR_CAST(HLMA::HL_FwdMeasure, arrivalFwdMeasure, measure);
+
+    HL_MeasureChangePtr measureChange(new HLMA::HL_MeasureChange);
+
+
+
+    HLR adjustedExpectation =
+            measureChange->getAdjustedExpectation(fixingTime /*underlyingFixingTime*/,
+                                                  *this /*underlying*/,
+                                                  arrivalFwdMeasure,
+                                                  get_mktDataCollector());
+
+
+
+    return adjustedExpectation;
+
+
+
+} // end forecastExpectation
+
+
+
+
+//------------------------------------------------------------------------------------------------------
+
+
+HL_ExpectationPtr HL_Underlying::getServiceExpectation(bool & pastFixingFound,
+                                                       const ptime & fixingTime,
+                                                       const HL_MeasurePtr & measure,
+                                                       const HLSTRING & historyTag) const
+{
+
+
+
+    const HLR * fixPtr = hl_TimeRealHistoryPtr_->getFixingPtr(historyTag,
+                                                              fixingTime /*time*/
+                                                              );
+
+
+    HL_ExpectationPtr expectation(new HLMA::HL_Expectation);
+    expectation->set_measure(measure);
+
+    if(fixPtr)
+    {
+        pastFixingFound=true;
+
+        /*
+        case: fixingDate<= get_refDate()
+        */
+        expectation->set_value(*fixPtr);
+
+    }
+    else
+    {
+        pastFixingFound=false;
+
+    } // end if..else..
+
+
+    return expectation;
+
+} // end getServiceExpectation
+
+
+
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+//  defaultHistoryTag()
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+
+HLSTRING defaultHistoryTag()
+{
+
+    return "defaultHistoryTag";
+} // end defaultHistoryTag()
 
 
 } // end namespace HL_Underlyings

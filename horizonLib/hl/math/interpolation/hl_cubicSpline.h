@@ -11,9 +11,6 @@
 #include <hl/math/linearAlgebra/hl_tridiagonalOperator.h>
 
 
-int ggg();
-
-
 namespace HorizonLib
 {
 namespace HL_Math
@@ -23,7 +20,7 @@ namespace HL_Interpolation
 
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
-// class HL_CubicInterp
+// class HL_1_D_CubicInterp
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
 
@@ -34,7 +31,7 @@ namespace HL_Interpolation
  \warning Notice that this class and its derived classes should be streamed only after
  completely computed and refreshed.
  */
-class HL_CubicInterp : public virtual HL_Interpolator
+class HL_1_D_CubicInterp : public virtual HL_Interpolator
 {
 
     /**
@@ -72,9 +69,9 @@ public:
      Constructors & destructors
      */
     //@{
-    HL_CubicInterp();
+    HL_1_D_CubicInterp();
 
-    virtual ~HL_CubicInterp();
+    virtual ~HL_1_D_CubicInterp();
     //@}
 
     /**
@@ -85,9 +82,24 @@ public:
     HL_CLASS_VAR_ACCESS_METHODS(bool/*ClassVariableType*/, applyMonotonicitConstraint/*classVariableName_no_underscore*/);
 
 
-    HLR operator()(const VEC::const_iterator & b, const VEC::const_iterator & e) const;
+    HLR value_n_1(const VEC::const_iterator & b, const VEC::const_iterator & e) const;
+
+
+    void set_interpControlsPtr(const HL_InterpControlsPtr &interpControlsPtr);
+
 
     void finalize();
+
+
+    /**
+     * 0<=xIdx<nPoints_
+     * fEnd is supposed to be set into f(xEnd), where xEnd=get_x(xIdx)
+     * dEnd is supposed to be the derivative of the interpolating function at xEnd.
+     * Notice that xEnd is the end of the interval [get_x(xIdx-1), get_x(xIdx)] (at least if xIdx>0,...)
+    */
+    void setPointAndPerformInterpolationComputations(HLS xIdx,
+                                                     HLR fEnd,
+                                                     HLR dEnd);
 
     //@}
 
@@ -100,6 +112,11 @@ protected:
      Default initialization of the class vars.
      */
     void classDefaultInit();
+
+
+
+    void preInit();
+
 
     HLR nonCubicOperator() const;
 
@@ -125,6 +142,12 @@ protected:
         return realMultiArrayPtr_->operator[](serviceMultiIndex_);
     }
 
+    HLR & f(HLS idx)
+    {
+        serviceMultiIndex_[0]=idx;
+        return realMultiArrayPtr_->operator[](serviceMultiIndex_);
+    }
+
     bool nonCubic() const
     {
 
@@ -137,7 +160,18 @@ protected:
 
     void applyMonotonicitConstraint();
 
-    void computeCubicCoefficients();
+    void computeCubicCoefficientsLoop();
+
+
+    void computeIntervalCubicCoefficientsImpl(
+            HLR & a,
+            HLR & b,
+            HLR & c,
+            HLR dx,
+            HLR S,
+            HLR dStart,
+            HLR dEnd
+            );
 
     //@}
 
@@ -180,16 +214,15 @@ protected:
 
     mutable VEC a_, b_, c_;
 
-    mutable std::set<HLS> changedPointIndexes_;
 
     //@}
 
 }
-; // end class HL_CubicInterp
+; // end class HL_1_D_CubicInterp
 
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
-// class HL_CubicInterp: defines, utils
+// class HL_1_D_CubicInterp: defines, utils
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
 
@@ -359,9 +392,9 @@ protected:
 /**
  \author A. Cesarini
  \date 20131227
- \brief Specilization of HL_CubicInterp for the case of the cubic spline method.
+ \brief Specilization of HL_1_D_CubicInterp for the case of the cubic spline method.
  */
-class HL_1_D_CubicSplineInterp : public virtual HL_CubicInterp
+class HL_1_D_CubicSplineInterp : public virtual HL_1_D_CubicInterp
 {
 
     /**
@@ -376,7 +409,7 @@ class HL_1_D_CubicSplineInterp : public virtual HL_CubicInterp
     void serialize(Archive &ar, const HLS version)
     {
 
-        HL_SERIALIZE_BASE_CLASS(HL_CubicInterp);
+        HL_SERIALIZE_BASE_CLASS(HL_1_D_CubicInterp);
 
     }
     //@} Serialization -----------------------------------
@@ -589,9 +622,9 @@ protected:
 /**
  \author A. Cesarini
  \date 20131227
- \brief Specilization of HL_CubicInterp for the case of the cubic spline method.
+ \brief Specilization of HL_1_D_CubicInterp for the case of the cubic spline method.
  */
-class HL_1_D_CubicInterpLocalParabolic : public virtual HL_CubicInterp
+class HL_1_D_CubicInterpLocalParabolic : public virtual HL_1_D_CubicInterp
 {
 
     /**
@@ -606,7 +639,7 @@ class HL_1_D_CubicInterpLocalParabolic : public virtual HL_CubicInterp
     void serialize(Archive &ar, const HLS version)
     {
 
-        HL_SERIALIZE_BASE_CLASS(HL_CubicInterp);
+        HL_SERIALIZE_BASE_CLASS(HL_1_D_CubicInterp);
 
     }
     //@} Serialization -----------------------------------
@@ -653,15 +686,6 @@ protected:
     void descriptionImpl(std::ostream & os) const;
 
 
-    /**
-     * This interpolation method is local, hence if one changes some points only the
-     * computations concerning the intervals around the changed points should be refreshed.
-     * */
-    virtual void updateComputationRefreshTab(const HLMIDX & multiIndex)
-    {
-
-    }
-
 
 
     //@}
@@ -688,7 +712,7 @@ protected:
 //------------------------------------------------------------------------------------------------------
 
 
-void HL_TEST_HL_CubicInterpAll();
+void HL_TEST_HL_1_D_CubicInterpAll();
 
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
@@ -729,7 +753,7 @@ HL_InterpControlsPtr HL_TEST_1D_InterpControlsPtr(
         /**
              * Another output of the method
              * */
-        BSP<HL_CubicInterp> &interpolatorPtr
+        BSP<HL_1_D_CubicInterp> &interpolatorPtr
         );
 //------------------------------------------------------------------------------------------------------
 

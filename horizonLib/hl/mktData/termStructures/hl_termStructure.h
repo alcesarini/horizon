@@ -131,7 +131,7 @@ class HL_TermStructure : public virtual HL_MktData
     //@} Serialization -----------------------------------
 
 public:
-    /**
+    /**HL_IRCurveBootstrap
     Constructors & destructors
     */
     //@{
@@ -148,6 +148,8 @@ public:
     //@{
 
 
+    void set_HL_ObjCodePtr(const HL_ObjCodePtr & hl_ObjCodePtr);
+
 
 
     /**
@@ -159,6 +161,11 @@ public:
     {
         return df(ptime(d));
     }
+
+    /**
+     * The method that should be implemented by derived classes.
+     * */
+    virtual HLR df(HLR t) const;
 
     //@}
 
@@ -174,11 +181,12 @@ protected:
     */
     void classDefaultInit();
 
-
     /**
-     * The method that should be implemented by derived classes.
-     * */
-    virtual HLR dfImpl(HLR t) const;
+    Transform a ptime into a yf from refDate
+    */
+    HLR get_yf(const ptime &t) const;
+
+
 
 
     //@}
@@ -198,6 +206,8 @@ protected:
     Class variables
     */
     //@{
+
+    HL_TermStructureCodePtr termStructureCode_;
 
     //@}
 
@@ -228,9 +238,10 @@ HL_TermStructurePtr get_TermStructurePtr(const HL_MktDataCollectorPtr & mktDataC
 
 /**
 \brief Specifies how to interpolate discount factor. Let t_1<t_2 be 2 times where one knows
-the values of the discount factors (D_1 and D_2 respectively). The question is then hot to interpolate the discount for t_1<t<t_2.
+the values of the discount factors (D_1 and D_2 respectively).
+The question is then how to interpolate the discount for t_1<t<t_2.
 Notice that this enum does not say what interpolator one should use, but rather what to interpolate.
-The comments belowe should clarify further...
+The comments below should clarify further...
 */
 enum HL_DiscountFactorInterpVariableType
 {
@@ -276,6 +287,7 @@ HL_ENUM_DESCRIPTION(
 class HL_InterpTermStructure : public virtual HL_TermStructure
 {
 
+
     /**
     -----------------------------------------------------
     Serialization
@@ -288,6 +300,17 @@ class HL_InterpTermStructure : public virtual HL_TermStructure
     {
 
         HL_SERIALIZE_BASE_CLASS(HL_TermStructure);
+        HL_SER(discountFactorInterpVariableType_);
+        HL_SER(discountFactorInterpType_);
+        HL_SER(interpolatorPtr_);
+        //HL_SER(nodeDates_);
+        HL_SER(nodeTimes_);
+        HL_SER(nbNodes_);
+
+
+
+
+
 
     }
     //@} Serialization -----------------------------------
@@ -310,7 +333,36 @@ public:
     //@{
 
     HL_CLASS_VAR_ACCESS_METHODS(HL_DiscountFactorInterpVariableType, discountFactorInterpVariableType);
-    HL_CLASS_VAR_ACCESS_METHODS(HLINTP::HL_InterpolatorType, discountFactorInterpype);
+    HL_CLASS_VAR_ACCESS_METHODS(HLINTP::HL_InterpolatorType, discountFactorInterpType);
+    //HL_CLASS_VAR_ACCESS_METHODS_O(std::vector<date>, nodeDates);
+    HL_CLASS_VAR_ACCESS_METHODS_O(VEC, nodeTimes);
+    HL_CLASS_VAR_ACCESS_METHODS_O(HLS, nbNodes);
+
+    /**
+    This method specifies the node dates of the interpolation.
+    */
+    void setNodeDates(const std::vector<date> & nodeDates);
+
+    void setNodeTimes(const VEC & nodeTimes);
+
+    /**
+    nodeDiscount should be a discount factor.
+    */
+    void setNodeDiscount(HLS nodeIdx, HLR nodeDiscount);
+
+
+
+    /**
+    To be used to get from a node discount the actual variable the class interpolates on according to
+    discountFactorInterpVariableType_
+    */
+    HLR getInterpolationVariable(HLR nodeDiscount, HLS nodeIdx);
+
+
+    /**
+     * The method that should be implemented by derived classes.
+     * */
+    virtual HLR df(HLR t) const;
 
     //@}
 
@@ -326,6 +378,19 @@ protected:
     */
     void classDefaultInit();
 
+    /**
+    nodeValue should be the variable that the class interpolates (for ex.
+    the discount or the log-discount or the log-discount over time etc..
+    */
+    void setNodeValue(HLS nodeIdx, HLR nodeValue);
+
+    /**
+    Retuns the node value, for ex.
+    the discount or the log-discount or the log-discount over time etc..,
+    according to discountFactorInterpVariableType_.
+    */
+    HLR getNodeValue(HLS nodeIdx) const;
+
     //@}
 
 
@@ -335,10 +400,14 @@ protected:
     //@{
     void descriptionImpl(std::ostream & os) const;
 
-    /**
-     * The method that should be implemented by derived classes.
-     * */
-    virtual HLR dfImpl(HLR t) const;
+
+
+
+
+    HLR getDiscountFactorFromInterpolationVariable(HLR interpVariable, HLR t) const;
+
+    void setInterpolator();
+
 
     //@}
 
@@ -359,13 +428,21 @@ protected:
      * Together with discountFactorInterpVariableType_ completely specifies how to interpolate discount factors
      * in between input nodes.
      * */
-    HLINTP::HL_InterpolatorType discountFactorInterpype_;
+    HLINTP::HL_InterpolatorType discountFactorInterpType_;
 
     /**
      * Holds the points to be interpolated
      * */
     HL_InterpolatorPtr interpolatorPtr_;
 
+    /**
+    The dates with which the interpolatorPtr_ is built.
+    */
+    //std::vector<date> nodeDates_;
+    VEC nodeTimes_;
+    HLS nbNodes_;
+
+    mutable VEC tVec_;
     //@}
 
 }

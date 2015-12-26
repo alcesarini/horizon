@@ -233,7 +233,7 @@ public:
 
 
 
-    HLR operator()(const VEC::const_iterator & b, const VEC::const_iterator & e) const;
+    HLR value_n_1(const VEC::const_iterator & b, const VEC::const_iterator & e) const;
 
 
     void finalize();

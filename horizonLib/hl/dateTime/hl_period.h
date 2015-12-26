@@ -7,7 +7,7 @@ DATE= 20131218
 #ifndef _hl_period_h_
 #define _hl_period_h_
 
-#include <hl/basicFiles/hl_workingIncludes.h>
+#include <hl/basicFiles/hl_commonDeclarations.h>
 
 namespace HorizonLib
 {
@@ -37,14 +37,14 @@ enum HL_PeriodUnit
 //------------------------------------------------------------------------------------------------------
 
 HL_ENUM_DESCRIPTION(
-    HL_PeriodUnit,
-    "HL_PeriodUnit_InvalidMin",
-    "d",
-    "w",
-    "m",
-    "y",
-    "HL_PeriodUnit_InvalidMax"
-);
+        HL_PeriodUnit,
+        "HL_PeriodUnit_InvalidMin",
+        "d",
+        "w",
+        "m",
+        "y",
+        "HL_PeriodUnit_InvalidMax"
+        );
 
 namespace HL_DateTime
 {
@@ -99,13 +99,17 @@ class HL_Period : public virtual HLSER::HL_Serializable
         HL_SER_BASE;
 
         HL_SER(nbUnits_);
-        HL_SER(hl_PeriodUnit_);
+        HL_SER(periodUnit_);
     }
     //@} Serialization -----------------------------------
 
-    friend std::ostream& operator<<(std::ostream& os, const HL_Period& hl_Period);
+    friend std::ostream& operator<<(std::ostream& os, const HL_Period& period);
 
-    friend date operator+(const date & d, const HL_Period& hl_Period);
+    friend date operator+(const date & d, const HL_Period& period);
+
+
+
+
 public:
 
 
@@ -126,11 +130,13 @@ public:
     */
     //@{
 
-    HL_Order getOrder(const HL_Period & hl_Period) const;
+    HL_Order getOrder(const HL_Period & period) const;
 
     HL_CLASS_VAR_ACCESS_METHODS(long, nbUnits);
 
-    HL_CLASS_VAR_ACCESS_METHODS(HL_PeriodUnit, hl_PeriodUnit);
+    HL_CLASS_VAR_ACCESS_METHODS(HL_PeriodUnit, periodUnit);
+
+    bool empty() const;
     //@}
 
 
@@ -167,7 +173,7 @@ protected:
     The period will be nbUnits_x hl_PeriodUnit()
     */
     HLL nbUnits_;
-    HL_PeriodUnit hl_PeriodUnit_;
+    HL_PeriodUnit periodUnit_;
     //@}
 
 
@@ -186,13 +192,32 @@ HL_DEFINE_ALL_ORDERING(HL_Period);
 
 //------------------------------------------------------------------------------------------------------
 
-std::ostream& operator<<(std::ostream& os, const HL_Period& hl_Period);
+std::ostream& operator<<(std::ostream& os, const HL_Period& period);
 
 //------------------------------------------------------------------------------------------------------
 
-date operator+(const date & d, const HL_Period& hl_Period);
+date operator+(const date & d, const HL_Period& period);
+
+//------------------------------------------------------------------------------------------------------
+
+HL_Period operator*(HLL i, const HL_Period& period);
+//------------------------------------------------------------------------------------------------------
+
+inline HL_Period operator*(const HL_Period& period, HLL i)
+{
+    return i*period;
+}
+//------------------------------------------------------------------------------------------------------
+
+inline HL_Period operator-(const HL_Period& period)
+{
+    return -1*period;
+}
 
 } // end namespace HL_DateTime
+
+//------------------------------------------------------------------------------------------------------
+
 
 using HL_DateTime::HL_Period;
 

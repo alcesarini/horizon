@@ -10,14 +10,15 @@ DATE= 20131130
 /**
 Include this file in typical developing files.
 #include <hl/basicFiles/hl_workingIncludes.h>
-
 */
-#include <hl/patterns/hl_ordering.h>
-#include <hl/serialization/hl_coreSerializableObj.h>
-#include <hl/dateTime/hl_dateTime.h>
-#include <hl/patterns/hl_descriptable.h>
-#include <hl/patterns/hl_disposable.h>
-#include <hl/containers/hl_containerManip.h>
-#include <hl/math/hl_comparisonChecks.h>
+
+
+
+
+#include <hl/dateTime/hl_period.h>
+#include <hl/dateTime/hl_dcc.h>
+#include <hl/dateTime/calendar/hl_calendar.h>
+
+
 
 #endif // _hl_workingIncludes_h_ 

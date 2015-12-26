@@ -71,10 +71,14 @@ public:
     */
     HLSTRING objType() const;
 
+   const HLSTRING & sCode() const
+   {
+
+       return hl_ObjCodePtr_->get_sCode();
+   }
 
 
-
-    void set_HL_ObjCodePtr(const HL_ObjCodePtr & hl_ObjCodePtr);
+    virtual void set_HL_ObjCodePtr(const HL_ObjCodePtr & hl_ObjCodePtr);
 
     const HL_ObjCodePtr & hl_ObjCodePtr() const
     {
@@ -119,6 +123,7 @@ protected:
     Class variables
     */
     //@{
+    HL_ObjCodePtr hl_ObjCodePtr_;
 
 
     //@}
@@ -129,11 +134,6 @@ private:
     Private class variables
     */
     //@{
-    /**
-    Notice that we ensure that hl_ObjCodePtr_ will not be changed.
-    */
-    HL_ObjCodePtr hl_ObjCodePtr_;
-
 
 
     //@}
@@ -154,17 +154,17 @@ private:
 //------------------------------------------------------------------------------------------------------
 
 #define HL_SRE_SERVICE_OBJ(ExceptionClass, condition, exceptionMessage)\
-	HL_SRE_SERVICE(ExceptionClass, condition, exceptionMessage << ", objType()=" << objType() << ", ObjCode=" << hl_ObjCodePtr())
+    HL_SRE_SERVICE(ExceptionClass, condition, exceptionMessage << ", objType()=" << objType() << ", ObjCode=" << hl_ObjCodePtr())
 
 //------------------------------------------------------------------------------------------------------
 
 #define HL_SRE_OBJ(condition, exceptionMessage) \
-	HL_SRE_SERVICE_OBJ(HL_IntermediateDataException, condition, exceptionMessage)
+    HL_SRE_SERVICE_OBJ(HL_IntermediateDataException, condition, exceptionMessage)
 
 //------------------------------------------------------------------------------------------------------
 
 #define HL_SRE_ID_OBJ(condition, exceptionMessage) \
-	HL_SRE_SERVICE_OBJ(HL_InputDataException, condition, exceptionMessage)
+    HL_SRE_SERVICE_OBJ(HL_InputDataException, condition, exceptionMessage)
 
 
 //------------------------------------------------------------------------------------------------------
@@ -194,7 +194,7 @@ class HL_FinObjCode : public virtual HLOBJ::HL_ObjCode
     {
 
         HL_SERIALIZE_BASE_CLASS(HLOBJ::HL_ObjCode);
-
+        HL_SER(ccyCode_);
     }
     //@} Serialization -----------------------------------
 
@@ -217,7 +217,7 @@ public:
     Public class interface
     */
     //@{
-
+    HL_CLASS_VAR_ACCESS_METHODS(HL_CcyCodePtr, ccyCode);
     //@}
 
 
@@ -240,6 +240,10 @@ protected:
     */
     //@{
     HLSTRING objTypeImpl() const;
+
+
+    void descriptionImpl(std::ostream & os) const;
+
     //@}
 
 
@@ -252,6 +256,7 @@ protected:
     */
     //@{
 
+    HL_CcyCodePtr ccyCode_;
     //@}
 
 }
@@ -264,7 +269,7 @@ protected:
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
 
-#define HL_FinObjCodePtr BSP<HLTS::HL_FinObjCode>
+#define HL_FinObjCodePtr BSP<HLOBJ::HL_FinObjCode>
 
 
 
@@ -295,7 +300,7 @@ class HL_FinObj : public virtual HL_Obj
     void serialize(Archive &ar, const HLS version)
     {
         HL_SERIALIZE_BASE_CLASS(HLOBJ::HL_Obj);
-        HL_SER(hl_CcyCode_);
+
 
     }
     //@} Serialization -----------------------------------
@@ -319,11 +324,14 @@ public:
     */
     //@{
 
-    void set_HL_CcyCodePtr(const HL_CcyCodePtr & hl_CcyCode);
+
+
+    void set_HL_ObjCodePtr(const HL_ObjCodePtr & hl_ObjCodePtr);
+
 
     const HL_CcyCodePtr & hl_CcyCode() const
     {
-        return hl_CcyCode_;
+        return finObjCode_->get_ccyCode();
     }
 
 
@@ -365,6 +373,10 @@ protected:
     */
     //@{
 
+    /**
+    A down-casted link to HL_Obj::hl_ObjCodePtr_
+    */
+    HL_FinObjCodePtr finObjCode_;
 
     //@}
 
@@ -375,7 +387,7 @@ private:
     */
     //@{
 
-    HL_CcyCodePtr hl_CcyCode_;
+
 
     //@}
 

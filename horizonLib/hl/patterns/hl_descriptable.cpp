@@ -92,7 +92,8 @@ namespace HorizonLib
 	std::ostream& operator<<(std::ostream& os, const BSP<Descriptable>& descriptable)
 	{
 	
-		HL_SR(descriptable);
+        if(!descriptable)
+            return os << "null shared_ptr to obj deriving from Descriptable";
 			
 		return os << (*descriptable);
 

@@ -8,7 +8,8 @@ DATE= 20131208
 #define _hl_objectCode_h_
 
 
-#include <hl/basicFiles/hl_workingIncludes.h>
+#include <hl/basicFiles/hl_commonDeclarations.h>
+
 
 
 namespace HorizonLib
@@ -42,7 +43,7 @@ class HL_ObjCode : public virtual HLSER::HL_Serializable, public virtual Descrip
     void serialize(Archive &ar, const HLS version)
     {
         HL_SER_BASE;
-        HL_SER(nCode_);
+        //HL_SER(nCode_);
         HL_SER(sCode_);
 
     }
@@ -66,6 +67,11 @@ public:
     Public class interface
     */
     //@{
+
+    //HL_CLASS_VAR_ACCESS_METHODS(HLL, nCode);
+    HL_CLASS_VAR_ACCESS_METHODS(HLSTRING, sCode);
+
+
     HLSTRING objType() const;
 
 
@@ -76,14 +82,16 @@ public:
     HL_Order_1_Eq_2 if (*this) == hl_ObjCode
     HL_Order_1_Greater_2 if (*this) > hl_ObjCode
 
-    Notice that there is no need to reimplement this function in derived object codes (so it is not virtual),
+    Notice that usually there is no need to reimplement this function in derived object codes (so it is not virtual),
     since the fact that 2 codes of different types are indeed considered to be different
     is already taken into account by the implementations in HL_DEFINE_ALL_ORDERING.
-    Hence, given this consideration, it is sufficient to compare only the numeric code (nCode_)
-    and the char code (sCode_), to decide if 2 codes (of the same type) are equal or not (and more
-    in particular whci comes first).
+    Hence, given this consideration, it is sufficient to compare only the char code (sCode_),
+to decide if 2 codes (of the same type) are equal or not (and more
+    in particular which comes first).
+
+    Nonetheless the method is kept virtual in order, e.g., to perform some consistency checks.
     */
-    HL_Order getOrder(const HL_ObjCode & hl_ObjCode) const;
+    virtual HL_Order getOrder(const HL_ObjCode & hl_ObjCode) const;
 
     //@}
 
@@ -121,7 +129,7 @@ protected:
     Class variables
     */
     //@{
-    HLL nCode_;
+    //HLL nCode_;
     HLSTRING sCode_;
     //@}
 
@@ -140,6 +148,10 @@ HL_DEFINE_ALL_ORDERING(HL_ObjCode);
 //------------------------------------------------------------------------------------------------------
 
 #define HL_ObjCodePtr BSP<HLOBJ::HL_ObjCode>
+
+//------------------------------------------------------------------------------------------------------
+
+HL_COMPARISON_VEC_CONTAINERS(std::vector<HL_ObjCodePtr>);
 
 
 

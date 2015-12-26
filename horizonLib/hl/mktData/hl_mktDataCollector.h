@@ -8,7 +8,7 @@ DATE= 20131226
 #define _hl_mktDataCollector_h_
 
 #include <hl/mktData/hl_mktData.h>
-
+#include <hl/mktData/hl_mktDataDescriptor.h>
 
 
 namespace HorizonLib
@@ -46,8 +46,7 @@ class HL_MktDataCollector : public virtual HLSER::HL_Serializable, public virtua
         HL_SER_BASE;
         HL_SER(refTime_);
         HL_SER(mktDataMap_);
-
-
+        HL_SER(mktDataTrackerContainerPtr_);
 
     }
     //@} Serialization -----------------------------------
@@ -82,7 +81,7 @@ public:
 
         MktDataCollectionType::const_iterator cIt = mktDataMap_.find(objCodePtr);
 
-        HL_SRE(cIt!=mktDataMap_.end(), ", missing objCodePtr=" << objCodePtr);
+        HL_SRE(cIt!=mktDataMap_.end(), ", missing objCodePtr=" << *objCodePtr);
 
         HL_DYN_SHARED_PTR_CAST(typename MktDataTypePtr::element_type, outMktData, cIt->second);
 
@@ -110,7 +109,17 @@ public:
     will be properly set in such a way that each instance of HL_MktData will have a link
     to the (unique) HL_MktDataCollector instance it is hosted in.
     */
-    static void addMktData(const HL_MktDataPtr & mktDataPtr, const HL_MktDataCollectorPtr & mktDataCollectorPtr);
+    static void addMktData(
+            const HL_ObjCodePtr & objCodePtr,
+            const HL_MktDataPtr & mktDataPtr,
+            const HL_MktDataCollectorPtr & mktDataCollectorPtr,
+            bool allowOverwritingExistingData
+            );
+
+    HL_CLASS_VAR_ACCESS_METHODS_O(HL_MktDataTrackerContainerPtr, mktDataTrackerContainerPtr);
+
+
+
 
     //@}
 
@@ -127,6 +136,9 @@ protected:
     */
     void classDefaultInit();
 
+
+
+    void instantiateMktDataTrackerContainerPtr();
     //@}
 
 
@@ -146,7 +158,11 @@ protected:
     */
     //@{
 
-
+    /**
+    Instantiated by set_refTime(..) method. This means that this facility is always set, but
+    possibly not actually used.
+    */
+    HL_MktDataTrackerContainerPtr mktDataTrackerContainerPtr_;
 
     //@}
 
@@ -179,7 +195,6 @@ inline MktDataTypePtr get_mktData(const HL_MktDataCollectorPtr & mktDataCollecto
     HL_PNN(mktDataCollectorPtr);
     return mktDataCollectorPtr->get_mktData<MktDataTypePtr>(objCodePtr);
 } // end get_mktData
-
 
 
 } // end namespace HL_MarketData

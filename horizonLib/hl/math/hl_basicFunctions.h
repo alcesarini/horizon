@@ -25,7 +25,7 @@ namespace HL_Math
  \date 20131227
  \brief Base class for functions.
  */
-class HL_Ln : public virtual HL_Function
+class HL_Ln : public virtual HL_RealFunctor
 {
 
     /**
@@ -40,7 +40,7 @@ class HL_Ln : public virtual HL_Function
     void
     serialize(Archive &ar, const HLS version)
     {
-        HL_SERIALIZE_BASE_CLASS(HL_Function);
+        HL_SERIALIZE_BASE_CLASS(HL_RealFunctor);
 
     }
     //@} Serialization -----------------------------------

@@ -33,9 +33,11 @@ class HL_TEST_Obj_A : public virtual HLOBJ::HL_Obj
     template<class Archive>
     void serialize(Archive &ar, const HLS version)
     {
+        nb_a_serialization_method_hits_++;
 
         HL_SERIALIZE_BASE_CLASS(HLOBJ::HL_Obj);
         HL_SER(a_string_);
+
     }
     //@} Serialization -----------------------------------
 
@@ -55,6 +57,8 @@ public:
 
 
     HLSTRING a_string_;
+
+    static HLI nb_a_serialization_method_hits_;
 
 }
 ; // end HL_TEST_Obj_A
@@ -76,6 +80,8 @@ class HL_TEST_Obj_B : public virtual HL_TEST_Obj_A
     template<class Archive>
     void serialize(Archive &ar, const HLS version)
     {
+
+        nb_b_serialization_method_hits_++;
 
         HL_SERIALIZE_BASE_CLASS(HL_TEST_Obj_A);
         HL_SER(b_int_);
@@ -99,11 +105,16 @@ public:
     HLI b_int_;
 
 
+    static HLI nb_b_serialization_method_hits_;
+
 }
 ;  // end class HL_TEST_Obj_B
 
 //------------------------------------------------------------------------------------------------------
 
+void HL_TEST_HL_Obj_serialization_sharedPtrCleverManagement();
+
+//------------------------------------------------------------------------------------------------------
 
 void HL_TEST_HL_Obj_serialization();
 

@@ -113,7 +113,7 @@ void HL_2_D_CrossInterp::classDefaultInit()
 
 //------------------------------------------------------------------------------------------------------
 
-HLR HL_2_D_CrossInterp::operator()(const VEC::const_iterator & b, const VEC::const_iterator & e)const
+HLR HL_2_D_CrossInterp::value_n_1(const VEC::const_iterator & b, const VEC::const_iterator & e)const
 {
 
     HL_SR((e-b)==2);
@@ -136,20 +136,20 @@ HLR HL_2_D_CrossInterp::operator()(const VEC::const_iterator & b, const VEC::con
 
     service_VEC_[0]=y;
 
-    HLR fValue=yInterpolator->operator()(service_VEC_.begin()/*b*/, service_VEC_.end()/*e*/);
+    HLR fValue=yInterpolator->value_n_1(service_VEC_.begin()/*b*/, service_VEC_.end()/*e*/);
 
     return fValue;
 
-} // end operator()
+} // end value_n_1
 
 
 //------------------------------------------------------------------------------------------------------
 
 void HL_2_D_CrossInterp::finalize()
 {
-    HL_SRE(nDim_==2, "cannot deal with nDim_!=2, nDim_=" << nDim_);
+    HL_SRE(domainDim_==2, "cannot deal with domainDim_!=2, domainDim_=" << domainDim_);
 
-    HL_SRE(get_directions().size()==nDim_, "get_directions().size()=" << get_directions().size());
+    HL_SRE(get_directions().size()==domainDim_, "get_directions().size()=" << get_directions().size());
 
 
     n_x_ = get_nbPointsInDimension(0);
@@ -204,7 +204,7 @@ HL_InterpolatorPtr HL_2_D_CrossInterp::get_yInterpolator(HLR x, HLS start_yIdx, 
     {
         y_i =yDir_->get_x(i+start_yIdx);
 
-        HLR f_x_y_i = (*xInterps_cIt)->operator()(service_VEC_.begin()/*b*/, service_VEC_.end()/*e*/);
+        HLR f_x_y_i = (*xInterps_cIt)->value_n_1(service_VEC_.begin()/*b*/, service_VEC_.end()/*e*/);
 
         realMultiArrayPtr->operator[](multiIndex) = f_x_y_i;
 
@@ -290,6 +290,8 @@ void HL_2_D_CrossInterp::set_xInterpolators()
 
 void HL_2_D_CrossInterp::descriptionImpl(std::ostream & os) const
 {
+
+    os << "HL_2_D_CrossInterp:\n";
     HL_Interpolator::descriptionImpl(os);
 
 
@@ -359,7 +361,7 @@ void HL_TEST_HL_2_D_CrossInterp(const HL_TEST_F & F_x,
 
         HLR a,b;
 
-        BSP<HL_CubicInterp> interpolatorPtr_x;
+        BSP<HL_1_D_CubicInterp> interpolatorPtr_x;
         interpControlsPtr_x = HL_TEST_1D_InterpControlsPtr(
                                   dir_x,
                                   a,
@@ -469,7 +471,7 @@ void HL_TEST_HL_2_D_CrossInterp(const HL_TEST_F & F_x,
 
             HLR F_xy_i_j = F_y_i*F_x_j;
 
-            HLR F_xy_i_j_interp = hl_2_D_CrossInterpPtr_R->operator ()(xVect.begin(), xVect.end());
+            HLR F_xy_i_j_interp = hl_2_D_CrossInterpPtr_R->value_n_1(xVect.begin(), xVect.end());
 
 
             HL_REQ_EQUAL_FLOATS_N(F_xy_i_j, F_xy_i_j_interp, 1000);

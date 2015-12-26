@@ -27,7 +27,6 @@ SOURCES += \
     hl/dateTime/hl_period.cpp \
     hl/enviroment/hl_enviromentInit.cpp \
     hl/exceptions/hl_exceptions.cpp \
-    hl/instruments/hl_baseIns.cpp \
     hl/logging/hl_logging.cpp \
     hl/math/interpolation/hl_bidimCubicSpline.cpp \
     hl/math/interpolation/hl_cubicSpline.cpp \
@@ -52,7 +51,33 @@ SOURCES += \
     hl/serialization/hl_test_serialization.cpp \
     hl/underlyings/interestRates/hl_iborIndex.cpp \
     hl/underlyings/interestRates/hl_interestRate.cpp \
-    hl/underlyings/hl_underlying.cpp
+    hl/underlyings/hl_underlying.cpp \
+    hl/instruments/hl_cashFlow.cpp \
+    hl/instruments/hl_basket.cpp \
+    hl/instruments/hl_basketWeights.cpp \
+    hl/instruments/hl_vanillaCashFlow.cpp \
+    hl/math/pricingFunctions/hl_vanillaPricingFunctions.cpp \
+    hl/mktData/correlations/hl_correlationTermStructure.cpp \
+    hl/mktData/mktQuotes/hl_mktQuote.cpp \
+    hl/instruments/anagraphics/hl_anagraphics.cpp \
+    hl/instruments/anagraphics/hl_scheduleAnagraphics.cpp \
+    hl/math/probMeasures/hl_probMeasure.cpp \
+    hl/math/probMeasures/hl_convAdjMeasureChange.cpp \
+    hl/pricingEngines/hl_pricingEngine.cpp \
+    hl/pricingEngines/hl_vanillaCashFlowPricingEngine.cpp \
+    hl/instruments/hl_baseIns.cpp \
+    hl/pricingEngines/hl_cashFlowPricingEngine.cpp \
+    hl/mktData/yieldTermStructureBootstrap/hl_yieldTsBootstrap.cpp \
+    hl/instruments/anagraphics/hl_mktInsAnagraphics.cpp \
+    hl/instruments/anagraphics/hl_mktInsFactory.cpp \
+    hl/mktData/hl_mktDataDescriptor.cpp \
+    hl/pricingEngines/hl_pricingEngineFactory.cpp \
+    hl/patterns/hl_modifier.cpp \
+    hl/patterns/hl_calibAction.cpp \
+    hl/math/rootFinding/hl_rootFinding.cpp \
+    hl/mktData/hl_mktDataCollector_HL_TEST.cpp \
+    hl/patterns/hl_baseAction.cpp \
+    hl/test/hl_test.cpp
 
 HEADERS += \
     hl/basicFiles/hl_auto_link.hpp \
@@ -69,7 +94,6 @@ HEADERS += \
     hl/dateTime/hl_period.h \
     hl/enviroment/hl_enviromentInit.h \
     hl/exceptions/hl_exceptions.h \
-    hl/instruments/hl_baseIns.h \
     hl/logging/hl_logging.h \
     hl/math/interpolation/hl_bidimCubicSpline.h \
     hl/math/interpolation/hl_cubicSpline.h \
@@ -95,7 +119,35 @@ HEADERS += \
     hl/serialization/hl_test_serialization.h \
     hl/underlyings/interestRates/hl_iborIndex.h \
     hl/underlyings/interestRates/hl_interestRate.h \
-    hl/underlyings/hl_underlying.h
+    hl/underlyings/hl_underlying.h \
+    hl/instruments/hl_cashFlow.h \
+    hl/instruments/hl_basket.h \
+    hl/instruments/hl_basketComposition.h \
+    hl/instruments/hl_vanillaCashFlow.h \
+    hl/math/pricingFunctions/hl_vanillaPricingFunctions.h \
+    hl/basicFiles/hl_commonDeclarations.h \
+    hl/mktData/correlations/hl_correlationTermStructure.h \
+    hl/mktData/mktQuotes/hl_mktQuote.h \
+    hl/instruments/anagraphics/hl_anagraphics.h \
+    hl/instruments/anagraphics/hl_scheduleAnagraphics.h \
+    hl/math/probMeasures/hl_probMeasure.h \
+    hl/math/probMeasures/hl_convAdjMeasureChange.h \
+    hl/pricingEngines/hl_pricingEngine.h \
+    hl/pricingEngines/hl_vanillaCashFlowPricingEngine.h \
+    hl/instruments/hl_baseIns.h \
+    hl/pricingEngines/hl_cashFlowPricingEngine.h \
+    hl/instruments/hl_basketWeights.h \
+    hl/mktData/yieldTermStructureBootstrap/hl_yieldTsBootstrap.h \
+    hl/instruments/anagraphics/hl_mktInsAnagraphics.h \
+    hl/instruments/anagraphics/hl_mktInsFactory.h \
+    hl/mktData/hl_mktDataDescriptor.h \
+    hl/pricingEngines/hl_pricingEngineFactory.h \
+    hl/patterns/hl_modifier.h \
+    hl/patterns/hl_calibAction.h \
+    hl/math/rootFinding/hl_rootFinding.h \
+    hl/mktData/hl_mktDataCollector_HL_TEST.h \
+    hl/patterns/hl_baseAction.h \
+    hl/test/hl_test.h
 
 unix {
     target.path = /usr/lib

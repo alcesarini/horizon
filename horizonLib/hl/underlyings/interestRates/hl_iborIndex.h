@@ -116,7 +116,7 @@ protected:
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
 
-#define HL_IborIndexCodePtr BSP<HLINS::HL_IborIndexCode>
+#define HL_IborIndexCodePtr BSP<HLIR::HL_IborIndexCode>
 
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
@@ -148,6 +148,8 @@ class HL_IborIndex : public virtual HL_InterestRate
         HL_SER(accrualEndDateBDC_);
         HL_SER(accrualEndDatePreserveLastBusinessDayOfMonth_);
         HL_SER(dcc_);
+        HL_SER(iborForwardingTermStructureCode_);
+        HL_SER(payDate_bdc_);
 
 
     }
@@ -174,10 +176,31 @@ public:
     HL_CLASS_VAR_ACCESS_METHODS(HL_BusinessDayConvention/*ClassVariableType*/, accrualEndDateBDC/*classVariableName_no_underscore*/);
     HL_CLASS_VAR_ACCESS_METHODS(bool/*ClassVariableType*/, accrualEndDatePreserveLastBusinessDayOfMonth/*classVariableName_no_underscore*/);
     HL_CLASS_VAR_ACCESS_METHODS(HL_DccPtr/*ClassVariableType*/, dcc/*classVariableName_no_underscore*/);
+    HL_CLASS_VAR_ACCESS_METHODS(HL_TermStructureCodePtr/*ClassVariableType*/, iborForwardingTermStructureCode/*classVariableName_no_underscore*/);
+    HL_CLASS_VAR_ACCESS_METHODS(HL_BusinessDayConvention, payDate_bdc);
 
+
+
+    HLR tau(const date & accrualStartDate, const date & accrualEndDate) const;
 
     //@}
 
+    /**
+    Implementations of base class methods
+    */
+    //@{
+
+
+    date accrualEndDate(const date & accrualStartDate) const;
+
+    date get_payDate(const date & accrualEndDate) const;
+
+    HLR iborFixingFormula(const date & fixingDate) const;
+
+    HLR get_interest(const date & accrualStartDate, const date & accrualEndDate) const;
+
+
+    //@}
 
 protected:
 
@@ -193,6 +216,8 @@ protected:
     */
     void classDefaultInit();
 
+
+
     //@}
 
 
@@ -202,12 +227,13 @@ protected:
     //@{
 
 
-    date accrualEndDate(const date & accrualStartDate) const;
-
 
     void descriptionImpl(std::ostream & os) const;
 
-    HLR forecastedExpectation(const date & fixingDate, const HL_MeasurePtr & hl_MeasurePtr) const;
+    HLR forecastQuotingMeasureExpectationImpl(const ptime & fixingTime) const;
+
+    HL_MeasurePtr get_quotingMeasure(const ptime & fixingTime) const;
+
     //@}
 protected:
 
@@ -219,7 +245,13 @@ protected:
     HL_BusinessDayConvention accrualEndDateBDC_;
     bool accrualEndDatePreserveLastBusinessDayOfMonth_;
 
+
     HL_DccPtr dcc_;
+
+    HL_TermStructureCodePtr iborForwardingTermStructureCode_;
+
+    HL_BusinessDayConvention payDate_bdc_;
+
     //@}
 
 private:
@@ -236,11 +268,40 @@ private:
 
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
-// class HL_IborIndexCode: defines
+// class HL_IborIndex: defines
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
 
-#define HL_IborIndexPtr BSP<HLINS::HL_IborIndex>
+#define HL_IborIndexPtr BSP<HLIR::HL_IborIndex>
+
+
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+// HL_TEST_get_HL_IborIndexCode
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+
+
+
+HL_IborIndexCodePtr HL_TEST_get_HL_IborIndexCode(HLS nbMonths=6);
+
+
+
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+// HL_TEST_build_HL_IborIndex
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+
+
+void HL_TEST_build_HL_IborIndex(
+        const HL_MktDataCollectorPtr & mktDataCollectorPtr,
+        const HL_TermStructureCodePtr & iborForwardingTermStructureCode,
+        HLS nbMonths,
+        HL_VolSurfaceCodePtr &volSurfaceCode,
+        HL_IborIndexCodePtr &iborIndexCode
+        );
+
 
 
 } // end namespace HL_InterestRates

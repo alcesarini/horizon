@@ -52,10 +52,10 @@ inline bool hl_equal_floats(HLR x, HLR y, HLS n)
 //------------------------------------------------------------------------------------------------------
 
 #define HL_REQ_FLOATS_RELATION(x, y, n, relation, requiredRelation, message) \
-	HL_SRE(hl_equal_floats(x, y, n)==relation, \
-	"x=" << x << ", y=" << y << ", (x-y)=" << (x-y) << ", HL_EPSILON=" << HL_EPSILON << ", n=" << n << \
-	", tolerance=n*HL_EPSILON*max(|x|,|y|)=" << (n*HL_EPSILON*std::max(std::fabs(x), std::fabs(y))) <<\
-	", x=" << #x << ", y=" << #y << ", (the required relation " << requiredRelation << " is violated), " << message);
+    HL_SRE(hl_equal_floats(x, y, n)==relation, \
+    "x=" << x << ", y=" << y << ", (x-y)=" << (x-y) << ", HL_EPSILON=" << HL_EPSILON << ", n=" << n << \
+    ", tolerance=n*HL_EPSILON*max(|x|,|y|)=" << (n*HL_EPSILON*std::max(std::fabs(x), std::fabs(y))) <<\
+    ", x=" << #x << ", y=" << #y << ", (the required relation " << requiredRelation << " is violated), " << message);
 
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
@@ -91,56 +91,7 @@ inline bool hl_equal_floats(HLR x, HLR y, HLS n)
 
 #define HL_REQ_NOT_EQUAL_FLOATS(x, y) HL_REQ_NOT_EQUAL_FLOATS_E(x, y, "")
 
-//------------------------------------------------------------------------------------------------------
 
-
-template <class Iterator>
-inline bool hl_equal_ranges(Iterator firstItBegin, Iterator firstItEnd, Iterator secondItBegin, Iterator secondItEnd)
-{
-
-    HLI nFirst = firstItEnd-firstItBegin;
-    HLI nSecond = secondItEnd-secondItBegin;
-
-    HL_SR(nFirst>=0 && nSecond>=0);
-
-
-    if(nFirst!=nSecond)
-        return false;
-
-
-
-    while(firstItBegin!=firstItEnd)
-    {
-        if((*firstItBegin)!=(*secondItBegin))
-            return false;
-
-
-        ++firstItBegin;
-        ++secondItBegin;
-
-    } // end while firstItBegin
-
-
-    return true;
-
-} // end hl_equal_ranges
-
-
-//------------------------------------------------------------------------------------------------------
-
-#define HL_EQUAL_VEC_CONTAINERS(VecContainer) \
-inline bool hl_equal_vec_containers(const VecContainer & first_Container, const VecContainer & second_Container)\
-{\
-  return hl_equal_ranges(first_Container.begin(), first_Container.end(), second_Container.begin(), second_Container.end());\
-} \
-inline bool operator==(const VecContainer & first_Container, const VecContainer & second_Container)\
-{\
-  return hl_equal_vec_containers(first_Container, second_Container);\
-}
-
-//------------------------------------------------------------------------------------------------------
-
-HL_EQUAL_VEC_CONTAINERS(VEC);
 
 
 

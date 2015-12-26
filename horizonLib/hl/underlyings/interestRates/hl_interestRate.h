@@ -116,7 +116,7 @@ protected:
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
 
-#define HL_InterestRateCodePtr BSP<HLINS::HL_InterestRateCode>
+#define HL_InterestRateCodePtr BSP<HLIR::HL_InterestRateCode>
 
 
 
@@ -252,7 +252,7 @@ private:
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
 
-#define HL_InterestRatePtr BSP<HLINS::HL_InterestRate>
+#define HL_InterestRatePtr BSP<HLIR::HL_InterestRate>
 
 
 } // end namespace HL_InterestRates

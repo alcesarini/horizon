@@ -75,7 +75,7 @@ public:
 
         HL_LocalizationSide()
             :
-              idx(HL_NULL_INTEGER), weight(HL_NULL_REAL)
+              idx(HL_NULL_INTEGER), weight(HL_NAN)
         {}
 
         HLS idx;
@@ -286,7 +286,7 @@ HL_ENUM_DESCRIPTION(
 /**
  \author A. Cesarini
  \date 20140203
- \brief Base class to provide data for to build instances of class HL_Interpolator.
+ \brief Base class to provide data to build instances of class HL_Interpolator.
  */
 class HL_InterpControls : public virtual Descriptable
 {
@@ -399,7 +399,7 @@ protected:
 \date 20131227
 \brief Base class for interpolators.
 */
-class HL_Interpolator : public virtual HL_Function
+class HL_Interpolator : public virtual HL_RealFunction_n_1
 {
 
     /**
@@ -412,7 +412,7 @@ class HL_Interpolator : public virtual HL_Function
     template<class Archive>
     void serialize(Archive &ar, const HLS version)
     {
-        HL_SERIALIZE_BASE_CLASS(HL_Function);
+        HL_SERIALIZE_BASE_CLASS(HL_RealFunction_n_1);
         HL_SER(interpControlsPtr_);
         HL_SER(realMultiArrayPtr_);
 
@@ -454,11 +454,17 @@ public:
     void setPoint(const HLMIDX & multiIndex, HLR value)
     {
 
-        updateComputationRefreshTab(multiIndex);
         (*realMultiArrayPtr_)[multiIndex]=value;
     }
 
-    void set_interpControlsPtr(const HL_InterpControlsPtr &interpControlsPtr);
+    HLR getPoint(const HLMIDX & multiIndex)
+    {
+
+        return (*realMultiArrayPtr_)[multiIndex];
+    }
+
+
+    virtual void set_interpControlsPtr(const HL_InterpControlsPtr &interpControlsPtr);
 
 
     /**
@@ -473,12 +479,14 @@ public:
      * */
     void set_realMultiArrayPtr(const HL_RealMultiArrayPtr &realMultiArrayPtr);
 
+
     /**
      * Automatically called at the end of method set_realMultiArrayPtr to get the class ready to work
      * or to be called by the user before using the interpolator.
      * */
     virtual void finalize()
     {}
+
 
 
 
@@ -537,28 +545,8 @@ protected:
 
 
 
-    /**
-     * The purpose of this method is to be called when setting points into realMultiArrayPtr_ in
-     * order to keep track of what computations should be re-performed in reason of the newly
-     * set points. The aim is to refresh (in method refreshComputations) just what strictly necessary in order to speed up of course.
-     * Of course any derived class will implement this method differently.
-     * */
-    virtual void updateComputationRefreshTab(const HLMIDX & multiIndex)
-    {
 
-    }
 
-    /**
-     * Contains part of the actual math computations that the interpolator has to perform and in particular
-     * the ones that should be refreshed once the geometry of the grid has been fixed and one changes only the
-     * values of some the points inside realMultiArrayPtr_.
-     * This methiod could in principle refresh only a part of the computations, i.e. only the ones that
-     * whose results may have been affected by the points that have been changed.
-     * */
-    virtual void refreshComputations()
-    {
-
-    }
 
     //@}
 

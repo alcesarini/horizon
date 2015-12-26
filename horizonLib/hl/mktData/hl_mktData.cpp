@@ -85,8 +85,14 @@ namespace HorizonLib
 		void HL_MktData::set_mktDataCollectorWeakPtr(const HL_MktDataCollectorPtr & mktDataCollectorPtr)
 		{
 		
-			HL_SRE(mktDataCollectorWeakPtr_.expired(), "expecting mktDataCollectorWeakPtr_ to be set just once");
-			HL_PNN(mktDataCollectorPtr);
+            if(mktDataCollectorWeakPtr_.expired()==false){
+                HL_SRE(mktDataCollectorPtr.get()==mktDataCollectorWeakPtr_.lock().get(),
+                       "HL_MktDataCollector alreay set but it is another instance (this is an ambiguos situation, "
+                       << "you need to check the code.");
+            }
+
+
+            HL_PNN(mktDataCollectorPtr);
 		
 			mktDataCollectorWeakPtr_=mktDataCollectorPtr;
 

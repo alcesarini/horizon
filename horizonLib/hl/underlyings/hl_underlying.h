@@ -11,7 +11,8 @@ DATE= 20131214
 #include <hl/mktData/hl_mktData.h>
 #include <hl/dateTime/calendar/hl_calendar.h>
 #include <hl/object/hl_history.h>
-
+#include <hl/mktData/volSurfaces/hl_volSurface.h>
+#include <hl/math/probMeasures/hl_probMeasure.h>
 
 namespace HorizonLib
 {
@@ -20,252 +21,6 @@ namespace HL_MarketData
 namespace HL_Underlyings
 {
 
-
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-// enum HL_MeasureType
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-
-
-/**
-\brief The HL library period units.
-*/
-enum HL_MeasureType
-{
-    HL_MeasureType_InvalidMin=0,
-    HL_MeasureType_FwdMeasure,
-    HL_MeasureType_SwapMeasure,
-    HL_MeasureType_InvalidMax
-}; // end enum HL_MeasureType
-
-//------------------------------------------------------------------------------------------------------
-
-HL_ENUM_DESCRIPTION(
-    HL_MeasureType,
-    "HL_MeasureType_InvalidMin",
-    "HL_MeasureType_FwdMeasure",
-    "HL_MeasureType_SwapMeasure",
-    "HL_MeasureType_InvalidMax"
-);
-
-
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-// class HL_Measure
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-
-/**
-\author A. Cesarini
-\date 20131226
-\brief Base class to represent pricing measures.
-*/
-
-class HL_Measure : public virtual HLSER::HL_Serializable, public virtual Descriptable
-{
-
-    /**
-    -----------------------------------------------------
-    Serialization
-    */
-    //@{
-    HL_FRIEND_SERIALIZATION_ACCESS;
-
-    template<class Archive>
-    void serialize(Archive &ar, const HLS version)
-    {
-        HL_SER_BASE;
-
-    }
-    //@} Serialization -----------------------------------
-
-
-public:
-
-
-    /**
-    Constructors & destructors
-    */
-    //@{
-
-    HL_Measure();
-
-    virtual ~HL_Measure();
-    //@}
-
-
-    /**
-    Public class interface
-    */
-    //@{
-    virtual HL_MeasureType measureType() const=0;
-    //@}
-
-
-protected:
-
-    /**
-    Additional implementations
-    */
-    //@{
-    /**
-    Default initialization of the class vars.
-    */
-    void classDefaultInit();
-    //@}
-
-
-    /**
-    Implementations of base class methods
-    */
-    //@{
-    void descriptionImpl(std::ostream & os) const;
-    //@}
-
-
-protected:
-
-
-    /**
-    Class variables
-    */
-    //@{
-
-    //@}
-
-}
-; // end class HL_Measure
-
-
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-// class HL_Measure: defines
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-
-#define HL_MeasurePtr BSP<HLUND::HL_Measure>
-
-
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-// class HL_FwdMeasure
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-
-/**
-\author A. Cesarini
-\date 20131226
-\brief Class used to specify the fwd measure to compute expectations.
-*/
-
-class HL_FwdMeasure : public virtual HL_Measure
-{
-
-    /**
-    -----------------------------------------------------
-    Serialization
-    */
-    //@{
-    HL_FRIEND_SERIALIZATION_ACCESS;
-
-    template<class Archive>
-    void serialize(Archive &ar, const HLS version)
-    {
-
-        HL_SERIALIZE_BASE_CLASS(HL_Measure);
-
-        HL_SER(payDate_);
-        HL_SER(hl_CcyCode_);
-
-    }
-    //@} Serialization -----------------------------------
-
-
-public:
-
-
-    /**
-    Constructors & destructors
-    */
-    //@{
-
-    HL_FwdMeasure();
-
-    virtual ~HL_FwdMeasure();
-    //@}
-
-
-    /**
-    Public class interface
-    */
-    //@{
-
-    HL_CLASS_VAR_ACCESS_METHODS(date/*ClassVariableType*/, payDate/*classVariableName_no_underscore*/);
-
-    HL_CLASS_VAR_ACCESS_METHODS(HL_CcyCodePtr/*ClassVariableType*/, hl_CcyCode/*classVariableName_no_underscore*/);
-
-    //@}
-
-
-protected:
-
-    /**
-    Additional implementations
-    */
-    //@{
-    /**
-    Default initialization of the class vars.
-    */
-    void classDefaultInit();
-    //@}
-
-
-    /**
-    Implementations of base class methods
-    */
-    //@{
-    void descriptionImpl(std::ostream & os) const;
-
-
-    HL_MeasureType measureType() const
-    {
-
-        return HL_MeasureType_FwdMeasure;
-    }
-
-    //@}
-
-
-protected:
-
-
-    /**
-    Class variables
-    */
-    //@{
-
-    /**
-    The numeraire associated to HL_FwdMeasure is the zero-coupon bond
-    deliverying 1 unit of hl_CcyCode_-currency at date payDate_.
-    */
-    //@{
-    date payDate_;
-
-    HL_CcyCodePtr hl_CcyCode_;
-    //@}
-    //@}
-
-}
-; // end class HL_FwdMeasure
-
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-// class HL_FwdMeasure: defines
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-
-#define HL_FwdMeasurePtr BSP<HLUND::HL_FwdMeasure>
 
 
 //------------------------------------------------------------------------------------------------------
@@ -363,7 +118,7 @@ protected:
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
 
-#define HL_UnderlyingCodePtr BSP<HLINS::HL_UnderlyingCode>
+#define HL_UnderlyingCodePtr BSP<HLUND::HL_UnderlyingCode>
 
 
 
@@ -394,8 +149,9 @@ class HL_Underlying : public virtual HLMD::HL_MktData
 
         HL_SERIALIZE_BASE_CLASS(HLMD::HL_MktData);
         HL_SER(calendar_);
-        HL_SER(hl_DateRealHistoryPtr_);
-        HL_SER(historyTag_);
+        HL_SER(hl_TimeRealHistoryPtr_);
+        HL_SER(impliedVolSurfaceCode_);
+
 
     }
     //@} Serialization -----------------------------------
@@ -419,12 +175,50 @@ public:
     //@{
     HL_CLASS_VAR_ACCESS_METHODS(HL_CalendarPtr/*ClassVariableType*/, calendar/*classVariableName_no_underscore*/);
 
-    HL_CLASS_VAR_ACCESS_METHODS(HL_DateRealHistoryPtr/*ClassVariableType*/, hl_DateRealHistoryPtr/*classVariableName_no_underscore*/);
+    HL_CLASS_VAR_ACCESS_METHODS(HL_TimeRealHistoryPtr/*ClassVariableType*/, hl_TimeRealHistoryPtr/*classVariableName_no_underscore*/);
 
-    HL_CLASS_VAR_ACCESS_METHODS(HLSTRING/*ClassVariableType*/, historyTag/*classVariableName_no_underscore*/);
+    HL_CLASS_VAR_ACCESS_METHODS(HL_VolSurfaceCodePtr, impliedVolSurfaceCode);
+
+    /**
+    \param  historyTag is the tag of the history that will be used for past fixings
+    */
+    HL_ExpectationPtr expectation(const date & fixingDate,
+                                  const HL_MeasurePtr & measure=HL_MeasurePtr(),
+                                  const HLSTRING & historyTag=HLSTRING())
+    {
+
+        return expectation(ptime(fixingDate),
+                           measure,
+                           historyTag);
+    }
+
+    HL_ExpectationPtr expectation(const ptime & fixingTime,
+                                  const HL_MeasurePtr & measure=HL_MeasurePtr(),
+                                  const HLSTRING & historyTag=HLSTRING()) const;
 
 
-    HLR expectation(const date & fixingDate, const HL_MeasurePtr & hl_MeasurePtr=HL_MeasurePtr()) const;
+    HL_ExpectationPtr quotingMeasureExpectation(const date & fixingDate,
+                                                const HLSTRING & historyTag=HLSTRING()) const
+    {
+
+        return quotingMeasureExpectation(ptime(fixingDate), historyTag);
+    }
+
+    /**
+     * This is the expectation in the quoting measure of impliedVolSurface_, i.e. the
+     * expectation quoted by the market.
+    */
+    HL_ExpectationPtr quotingMeasureExpectation(const ptime & fixingTime,
+                                                const HLSTRING & historyTag=HLSTRING()) const;
+
+    HLR get_spot() const
+    {
+
+        HLR spot = quotingMeasureExpectation(get_refTime())->get_value();
+        return spot;
+    }
+
+    HL_VolSurfacePtr get_impliedVolSurface() const;
 
     //@}
 
@@ -443,7 +237,22 @@ protected:
     */
     void classDefaultInit();
 
-    virtual HLR forecastedExpectation(const date & fixingDate, const HL_MeasurePtr & hl_MeasurePtr) const=0;
+
+    HL_ExpectationPtr getServiceExpectation(bool & pastFixingFound,
+                                            const ptime & fixingTime,
+                                            const HL_MeasurePtr & measure,
+                                            const HLSTRING & historyTag=HLSTRING()) const;
+
+
+
+    HLR forecastExpectation(const ptime & fixingTime, const HL_MeasurePtr & measure) const;
+
+    virtual HLR forecastQuotingMeasureExpectationImpl(const ptime & fixingTime) const=0;
+
+    virtual HL_MeasurePtr get_quotingMeasure(const ptime & fixingTime) const=0;
+
+
+
     //@}
 
 
@@ -463,12 +272,17 @@ protected:
     //@{
     HL_CalendarPtr calendar_;
 
-    HL_DateRealHistoryPtr hl_DateRealHistoryPtr_;
+    HL_TimeRealHistoryPtr hl_TimeRealHistoryPtr_;
+
+
+
 
     /**
-    The tag of the history that will be used for past fixings
+    The implied vol of the underlying quoted by the mkt (notice that
+    the vol can be expressed as normal vol, log-normal vol, shifted log-normal, etc..)
+    according to its internal variable.
     */
-    HLSTRING historyTag_;
+    HL_VolSurfaceCodePtr impliedVolSurfaceCode_;
     //@}
 
 private:
@@ -489,7 +303,16 @@ private:
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
 
-#define HL_UnderlyingPtr BSP<HLINS::HL_Underlying>
+#define HL_UnderlyingPtr BSP<HLUND::HL_Underlying>
+
+
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+//  defaultHistoryTag()
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+
+HLSTRING defaultHistoryTag();
 
 
 } // end namespace HL_Underlyings

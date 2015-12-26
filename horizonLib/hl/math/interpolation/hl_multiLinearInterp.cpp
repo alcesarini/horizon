@@ -83,12 +83,12 @@ HL_n_D_MultiLinearInterp::~HL_n_D_MultiLinearInterp()
 
 void HL_n_D_MultiLinearInterp::classDefaultInit()
 {
-    weightedValue_=HL_NULL_REAL;
+    weightedValue_=HL_NAN;
 } // end classDefaultInit
 
 //------------------------------------------------------------------------------------------------------
 
-HLR HL_n_D_MultiLinearInterp::operator()(const VEC::const_iterator & b, const VEC::const_iterator & e) const
+HLR HL_n_D_MultiLinearInterp::value_n_1(const VEC::const_iterator & b, const VEC::const_iterator & e) const
 {
 
     localize(b, e);
@@ -100,7 +100,7 @@ HLR HL_n_D_MultiLinearInterp::operator()(const VEC::const_iterator & b, const VE
 
 
     return weightedValue_;
-} // end operator()
+} // end value_n_1
 
 //------------------------------------------------------------------------------------------------------
 
@@ -116,7 +116,7 @@ void HL_n_D_MultiLinearInterp::scanNeighbours(HLMIDX neighbour, HLR weight) cons
 {
     HLS dimIdx = neighbour.size();
 
-    if(dimIdx==nDim_)
+    if(dimIdx==domainDim_)
     {
 
         /* end of scan, we have to add the contribution of the neighbour-point */
@@ -488,9 +488,9 @@ void HL_TEST_HL_n_D_MultiLinearInterp()
         VEC checkPoint_i = HL_TEST_getPoint(vs, multiIndexCheckWeights[i], multiIndexChecks[i]);
 
 
-        HLR checkValueFromInterp_m = m(checkPoint_i.begin(), checkPoint_i.end());
+        HLR checkValueFromInterp_m = m.value_n_1(checkPoint_i.begin(), checkPoint_i.end());
 
-        HLR checkValueFromInterp_m1 = m_1(checkPoint_i.begin(), checkPoint_i.end());
+        HLR checkValueFromInterp_m1 = m_1.value_n_1(checkPoint_i.begin(), checkPoint_i.end());
 
         HL_REQ_EQUAL_FLOATS_N(checkValue_i, checkValueFromInterp_m, 1000);
         HL_REQ_EQUAL_FLOATS_N(checkValue_i, checkValueFromInterp_m1, 1000);

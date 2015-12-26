@@ -65,15 +65,15 @@ enum HL_BusinessDayConvention
 //------------------------------------------------------------------------------------------------------
 
 HL_ENUM_DESCRIPTION(
-    HL_BusinessDayConvention,
-    "HL_BusinessDayConvention_InvalidMin",
-    "HL_BusinessDayConvention_Following",
-    "HL_BusinessDayConvention_ModifiedFollowing",
-    "HL_BusinessDayConvention_Preceding",
-    "HL_BusinessDayConvention_ModifiedPreceding",
-    "HL_BusinessDayConvention_Unadjusted",
-    "HL_BusinessDayConvention_InvalidMax"
-);
+        HL_BusinessDayConvention,
+        "HL_BusinessDayConvention_InvalidMin",
+        "HL_BusinessDayConvention_Following",
+        "HL_BusinessDayConvention_ModifiedFollowing",
+        "HL_BusinessDayConvention_Preceding",
+        "HL_BusinessDayConvention_ModifiedPreceding",
+        "HL_BusinessDayConvention_Unadjusted",
+        "HL_BusinessDayConvention_InvalidMax"
+        );
 
 namespace HL_DateTime
 {
@@ -309,6 +309,121 @@ private:
 //------------------------------------------------------------------------------------------------------
 
 #define HL_CalendarPtr BSP<HLCAL::HL_Calendar>
+
+
+
+
+
+
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+// class HL_FakeCalendar
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+
+/**
+\author A. Cesarini
+\date 20131216
+\brief Basic financial instrument.
+*/
+class HL_FakeCalendar : public virtual HL_Calendar
+{
+
+    /**
+    -----------------------------------------------------
+    Serialization
+    */
+    //@{
+    HL_FRIEND_SERIALIZATION_ACCESS;
+
+    template<class Archive>
+    void serialize(Archive &ar, const HLS version)
+    {
+
+        HL_SERIALIZE_BASE_CLASS(HL_Calendar);
+
+
+    }
+    //@} Serialization -----------------------------------
+
+
+public:
+    /**
+    Constructors & destructors
+    */
+    //@{
+
+    HL_FakeCalendar();
+
+    virtual ~HL_FakeCalendar();
+    //@}
+
+
+    /**
+    Public class interface
+    */
+    //@{
+
+    //@}
+
+
+protected:
+
+
+
+
+    /**
+    Additional implementations
+    */
+    //@{
+    /**
+    Default initialization of the class vars.
+    */
+    void classDefaultInit();
+
+    bool isHolidayImpl(const date & d) const;
+
+    //@}
+
+
+    /**
+    Implementations of base class methods
+    */
+    //@{
+    void descriptionImpl(std::ostream & os) const;
+    //@}
+
+protected:
+
+
+    /**
+    Class variables
+    */
+    //@{
+
+    //@}
+
+private:
+    /**
+    Private class variables
+    */
+    //@{
+
+
+    //@}
+}
+; // end class HL_FakeCalendar
+
+
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+// class HL_FakeCalendarCode: defines
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+
+#define HL_FakeCalendarPtr BSP<HLCAL::HL_FakeCalendar>
+
+
 
 } // end namespace HL_Calendars
 } // end namespace HL_DateTime

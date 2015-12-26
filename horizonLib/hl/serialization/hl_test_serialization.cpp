@@ -31,6 +31,92 @@ std::vector<char/*, boost::pool_allocator<char>*/> allo(HLI nb)
 
 //------------------------------------------------------------------------------------------------------
 
+HLI HL_TEST_Obj_A::nb_a_serialization_method_hits_=-1;
+
+//------------------------------------------------------------------------------------------------------
+
+HLI HL_TEST_Obj_B::nb_b_serialization_method_hits_=-1;
+
+//------------------------------------------------------------------------------------------------------
+
+void print_serialization_hit_counts(const HLSTRING & comment)
+{
+
+    HL_GET_LOGGER(false/*addTimer*/);
+
+    HL_LOG(HLLOG::HL_severity_level_notification,
+           "-------------------------------------------------\n"
+           << comment << "\n"
+           << "nb_a_serialization_method_hits_=" << HL_TEST_Obj_A::nb_a_serialization_method_hits_ << "\n"
+           << "nb_b_serialization_method_hits_=" << HL_TEST_Obj_B::nb_b_serialization_method_hits_);
+
+    HL_TEST_Obj_A::nb_a_serialization_method_hits_=0;
+    HL_TEST_Obj_B::nb_b_serialization_method_hits_=0;
+
+}
+//------------------------------------------------------------------------------------------------------
+
+void HL_TEST_HL_Obj_serialization_sharedPtrCleverManagement()
+{
+
+    BSP<HLOBJ::HL_Obj> b(new HL_TEST_Obj_B);
+
+    HL_DYN_SHARED_PTR_CAST(HL_TEST_Obj_B, bCasted, b);
+
+    bCasted->b_int_=76;
+
+    bCasted->a_string_="prova";
+
+    //----------------------------------------------
+
+
+    HL_TEST_Obj_A::nb_a_serialization_method_hits_=0;
+    HL_TEST_Obj_B::nb_b_serialization_method_hits_=0;
+
+
+    HLSER::HL_CoreSerializableObj csObj;
+
+    print_serialization_hit_counts("toStream 0");
+
+    csObj.oa() << b;
+
+    print_serialization_hit_counts("toStream 1");
+
+    csObj.oa() << b;
+
+    print_serialization_hit_counts("toStream 2");
+
+    //----------------------------------------------
+
+    csObj.getReadyForDeserialization();
+
+
+    print_serialization_hit_counts("fromStream 0");
+
+    BSP<HLOBJ::HL_Obj> bReconstructed;
+    BSP<HLOBJ::HL_Obj> b2Reconstructed;
+
+    csObj.ia() >> bReconstructed;
+
+    print_serialization_hit_counts("fromStream 1");
+
+    bReconstructed.reset();
+
+    csObj.ia() >> b2Reconstructed;
+
+    print_serialization_hit_counts("fromStream 2");
+
+    //----------------------------------------------
+
+    HL_SUCCESSFULL_TEST(HL_TEST_HL_Obj_serialization_sharedPtrCleverManagement);
+
+
+
+
+} // end HL_TEST_HL_Obj_serialization_sharedPtrCleverManagement
+
+//------------------------------------------------------------------------------------------------------
+
 void HL_TEST_HL_Obj_serialization()
 {
 
@@ -44,7 +130,7 @@ void HL_TEST_HL_Obj_serialization()
 
     std::vector<std::vector<char/*, boost::pool_allocator<char>*/> > vs;
 
-    for(HLI i=0;i<15000000;i++)
+    for(HLI i=0;i<1500000;i++)
     {
 
         HLR x = std::sin(i*1.);

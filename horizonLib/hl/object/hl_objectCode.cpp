@@ -38,7 +38,7 @@ namespace HorizonLib
 
 		void HL_ObjCode::classDefaultInit()
 		{
-			nCode_=HL_NULL_INTEGER;
+            //nCode_=HL_NULL_INTEGER;
 
 		} // end classDefaultInit
 		
@@ -57,7 +57,7 @@ namespace HorizonLib
 		HL_Order HL_ObjCode::getOrder(const HL_ObjCode & hl_ObjCode) const
 		{
 
-			HL_PLAIN_ORDER_COMPARE(nCode_, hl_ObjCode.nCode_);
+            //HL_PLAIN_ORDER_COMPARE(nCode_, hl_ObjCode.nCode_);
 
 			HL_PLAIN_ORDER_COMPARE(sCode_, hl_ObjCode.sCode_);
 
@@ -73,7 +73,7 @@ namespace HorizonLib
 		
 			os << "HL_ObjCode= " << objType() << ":\n";
 			Descriptable::descriptionImpl(os);
-			hl_fillDescriptionStream(nCode_);
+            //hl_fillDescriptionStream(nCode_);
 			hl_fillDescriptionStream(sCode_);
 
 		} // end descriptionImpl

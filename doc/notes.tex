@@ -1,0 +1,3013 @@
+\documentclass[a4paper,10pt]{report}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{makeidx} 
+%\usepackage{graphicx}
+%\setcounter{MaxMatrixCols}{10}
+\usepackage[pdftex]{graphicx}
+\usepackage{pdfsync}
+\usepackage{hyperref}
+
+\setcounter{secnumdepth}{3} %number subsections
+
+%% \def\newfmtname{LaTeX2e}
+%% \ifx\fmtname\newfmtname
+%% \DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
+%% \DeclareOldFontCommand{\sf}{\normalfont\sffamily}{\mathsf}
+%% \DeclareOldFontCommand{\tt}{\normalfont\ttfamily}{\mathtt}
+%% \DeclareOldFontCommand{\bf}{\normalfont\bfseries}{\mathbf}
+%% \DeclareOldFontCommand{\it}{\normalfont\itshape}{\mathit}
+%% \DeclareOldFontCommand{\sl}{\normalfont\slshape}{\@nomath\sl}
+%% \DeclareOldFontCommand{\sc}{\normalfont\scshape}{\@nomath\sc}
+%% \fi
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+
+\theoremstyle{definition}
+\newtheorem*{notation}{Notation}
+
+
+\newcommand{\todo}{{\bf TODO:}}
+\newcommand{\AlettiLIB}{{\em AlettiLib.dll }}
+\newcommand{\AlettiEXCEL}{{\em AlettiExcel.xll }}
+\newcommand{\AlettiIR}{{\em Aletti\_IR.dll }}
+\newcommand{\AlettiLib}{{\bf{\em AlettiLib }}}
+\newcommand{\AlettiExcel}{{\bf{\em AlettiExcel }}}
+\newcommand{\AlettiIr}{{\bf{\em Aletti\_IR }}}
+\newcommand{\classname}[1]{{\bf #1}}
+\newcommand{\clausename}[1]{{\emph{#1}}}
+\newcommand{\menu}[1]{{\emph{#1}}}
+\newcommand{\keys}[1]{$\mathrm{#1}$}
+\newcommand{\NNN}{\mathbf{N}}
+\newcommand{\vrp}{\mathbf{\varphi}}
+\newcommand{\N}{\mathbb{N}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Payoff}{\Pi}
+\newcommand{\Call}{\mathcal{C}}
+\newcommand{\pder}[3]{\frac{\partial^{#3} #1}{\partial #2^{#3}}}
+\newcommand{\eder}[3][]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\der}[3]{\frac{d^{#3} #1}{d #2^{#3}}}
+\newcommand{\E}{\mathbb{E}}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\newcommand{\intinin}{\int_{-\infty}^{+\infty}}
+\newcommand{\Chi}{\boldsymbol{1}}
+\newcommand{\calF}{{\cal F}}
+\newcommand{\eq}{eq. }
+\newcommand{\fig}{fig. }
+
+\newcommand{\var}{{\emph{VaR}  }}
+\newcommand{\cvar}{{\emph{CVaR}  }}
+
+\renewcommand{\thesection}{\arabic{section}}
+
+%%%%%% equation arrays and similars
+
+\newcommand\be{\begin{eqnarray}}    %eqnarray
+\newcommand\ee{\end{eqnarray}}	 	
+\newcommand\ba{\begin{array}}	    %array
+\newcommand\ea{\end{array}}
+\newcommand\eeq{\end{equation}}	 	%eqnarray
+\newcommand\beq{\begin{equation}}
+\def\0{\nonumber} % no number in the equations
+
+\newcommand{\rbrk}[1]{\left( {#1} \right)}
+\newcommand{\qbrk}[1]{\left[ {#1} \right]}
+\newcommand{\gbrk}[1]{\left\{ {#1} \right\}}
+\newcommand{\set}[1]{\left\{ {#1} \right\}}
+
+\newcommand{\iu}{^{(i,u)}}
+\newcommand{\iuo}{} %versione opzionale del comando sopra
+
+\newcommand{\DEF} {{\bf{Definition: }}}
+\newcommand{\PROP} {{\bf{Proposition: }}}
+\newcommand{\PROOF} {{\emph{Proof: \\ \\}}}
+\newcommand{\SA} {{$\sigma$-algebra} }
+\newcommand{\SAs} {{$\sigma$-algebras} }
+
+\newcommand{\AAA} {\mathcal{A} }
+\newcommand{\LL} {\mathcal{L} }
+\newcommand{\FF} {\mathcal{F} }
+\newcommand{\GG} {\mathcal{G} }
+\newcommand{\DPO} {dP(\omega) }
+\newcommand{\BOREL} {{\mathcal{B}(\Re)} }
+\newcommand{\FLT} {\underline{\mathcal{F}}} 
+\newcommand{\TS} {\tilde{S}} 
+\newcommand{\TX} {\tilde{X}} 
+\newcommand{\OW} {\overrightarrow{w}} 
+\newcommand{\OS} {\overrightarrow{\sigma}} 
+\newcommand{\OV} {\overrightarrow{v}} 
+\newcommand{\OZ} {\overrightarrow{z}} 
+\newcommand{\NN} {\mathcal{N}} 
+
+\newcommand{\lp} {\left( }
+\newcommand{\rp} {\right)}
+\newcommand{\lpq} {\left[}
+\newcommand{\rpq} {\right]}
+\newcommand{\lpg} {\left\{ }
+\newcommand{\rpg} {\right\} }
+
+%\topmargin -0.8in
+%\textheight 10in
+%\textwidth 7.3in
+%\oddsidemargin -0.5in
+%\evensidemargin -0.5in
+
+\topmargin 0in
+\textheight 9in
+\textwidth 6.0in
+\oddsidemargin 0.2in
+%\evensidemargin -0.4in
+
+%% \headheight 0in
+%% \headsep 0in
+%% \headheight 0pt
+%% \headsep 0.25in
+
+%% \sloppy 
+
+\makeindex
+
+
+\title{F-Notes}
+\author{Alessandro Cesarini}
+\date{Jan 31, 2014}
+
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\smallskip
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Math}
+
+\section{The Binomial Model }
+
+\subsection{The One Period Binomial Model \label{topbm}}
+
+We follow \cite{{Bjork}}.  Let us consider a model with a bond $B$ and a stock $S$ and with only two points in time $t=0$, $t=1$.
+We assume 
+\be 
+B_0=1 \\
+B_1 = 1+R, \mbox{being $R$ the interest rate} \\
+S_0=s \\
+S_1 = s\cdot u, \mbox{ with probability $p_u$} \\
+S_1 = s\cdot d, \mbox{ with probability $p_d$} \\
+p_u + p_d = 1 \\
+Z= u,d \mbox{ with probability $p_u, p_d$ respectively} \\
+S_1 = s \cdot Z \\
+u>d
+\ee
+Consider a portfolio $h=(x,y)$, where $x$ is the number of bonds held at $t=0$, $y$ is the number of stocks held at $t=0$.
+The value of $h$ at $t=0, 1$ will be
+\be 
+V_t^h = x B_t + y S_t
+\ee
+\DEF An arbitrage portfolio is a portfolio $h$ such that 
+\be 
+V_0^h=0 \\
+V_1^h >0, \mbox{ with probability $1$}
+\ee
+\PROP The model above is free of arbitrage if and only if 
+\be
+d\le (1+R) \le u 
+\label{noarb0}
+\ee
+\PROOF
+Suppose 
+\[
+(1+R) < d \le u 
+\]
+then $h=(-s, 1)$ is such that $V_0^h=0$, $V_1^h\ge -s(1+R)+s*d>0$. The case $d \le u < (1+R)$ is treated similarly using $h=(s, -1)$. We hence proved that if (\ref{noarb0}) is violated, arbitrage exists. Hence absence of arbitrage implies (\ref{noarb0}) is respected. On the other way, we now prove that if (\ref{noarb0}) is respected, then absence of arbitrage follows. Suppose \emph{per assurdo} that $h=(-ys, y)$ is an arbitrage opportunity, i.e. that  
+\[
+V_0^h=-ys+ys=0
+\]
+and that 
+\be
+V_1^h=-ys(1+R)+y s d >0\\
+V_1^h=-ys(1+R)+y s u >0
+\ee
+This clearly violates the hypothesis (\ref{noarb0}), hence (\ref{noarb0}) implies absence of arbitrage.
+Now notice that (\ref{noarb0}) implies that there exists  $\{q_u, q_d\}$ such that 
+\be 
+1+R = q_u \cdot u + q_d \cdot d \\
+q_u+q_d=1
+\ee
+We interpret $\{q_u, q_d\}$ as a new probability measure (the risk neutral or risk adjusted or martingale measure, to be contrasted with the objective measure we used above  $\{p_u, p_d\}$) and also compute what follows
+\be
+\frac{1}{1+R}E^Q\left[ S_1 \right] = \frac{1}{1+R} \left(  q_u \cdot s u + q_d \cdot s d \right) = \frac{s(1+R)}{1+R}=s=S_0
+\ee
+\DEF A probability measure $Q$ is called a martingale measure if the following condition holds 
+\be 
+S_0=\frac{1}{1+R}E^Q\left[ S_1 \right] 
+\label{martingalecond0}
+\ee
+From what we have seen up to now, we can formulate the following proposition.\\ \\
+\PROP The one time period binomial model is arbitrage free if and only if there exists a martingale measure.
+Notice also that 
+\be 
+q_u = \frac{(1+R)-d}{u-d} \\
+q_d = \frac{u-(1+R)}{u-d}
+\label{qmeasure}
+\ee
+\DEF A contingent claim (or financial derivative) is any stochastic variable $X_t=\Phi(S_t)$, where $\Phi$ is any arbitrary function. \\ \\
+\DEF A claim is reachable if there exists an hedging (or replicating) portfolio $h$ such that 
+\be 
+X_1=V_1^h, \mbox{(for any outcome of $S_1$)}.
+\ee
+\DEF A market such that all claims are reachable is said to be complete. \\ \\
+\PROP Let $X$ be a claim reachable with he replicating portfolio $h=(x,y)$. Then the only price for $X_0$ (i.e. at time $t=0$) that would not imply an arbitrage is
+\be 
+X_0 = V_0^h = x + y s
+\ee
+\PROOF Obvious. \\ \\
+\PROP If the binomial model is free of arbitrage, then it is complete. \\
+\PROOF
+Suppose to consider any claim $X$ such that
+\be 
+X_1 = \Phi(u), \mbox{ if $Z=u$} \\
+X_1 = \Phi(d), \mbox{ if $Z=d$}
+\ee
+then we have to find $h=(x,y)$ such that 
+\be 
+x(1+R)+y s u =  \Phi(u) \\
+x(1+R)+y s d =  \Phi(d) 
+\ee
+Since the model is free of arbitrage by hypothesis, (\ref{noarb0}) holds and hence the above system has a unique solution (remind $u>d$)
+\be 
+x=\frac{1}{1+R} \left(\Phi(u) - s u \frac{\Phi(u)-\Phi(d)}{s (u-d)} \right) =  \frac{1}{1+R} \frac{ u \Phi(d)-d\Phi(u)}{ (u-d)} \\ 
+y = \frac{\Phi(u)-\Phi(d)}{s (u-d)}
+\ee
+The no arbitrage price at $t=0$ of the $X$ claim will then be 
+\be 
+X_0 = V_0^h = x + y s = \frac{1}{1+R} \frac{ u \Phi(d)-d\Phi(u)}{ (u-d)} +\frac{\Phi(u)-\Phi(d)}{s (u-d)} s = \\
+= \frac{1}{1+R}\left[ \Phi(d) \left( \frac{u}{(u-d)} -  \frac{1+R}{ (u-d)} \right) + \Phi(u) \left( \frac{-d}{(u-d)} +  \frac{1+R}{ (u-d)} \right) \right] = \\
+= \frac{1}{1+R}\left[ q_d \Phi(d)+  q_u  \Phi(u)\right] = \frac{1}{1+R}E^Q[X_1]
+\ee
+Summarizing: 
+\begin{itemize}
+\item The binomial model is arbitrage free if and only if a martingale measure exists
+\item If the model is arbitrage free, any claim is reachable (that is the market is complete)
+\item The arbitrage free price of the claim at $t=0$ is the discounted price of the claim at $t=1$, using the martingale measure. 
+\be
+X_0=\frac{1}{1+R}E^Q[X_1] 
+\label{mart1}
+\ee
+\item The ratio between the claim and the bank account is a martingale.
+\item Any price for $X_0$ different from (\ref{mart1}) would lead to an arbitrage opportunity, since the price comes from a perfect replication strategy.
+\end{itemize}
+
+\subsection{The Multiperiod Binomial Model}
+
+Let $t=0,1,2,\cdots ,T$ be the time step indexes and write the bank account evolution as
+\be 
+B_0=1\\
+B_{n+1}=B_n\cdot (1+R)
+\ee
+Similarly for the stock
+\be 
+S_0=s\\
+S_{n+1}=S_n\cdot Z_n \\
+Z_n=u_n, d_n, \mbox{with $u_n>d_n$ and with objective probabilities $p_{n,u}, p_{n,d}$}
+\ee
+\DEF A portfolio strategy is a stochastic process
+\be 
+\{h_t=(x_t,y_t); t=1,\cdots ,T \}
+\ee
+such that $h_t$ is a function of 'past' values of the stock $S_0,S_1,\cdots, S_{t-1}$, meaning that $(x_t,y_t)$ are the quantities of bond and stock respectively, that one decides to hold from time $t-1$ to time $t$ (the decision of the exact amount of the quantities is taken at $t-1$, observing the whole past trajectory of the stock until $t-1$ included (but not observing the future with respect to $t-1$: $t, t+1,\cdots$)). 
+Notice that we conventionally impose 
+\be 
+h_0=h_1
+\ee
+The corresponding value process will be 
+\be 
+V^h_t=x_t(1+R)+y_t S_t
+\label{vstrat}
+\ee
+\DEF The portfolio strategy is self-financing if it satisfies the following condition (budget equation, no cash injection or withdrawal):
+\be 
+x_t(1+R)+y_t S_t=x_{t+1}+y_{t+1} S_t
+\ee
+This means that the portfolio we decided to hold at $t-1$ has produced the amount of money $x_t(1+R)+y_t S_t$ at time $t$.
+At time $t$, we then rebalance the assets (stock versus cash bond) according to $(x_{t+1}, y_{t+1})$ without injection or withdrawal of 'exogenous money'. \\ \\
+\DEF An arbitrage portfolio strategy $h$ will be such that:
+\be
+V_0^h=0\\
+P\left(V_T^h\ge 0\right)=1\\
+P\left(V_T^h> 0\right)>0
+\label{multiarbstrategy}
+\ee
+Notice that we will easily have that the following condition is necessary to avoid the existence of arbitrage strategies:
+\be 
+d_n \le (1+R) \le u_n, \forall n\ge 0
+\label{noarbudn}
+\ee
+We will see that (\ref{noarbudn}) is also sufficient to exclude the existence of arbitrage strategies in the model. \\ \\
+\DEF For simplicity, but the following arguments could be extended, we will consider a claim $X$ depending only on the values of the stock at the end of the path: $S_T$:
+\be 
+X_T= \Phi(S_T), \mbox{ i.e. a non path-dependent pay off}
+\ee
+\DEF As in the one period case, we will say that the $X$ claim is reachable if there exists a self-financing (hedging, replicating) strategy $h$ such that 
+\be 
+X_T=V^h_T, \mbox{ with probability $1$}
+\ee
+A market is complete if all claims are reachable. \\ \\
+\PROP If the $X$ claim can be reached with the self-financing strategy $h$, then the only ('fair') price of the claim, at any time $t\ge T$, that allows to avoid arbitrage opportunities trading $X$ against $h$ is:
+\be 
+X_t = V^h_t, \mbox{ for any state of the world at time $t$}
+\ee 
+Let us now suppose to perform a tree style roll back (hedging) procedure:
+\begin{itemize}
+\item Compute $X_T=\Phi(S_T)$ at final time $T$ for all possible states of $S_T$.
+\item Consider any state $S_{T-1}(i)$ at time $T-1$ (notice that the $i$ runs on all possible values that $S_{T-1}$ could realize at time $T-1$, according to the chosen tree geometry). For such $(i)$ state, it is possible to form a replicating self financing strategy by buying/selling suitable amounts of bonds and stock, as explained in the previous sub section (one period binomial model, see \ref{topbm}). This can be done considering that from the $(i)$ state, the payoff could move, at time $T$, only towards two states, whose values are known: $\{S_{T-1}(i)\cdot u_{T-1},S_{T-1}(i)\cdot d_{T-1} \}$. The value of the replicating strategy at $(i)$ state of time $T-1$ will hence be the discounted value of the claim at such two states at time $T$, as we saw in the previous sub section (see \ref{topbm}).
+\item Roll back the previous step down to time $0$ and notice that each step of the tree replication involves a self financing strategy by construction.
+\end{itemize}
+The above discussion has hence shown that if eq. (\ref{noarbudn}) is satisfied, it is possible to replicate any claim through a self financing strategy, i.e. the model is complete.
+Let us now consider any self financing strategy $h$ such that:
+\begin{itemize}
+\item $V^h_0=0$ 
+\item $P\left(V^h_T \ge 0 \right)=1$
+\item $P\left(V^h_T>0 \right)>0$
+\end{itemize}
+Considering the roll back procedure described above, we can observe that (remind sub section \ref{topbm}):
+\be 
+V^h_0=\frac{1}{(1+R)^T}E^Q\left[V^h_T\right]>0
+\ee
+that contradicts $V^h_0=0$ (remind $E^Q$ is the expectation according to the risk neutral probabilities introduced in sub section \ref{topbm}).
+We can then conclude that (\ref{noarbudn}) is a necessary and (also) sufficient condition for absence of arbitrage in the model, that is: \\ \\
+\PROP The model is arbitrage free if and only if the martingale measure exists for all $n$:
+\be 
+1+R = q_{n,u} \cdot u_n + q_{n,d} \cdot d_n \\
+q_{n,u}+q_{n,d}=1\\
+u_n>q_n
+\ee
+Furthermore, if the martingale measure exists the model is (also) complete.
+
+\section{A More General One Period Model}
+We go back to a one period model, but we slightly generalize the structure of the assets w.r.t. \ref{topbm}.
+Let $t=0,1$ be the time schedule and consider the column vector of asset values at time $t$:
+\be 
+S_t = 
+\left( \begin{array}{c}
+S_t^1 \\
+. \\
+. \\
+. \\
+S_t^N 
+\end{array} \right)
+\label{assetvaluess}
+\ee
+The randomness of the system is modeled by assuming that we have a finite sample space
+\be
+\Omega = \{ \omega_1, \omega_2, \cdots ,\omega_M \} \\
+P(\omega_i)> 0, \mbox{ i.e. probability of $\omega = \omega_i$ is strictly positive}
+\ee
+The state of the system at time $t=1$ is represented w.r.t. $\Omega$ by the following matrix:
+\be
+\label{Dmatrix} 
+D=\left( \begin{array}{cccc}
+S_1^1(\omega_1) & S_1^1(\omega_2) & \cdots & S_1^1(\omega_M) \\
+S_1^2(\omega_1) & S_1^2(\omega_2) & \cdots & S_1^2(\omega_M) \\
+\cdots & \cdots & \cdots & \cdots \\
+S_1^N(\omega_1) & S_1^N(\omega_2) & \cdots & S_1^N(\omega_M) \\
+\end{array} \right)=
+\left( \begin{array}{cccc}
+| & | & \cdots &| \\
+| & | & \cdots & | \\
+d_1 & d_2 & \cdots & d_M \\
+| & |& \cdots & | \\
+| & | & \cdots & | \\
+\end{array} \right)
+\ee
+Let us now define 
+\be 
+h=[h^1,\cdots, h^N ]
+\ee
+as a portfolio, i.e. $h^i$ is the number of units of $S^i$ that we buy at $t=0$ and hold up to time $t=1$.
+Using scalar product $\cdot$, we will have
+\be 
+V^h_t = h \cdot S_t
+\ee
+\DEF An arbitrage portfolio is defined as an $h$ such that 
+\be 
+V_0^h < 0 \\
+V_1^h \ge 0, \mbox{with probability $1$}
+\ee
+\PROP (Farkas' Lemma) Suppose $d_0,d_1,\cdots, d_M$ are column vectors in $\Re^N$, then exactly one of the following two problems possesses a solution:
+\begin{itemize}
+\item (P1): find non negative numbers $z_1,\cdots, z_M$ such that 
+\be 
+d_0 = \sum_{i=1}^M z_j d_j
+\ee
+\item (P2): find a row vector $h\in \Re^N$ such that 
+\be 
+h d_0 <0 \\
+h d_j \ge 0, \forall j=1,\cdots, M
+\ee
+\end{itemize} 
+\PROOF Let $K$ be the set of all non negative linear combinations of vectors $d_1,\cdots, d_M$. $K$ is easily seen to be a convex cone containing the origin. Then only one of the following two cases holds:
+\begin{itemize}
+\item $d_0 \in K$, i.e. (P1) has a solution
+\item  $d_0 \notin K$. In this case, it means that it exists an hyperplane $H$ such that $d_0$ is strictly on one side of $H$ whereas $K$ is on the other side. Let us then consider an $h$ that is normal to $H$ and points to the direction where $K$ lies. $h$ will satisfy the conditions in (P2).
+\end{itemize}
+Using Farkas' lemma and the definition of arbitrage portfolio, we can now directly state what follows:
+\PROP The model is arbitrage free if and only if there exist a set of non negative numbers $z_1,\cdots, z_M$ such that 
+\be 
+S_0 = \sum_{j=1}^M z_j S_1(\omega_j)
+\label{noarbitrages1sn}
+\ee
+We can now define 
+\be 
+q_j=\frac{z_j}{\beta}, j=1,\cdots, M \\
+ \beta = \sum_{j=1}^M z_j \\
+S_0 = \beta  \sum_{j=1}^M q_j S_1(\omega_j) = \beta E^Q\left[ S_1\right]
+\ee
+where we have interpreed the $q_j$ as probabilities. \\ \\
+\PROP We can then restate the above proposition by affirming that the model is arbitrage free if and only if there exists a probability distribution $Q$ (named: risk adjusted measure, martingale measure, risk neutral measure) such that 
+\be 
+S_0 = \beta  \sum_{j=1}^M q_j S_1(\omega_j) = \beta E^Q\left[ S_1\right]
+\label{s0riskneutr}
+\ee
+We now assume that $S_t^1$ is a risk free asset and in particular that 
+\be 
+S_1^1(\omega_j) = 1, \forall j=1,\cdots, M  
+\ee
+which, using the first component of (\ref{s0riskneutr}) yields
+\be 
+S_0^1 = \beta = \frac{1}{1+R}
+\ee
+where we introduced an interest rate $R$ to parametrize $\beta$. \\ \\ 
+\PROP (First fundamental theorem) Eq. (\ref{s0riskneutr}) now gets
+\be 
+S_0 =  \frac{1}{1+R} E^Q\left[ S_1\right]
+\label{s0firstfundth}
+\ee
+Assuming that there exists a risk free asset and denoting by $R$ the corresponding interest rate, then the market is arbitrage free if and only if there exists a probability measure $Q$ such that (\ref{s0firstfundth}) holds.
+Notice that $\forall i=0,1,\cdots, N$ it holds that 
+\be 
+\frac{S_0^i}{S_0^1}= E^Q\left[ \frac{S_1^i}{S_1^1} \right] = E^Q\left[ \frac{S_1^i}{1} \right]
+\ee
+that explains why $Q$ is called named 'martingale measure'.
+Now consider a claim $X$, that is any real valued random variable defined on the $\Omega$ space.
+It is possible to consider the extended market ($t=0,1$):
+\be 
+\{ S_t^1, S_t^2, \cdots, S_t^N, \Pi(t, X) \}
+\ee
+where we treat the new asset claim $X$ as an original a priori given asset $S_t^i, i=1,\cdots, N$. By extending what we got up to now in this section, it is then clear that the extended model will be arbitrage free if and only if there exists a martingale measure such that
+\be 
+\label{pricing1}
+\Pi(0, X)=  \frac{1}{1+R} E^Q\left[ \Pi(1, X)\right] = \frac{1}{1+R} E^Q\left[ X \right] \\ 
+S_0 =  \frac{1}{1+R} E^Q\left[ S_1\right]
+\ee
+This reasoning has produced a unique way of pricing the contingent claim $X$ at time $t=0$ once the $Q$ measure is chosen and fixed. The problem now is to investigate the conditions for which the martingale measure $Q$ is unique and hence for which the claim price $\Pi(0, X)$ at $t=0$ is unique and well determined.
+
+\subsection{A More General One Period Model: Completeness}
+
+In this subsection, we assume that $S^1, \cdots, s^N$ is an arbitrage free market and that there exists a risk free asset (as defined in the previous section). \\ \\
+\DEF A contingent claim $X$ (that is a real valued random variable depending on the future state at time $t=1$: $\omega_i \in \Omega$) is replicated by the strategy $h$ if
+\be 
+V^h_1 = X, \mbox{ with probability $1$}
+\ee
+The market is complete if any claim can be replicated. \\ \\
+\PROP The market is complete if and only if the matrix $D$ defined in (\ref{Dmatrix}) has rank equal to $M$. \\ \\
+\PROOF It must hold that the following equation has a solution for any $X$:
+\be
+V_1^h = h\cdot D = X
+\ee
+Being $V_1^h$ a linear combination of the rows of $D$, the equation has a solution for any $X$ if and only if 
+\be 
+\label{rankd}
+rank(D)=M 
+\ee
+ We hence see that if the market is complete the number of assets ($N$) must be greater or equal to the number of possible outcome states at time $t=1$, i.e. $M$.
+We can now also propose a new pricing formula for $\Pi(0,X)$ based on the replicating portfolio $h$:
+\be 
+\Pi(0,X)=V^h_0 = h S_0 = h \frac{1}{1+R} E^Q\left[S_1 \right] =  \frac{1}{1+R} E^Q\left[h S_1 \right]= \frac{1}{1+R} E^Q\left[X \right]
+\label{pricing2}
+\ee
+where we used that by definition $\Pi(1,X)\equiv X=h S_1$.
+Notice that (\ref{pricing2}) agrees with (\ref{pricing1}).
+Now remind that we assumed that the model is arbitrage free. This means that if two strategies $h_a$ and $h_b$ both replicate $X$, it must hold that (otherwise it an arbitrage would exists contradicting the hypothesis):
+\be 
+h_a S_0 = h_b S_0 
+\ee 
+and hence 
+\be 
+\Pi(0,X) = h_a S_0 = h_b S_0 
+\ee
+is well defined.
+We now give another characterization of complete markets: \\ \\
+\PROP (Second Fundamental Theorem) Assuming that the market is arbitrage free, it is true that the market is  complete if and only if the martingale measure is unique (remind that at least one martingale measure exists since the market is by hypothesis arbitrage free). \\ \\
+\PROOF We already know from a previous characterization that the market is complete if and only $rank(D)=M$ (see (\ref{rankd})), i.e. if and only if 
+\be 
+Im\left( D^*\right) = \Re^M
+\ee
+where we are now regarding $D^*$ (i.e. the transpose of $D$) as a linear mapping from $\Re^N$ to $\Re^M$. After this consideration, we also remind that, due to absence of arbitrage, there exists a solution $z$ (in particular $z_i\ge 0, \forall i=1,\cdots,M$) such that
+\be 
+S_0=D z
+\ee
+Such solution $z$ is unique if and only if the kernel (null space) of $D$ is trivial, i.e. if and only if 
+\be 
+Ker\left( D\right) =0
+\ee
+Using a known duality result\footnote{Let $D$ be a matrix with $a$ rows and $b$ cols. $Im(D^*)=rank(D)$, $(Im(D^*))^\perp=a-rank(D)$ since $Im(D^*)$ is a sub space of $\Re^a$. Furthermore $Ker(D)=a-rank(D)$ since $Ker(D)$ is the sub space of $\Re^a$ that is mapped to $0$. Hence (\ref{fundalglin} ) follows. Notice that in this short explanation of (\ref{fundalglin} ) we abused notation and denoted with  $Im(D^*)$ and $Ker(D)$ both the spaces and their dimensions, but everything should be clear from the context.}
+\be
+\label{fundalglin} 
+\left(Im\left( D^*\right)\right)^\perp =Ker\left( D\right)
+\ee
+we conclude that $z$ is unique, and hence the martingale measure is unique, if and only if $\left(Im\left( D^*\right)\right)^\perp=0$, that is if and only if $Im\left( D^*\right) = \Re^M$,  that is if and only if the market is complete.
+This concludes the proof.
+We now summarize the results:
+\begin{itemize}
+\item The market is arbitrage free if and only if (at least one) martingale measure exists.
+\item Assuming the market is arbitrage free, the market is (also) complete if and only if the martingale measure is unique.
+\item For any claim $X$, the only prices that are consistent with absence of arbitrage are of the form 
+\be 
+\label{pi0x}
+\Pi(0,X)=\frac{1}{1+R}E^Q[X]
+\ee
+\item If the market is not complete (but arbitrage free), it can happen that different choices of the martingale measure $Q$ in (\ref{pi0x}) can give rise to different prices at time $t=0$. Notice that in case of different martingale prices for the same claim $X$, if absence of arbitrage should actually hold, all market players should nonetheless agree to use the same $Q$.
+\item Even in an incomplete (but arbitrage free) market, if $X$ can be replicated by a strategy $h$ it holds that 
+\be 
+V^h_0=\Pi(0,X)=\frac{1}{1+R}E^Q[X]
+\ee
+for any possible choice of the martingale measure $Q$.
+\end{itemize}
+\DEF (Stochastic discount factor, Radon-Nikodym derivative)
+\be 
+\Pi(0,X)=\frac{1}{1+R}E^Q[X] = \frac{1}{1+R}\sum_{i=1}^M q_i X(\omega_i)= \\ 
+=\frac{1}{1+R}\sum_{i=1}^M p_i \frac{q_i}{p_i} X(\omega_i)=\frac{1}{1+R}E^P[L X]=E^P[\Lambda X]
+\ee
+where $L(\omega_i) = \frac{q_i}{p_i}$ is the Radon-Nikodym derivative, $p_i$ is the probability in the objective measure (remind that by hypothesis $p_i>0, \forall i=1,\cdots, M$), 
+\be 
+\Lambda(\omega_i) = \frac{1}{1+R} \frac{q_i}{p_i}  = \frac{1}{1+R} L(\omega_i)
+\ee
+is the stochastic discount factor. Notice the one to one correspondence between stochastic discount factors and martingale measures.
+
+\subsection{A More General One Period Model: Different Numeraire Measures}
+
+Let us assume that the $k$-th market asset $S^k$ pays no dividends and is not generally risk free (i.e. it can possibly hold that $S^k_1(\omega_i)\neq S^k_1(\omega_j)$ for some $i \neq j$). 
+We then write
+\be 
+\Pi(0,X)=\frac{1}{1+R}E^Q[X]=\frac{1}{1+R}\sum_{i=1}^M q_i X(\omega_i)
+=\frac{1}{1+R}\sum_{i=1}^M q_i \frac{X(\omega_i)}{S^k_1(\omega_i)} \frac{S^k_1(\omega_i)S^k_0}{S^k_0}
+\ee
+that reads out as
+\be 
+\frac{\Pi(0,X)}{S^k_0}
+=\frac{1}{1+R}\sum_{i=1}^M q_i \frac{X(\omega_i)}{S^k_1(\omega_i)} \frac{S^k_1(\omega_i)}{S^k_0}=\sum_{i=1}^M q^{(k)}_i \frac{X(\omega_i)}{S^k_1(\omega_i)}
+\ee
+where 
+\be 
+q^{(k)}_i =\frac{1}{1+R}q_i  \frac{S^k_1(\omega_i)}{S^k_0}=\frac{1}{1+R} q_i  \frac{S^k_1(\omega_i)}{\frac{1}{1+R} \sum_{j=1}^M q_l S^k_1(\omega_l)}=   \frac{q_i S^k_1(\omega_i)}{\sum_{j=1}^M q_l S^k_1(\omega_l)} \\
+\sum_{i=1}^M q^{(k)}_i =1
+\ee
+that is clearly the right identity for $k=1$, considering that we assumed that $S^1_1(\omega_i)=1, \forall i=1,\cdots, M$, being $S^1$ the risk free asset.
+We then write
+\be 
+\label{numerairepricing}
+\frac{\Pi(0,X)}{S^k_0} = E^{(k)}\left[\frac{X}{S^k_1}\right]
+\ee
+We now also compute for a different numeraire $S^j$
+\be 
+L^{j/k}(\omega_i)= \frac{q^{(j)}_i}{q^{(k)}_i} = \frac{S^j_1(\omega_i)  }{S^j_0 }\frac{S^k_0}{S^k_1(\omega_i)}
+\ee
+and 
+\be 
+\frac{\Pi(0,X)}{S^j_0} = E^{(j)}\left[\frac{X}{S^j_1}\right]=E^{(k)}\left[\frac{X(\omega) L^{j/k}(\omega)}{S^j_1(\omega)}\right]=E^{(k)}\left[\frac{X(\omega) }{S^j_1(\omega)} \frac{S^j_1(\omega)  }{S^j_0 }\frac{S^k_0}{S^k_1(\omega)}\right] 
+\ee
+that correctly gives back (\ref{numerairepricing}).
+Finally 
+\be 
+E^{(k)}\left[L^{j/k}(\omega) \right]=\sum_{i=1}^M  \frac{S^j_1(\omega_i)  }{S^j_0 }\frac{S^k_0}{S^k_1(\omega_i)} \frac{q_i S^k_1(\omega_i)}{\sum_{j=1}^M q_l S^k_1(\omega_l)}=\frac{S^k_0 (1+R)S^j_0 }{S^j_0 (1+R)S^k_0}=1
+\ee
+where we used (\ref{s0firstfundth}), that it was in any case a priori obvious since
+\be 
+E^{(k)}\left[L^{j/k}(\omega) \right]=\sum_{i=1}^M  \frac{q^{(j)}_i}{q^{(k)}_i}q^{(k)}_i=\sum_{i=1}^M q^{(j)}_i =1
+\ee
+
+\section{Measure and Integration}
+
+\subsection{\SA}
+
+\DEF A family $\mathcal{F}$ of subsets is a sigma-algebra if
+\begin{itemize}
+\item $\emptyset \in \mathcal{F}$
+\item $A \in \mathcal{F} \Rightarrow A^c\in  \mathcal{F}$
+\item countable unions and intersections of sets in the $\sigma$-algebra are in the $\sigma$-algebra
+\end{itemize}
+{\smallskip}
+\PROP let $\{\mathcal{F}_\alpha;\alpha\in A\}$ be a family of $\sigma$-algebras on the set $X$. Then $\mathcal{F}=\bigcap_{\alpha\in A}\mathcal{F}_\alpha$ is also a $\sigma$-algebra.\\ \\
+\DEF Given $\mathcal{S}$ a family of subsets of $X$, there's a unique minimal extension of $\mathcal{S}$ as a \SA, which is the intersecion of all \SAs  that contain $\mathcal{S}$. Such \SA is called the \SA generated by $\mathcal{S}$ and denoted by $\sigma\{\mathcal{S}\}$.\\ \\
+\DEF Let $\{f_\gamma;\gamma\in \Gamma\}$ be an indexed family of functions from $X$ to $\Re$. $\sigma\{f_\gamma; \gamma\in \Gamma\}$ is the smallest \SA such that $f_\gamma$ is measurable for all $\gamma\in \Gamma$. \\ \\
+\DEF $\mathcal{B}(\Re^n)=\sigma\{$open sets in $\Re^n \}$ is the Borel \SA (i.e. the smallest \SA generated by open sets in $\Re^n$. Notice that there are a number of other generators for this \SA beyond open sets.)\\ \\
+\DEF given a measure space $(X,\mathcal{F},\mu)$, $f:X\rightarrow \Re$ is measurable w.r.t. the sigma-algebra $\mathcal{F}$ if for every interval $I\subset \Re$, it holds that $f^{-1}(I)\in \mathcal{F}$. It can also be seen that $f$ is measurable w.r.t. $\mathcal{F}$ $\Leftrightarrow$ $f^{-1}(B)\in \mathcal{F}$ for every Borel set $B\subset \Re$.
+
+
+\subsection{$L^p$ Spaces}
+
+\DEF Let $p\in [1,\infty)$, $L^p(X,\mathcal{F},\mu)$ is the class of measureable functions $f:X\rightarrow \Re$ such that
+\be
+\|f \|_p=\left( \int_X |f(x)|^p d\mu(x)\right)^{1/p}<\infty
+\ee
+\DEF A sequence $\{f_n\}_n$ is Cauchy in $L^p$ if for every $\epsilon >0$ there exists a $N>0$ such that 
+\[
+\|f_n-f_m\|_p \leq \epsilon, \forall n,m\geq N
+\]
+\PROP For $1\leq p \leq +\infty$, every $L^P$ space is complete, in the sense that every sequence $\{f_n\}_n$, that is Cauchy in $L^p$, converges ($L^p$-convergence)  to a unique element $f\in L^p$, i.e. 
+\be
+\lim_{n\rightarrow +\infty} \|f_n-f\|_p =0
+\label{cauchyconv}
+\ee
+\subsection{Radon-Nikodyn Theorem \label{radonnikodyn}}
+\label{RADONTHEOREM}
+\DEF Consider a measurable space $(X,\FF)$, on which two different measures are defined $\mu$ and $\nu$. Then:
+\begin{itemize}
+\item if $\forall A\in \FF$ it holds that $\mu(A)=0\Rightarrow\nu(A)=0$, then one says that $\nu<< \mu$ (in words: $\nu$ is absolutely continous w.r.t. $\mu$ on $\FF$) 
+\item if at the same time $\nu<< \mu$ and $\mu<< \nu$, then $\nu\sim \mu$, that is $\nu$ and $\mu$ are equivalent measures on $\FF$
+\item if there exist $A,B\in \FF$ such that $A\cap B=\emptyset$ and $\mu(A)=\nu(B)=0$, $\mu$ and $\nu$ are said mutally singular, or in short $\mu \perp \nu$.
+\end{itemize}
+\DEF Take $(X,\FF,\mu)$ and a non-negative $f:X\rightarrow \Re_0^+$ which is also measurable in $L^1(X,\FF,\mu)$. Define for $A\in \FF$:
+\be
+\nu(A)=\int_A f(x) d\mu(x)
+\ee
+It can be proved that $\nu(A)$ is indeed a measure, that is
+\begin{itemize}
+\item $\nu(\emptyset)=0$
+\item $\nu(A)\geq 0, \forall A\in \FF$
+\item if $A_n\in \FF$ for $n\in \mathcal{N}$ and $A_i \cap A_j=\emptyset,\forall i\not= j$, $\mu\left(\bigcup_n A_n\right)=\sum_n \mu(A_n)$ 
+\end{itemize}
+and furthermore that $\nu << \mu$.\\ \\
+\PROP {\bf{The Radon-Nikodyn Theorem}}. Consider a measure space $(X,\FF,\mu)$, with finite $\mu$, i.e. $\mu(X)<\infty$. Assume exists a $\nu$ measure on $(X,\FF)$ such that $\nu <<\mu$ on $\FF$. Then there's $f:X\rightarrow \Re_0^+$ such that:
+\begin{itemize}
+\item $f$ is $\FF$-measurable
+\item $\int_X f(x) d\mu(x)<\infty$
+\item $\nu(A)=\int_A f(x)d\mu(x), \forall A\in \FF$
+\end{itemize}
+$f$ is called {\emph{the Radon-Nikodyn derivative}} of $\nu$ w.r.t. $\mu$.  Furthermore $f$ is uniquely determined $\mu$ almost surely and one usually writes:
+\begin{itemize}
+\item $f(x)=\frac{d\nu(x)}{d\mu(x)}$
+\item $d\nu(x)=f(x)d\mu(x)$
+\end{itemize}
+(Sketch of)\PROOF 
+Define a new measure: $\lambda(A)=\mu(A)+\nu(A)$, $\forall A\in\FF$ and choose any $g\in L^2(\lambda)$. It is now possible to define a linear mapping $\Phi:L^2(\lambda) \rightarrow \Re$ by
+\[
+\Phi(g)=\int_X g(x)d\nu(x)
+\]
+such that
+\be
+|\Phi(g)|&=&\left| \int_X g(x)d\nu(x) \right|\leq \int_X |g(x)|d\nu(x)\leq\int_X |g(x)|d(\nu(x)+\mu(x))=\\ \\
+&=&\int_X |g(x)|d\lambda(x)=(|g|,1)\leq \|g\|_2 \cdot \|1\|_2=\left(\int_X |g(x)|^2d\lambda\right)^{\frac{1}{2}}\cdot \left(\int_X |1|^2d\lambda\right)^{\frac{1}{2}}=\\
+&=&\sqrt{\lambda(X)}\cdot \|g\|_{L^2(\lambda)}
+\ee
+Having prooved that $\phi(g)$ is bounded in $L^2(\lambda)$, we can use a known result (Riesz representation theorem) that states that there exists a unique $f\in L^2(\lambda)$ such that $\phi(g)=(g,f)$, $\forall g\in L^2(\lambda)$. In practice we then have
+\[
+\Phi(g)=\int_X g(x)d\nu(x)=(g,f)_\lambda=\int_X g(x)f(x)d\lambda(x), \forall g\in L^2(\lambda)
+\]
+Now choose any $A\in \FF$ and set $g=I_A$ and remind that $0\leq \nu(A) \leq \lambda(A)$:
+\[
+\Phi(I_A)=\int_A 1d\nu(x)=\nu(A)=(1,f)_\lambda=\int_X f(x)d\lambda(x)
+\]
+From the arbitrary of $A$ it then follows that $0\leq f(x) \leq 1$ a.e. in $X$.
+We now write:
+\[
+\int_X g(x)d\nu(x)=\int_X g(x)f(x)d\lambda(x)=\int_X g(x)f(x)d\nu(x)+\int_X g(x)f(x)d\mu(x)
+\]
+that is
+\[
+\int_X g(x)(1-f(x))d\nu(x)=\int_X g(x)f(x)d\mu(x)
+\]
+Consider now the set $A=\{x\in X: f(x)=1\}\in \FF$ and set $g=I_A$ to get
+\[
+0=\int_A 1(1-1))d\nu(x)=\int_A f(x)d\mu(x)
+\]
+from which (being $f\ge 0$) one gets $\mu(A)=0$. Hence outside $A$ one can write for any $B\in \FF$ and taking $g=I_B$:
+\[
+\int_B (1-f(x))d\nu(x)=\int_B f(x)d\mu(x)
+\]
+from which
+\[
+\int_B (1-f(x))\frac{d\nu(x)}{d\mu(x)}d\mu(x)=\int_B f(x)d\mu(x)
+\]
+which gives
+\[
+(1-f(x))\frac{d\nu(x)}{d\mu(x)}=f(x)
+\]
+and finally ($A=\{x\in X: f(x)=1\}\in \FF$, with $\mu(A)=0$):
+\[
+\frac{d\nu(x)}{d\mu(x)}=\frac{f(x)}{1-f(x)}
+\]
+(Of course the last steps were not formal at all, unless $B$ can be any singleton $\{x\}, \forall x\in X$).
+
+\section{Probability}
+A measure space $(\Omega, \FF, P)$ is a probability space if the measure $P$ is such that $P(\Omega)=1$ ($\Omega$ is called the sample space, elements $F\in \FF$ are called events).\\ \\
+\DEF A random variable $X$ is a mapping $X:\Omega \rightarrow \Re$ that is $\FF$-measurable, i.e. for any Borel set $B\in \mathcal{B}(\Re)$ it is true that $X^{-1}(B)=\{\omega\in \Omega :X(\omega)\in B\}\in \FF$.\\ \\
+\DEF The {\bf{distribution measure}} $\mu_X$ for a random variable $X$ is a measure on $(\Re, \mathcal{B}(\Re))$, that is defined by (notice that $X^{-1}(B)\in \FF$ since $X$ is measurable on $\FF$):
+\[
+\mu_X(B)=P(\{\omega\in \Omega :X(\omega)\in B\})=P(X^{-1}(B))=P(X\in B), \forall B\in\mathcal{B}(\Re)
+\]
+Similarly the {\bf{(cumulative) distribution function}} of $X$ is defined as
+\[
+F_X(x)=P(\{\omega\in \Omega :X(\omega)\leq x\})=P(X\leq x)
+\]
+\DEF Taking $X\in L^1(\Omega, \FF,P)$ define the {\bf{expected value}} as 
+\[
+E[X]=\int_\Omega X(\omega) dP(\omega)
+\]
+and, if $X\in L^2(\Omega, \FF,P)$, the {\bf{variance}}
+\[
+Var[X]=E[(X-E[X])^2]
+\]
+\PROP Let $g: \Re\rightarrow\Re$ be a Borel function such that $g(X(\omega))$ is integrable on $(\Omega, \FF, P)$. Then is holds that
+\be
+E[g(X)]=\int_\Omega g(X(\omega))dP(\omega)=\int_\Re g(x) d\mu_X(x)
+\label{distrmeasureint}
+\ee
+\PROOF
+First notice that $g(X)$ is $\FF$-measurable since $g$ is Borel. Now start with $g=I_A$ for any $A\in \mathcal{B}(\Re)$ to get that
+\be
+\nonumber
+E[I_A(X)]&=&\int_\Omega I_A(X(\omega))dP(\omega)=\int_{\{\omega\in \Omega:X(\omega)\in A\}} dP(\omega)=P(\{\omega\in \Omega:X(\omega)\in A\})=\mu_X(A)=\\
+\nonumber &=&\int_\Re I_A(x) d\mu_X(x)
+\ee
+Now if $g$ is a simple function for a certain family of pairs $(c_i, A_i)$, $c_i\in \Re$, $A_i\in \mathcal{B}(\Re)$, $i=1,...,n
+$:
+\[
+g(x)=\sum_{i=1}^n c_i\cdot I_{A_i}(x)
+\]
+the same result holds by linearity.
+At this point one can approximate $g$ with simple functions and get the result in the limit.\\ \\
+\PROP Given $X$ non-negative random variable, it holds that
+\[
+E[X]=\int_0^\infty P(X>t) dt
+\]
+\PROOF
+\be
+E[X]&=&\int_\Omega X(\omega) dP(\omega)=\int_\Omega \left[\int_0^{X(\omega)}1\cdot dt\right]dP(\omega)=\int_\Omega \left[\int_0^{\infty}I\{X(\omega)>t\} dt\right]dP(\omega)\\
+&=&\int_0^{\infty}\left[ \int_\Omega I\{X(\omega)>t\} dP(\omega)\right]dt=\int_0^{\infty}P(X>t)dt
+\ee
+\DEF A random process $X(t,\omega)$ on $(\Omega, \FF, P)$ is a mapping
+\[
+X:\Re_0^+ \times \Omega\rightarrow \Re
+\]
+such that for any $t\in \Re_0^+ $
+\[
+X(t, \cdot):\Omega\rightarrow \Re
+\]
+is a $\FF$-measurable random variable.\\ \\
+\DEF A partition $\mathcal{P}$ on a set $\Omega$ is a finite collection os sets $\{A_1,...,A_n\}$, such that
+\begin{itemize}
+\item the sets cover $\Omega$, that is $\bigcup_{i=1}^nA_i=\Omega$
+\item $A_i\cap A_j=\emptyset,\forall i\neq j$
+\end{itemize}
+Take a mapping $f:\Omega\rightarrow \Re$ and suppose $f$ takes values only in the finite set $\{x_1,...,x_K\}$.
+Then defining
+\[
+A_i=\{\omega \in \Omega : f(\omega)=x_i\}=f^{-1}(x_i), i=1,...,K
+\]
+we see that 
+\[
+\mathcal{P}(f)=\{A_1,...,A_K\}
+\]
+is a partition of $\Omega$ (the partition generated by $f$).\\ \\
+\DEF A mapping is defined to be measurable w.r.t. a partition $\mathcal{P}$ if and only if it is constant on the components of the partition.\\ \\
+\DEF Consider $X$ random variable on $\Omega$. $\sigma\{X\}$ is defined to be the smallest \SA $\FF$ such that $X$ is $\FF$-measurable. More precisely:
+\[
+\sigma\{X\}=\bigcap_{\mathcal{G}}\{\mathcal{G}\} 
+\] 
+where $\mathcal{G}$ is any \SA w.r.t. $X$ is measurable.\\ \\
+\PROP $\sigma\{X\}=\{X^{-1}(B);B\in \mathcal{B}(\Re)\}$\\ \\
+\PROOF
+First it can be proved that $\sigma\{X\}$ defined as above is a \SA, since
+\begin{itemize}
+\item $X^{-1}(\emptyset)=\emptyset\Rightarrow \emptyset\in \sigma\{X\}$
+\item if $A\in \sigma\{X\}$ then exists $B\in \mathcal{B}(\Re)$ such that $A=X^{-1}(B)$. Since $\mathcal{B}(\Re)$ is a \SA, we know that $B^c\in \mathcal{B}(\Re)$ and hence that $A^c=X^{-1}(B^c)\in \sigma\{X\}$.
+\item similarly, considering any $A_1,A_2,...\in \sigma\{X\}$ and the corresponding $B_1,B_2,...\in \mathcal{B}(\Re)$ such that $A_i=X^{-1}(B_i)$, one has
+\[
+\bigcap_i A_i= \bigcap_i X^{-1}(B_i)=X^{-1}\left(\bigcap_i B_i\right)\in \sigma\{X\}
+\]
+since $\bigcap_i B_i \in \mathcal{B}(\Re)$
+\item similarly for countable unions
+\item $\sigma\{X\}$ is the smallest \SA for which $X$ is measurable, since any \SA $\mathcal{G}$ on which $X$ is measurable must contain $\sigma\{X\}$ due to the definition of measurability of $X$ on $\mathcal{G}$.
+\end{itemize}
+\DEF Let $\mathcal{K}$ be an arbitrary family of mappings from $\Omega$ to $\Re$. Then $\sigma\{\mathcal{K}\}$ is defined to be the smallest \SA $\mathcal{G}$ such that $X$ is $\mathcal{G}$-measurable for any $X\in \mathcal{K}$.\\ \\
+\PROP
+(No proof). Let $X_1,...,X_N$ be mappings $X_n:\Omega \rightarrow \Re$ and assume that $X:\Omega \rightarrow \Re$ is measurable w.r.t. $\sigma\{X_1,...,X_N\}$. Then there exists a Borel function $f:\Re^n\rightarrow \Re$ such that $\forall \omega \in \Omega$ it holds that
+\be
+X(\omega)=f(X_1(\omega),...,X_N(\omega))
+\label{borelfunct}
+\ee
+\DEF Let $\{X_t;t\ge 0\}$ be a random process defined on the probability space $(\Omega, \FF, P)$. The \SA generated by $X$ over the interval $[0,t]$ is denoted by
+\[
+\FF_t^X=\sigma\{X_s;s\leq t\}
+\]
+It can be proved that $\FF_t^X$ is generated by all the subsets of $\Omega$ of the form
+\[
+\{X_s\in B\}=\{\omega\in\Omega;X_s(\omega)\in B\}
+\]
+for any $B\in \BOREL$ and for any $s\leq t$. Notice that $\FF_s^X\subseteq \FF_t^X$ for $s\leq t$.\\ \\
+\DEF A filtration $\FLT=\{F_t\}_{t\ge 0}$ on the probability space $(\Omega,\FF,P)$ is an indexed family of \SA on $\Omega$ such that
+\begin{itemize}
+\item $\FF_t\subseteq \FF, \forall t\ge 0$
+\item $s\leq t \Rightarrow \FF_s\subseteq \FF_t$
+\end{itemize}
+Furthermore, given a $\FLT$, one can define the smallest \SA that contains all the $\FF_t, \forall t\ge 0$:
+\[
+\FF_\infty = \bigvee_{t\ge 0} \FF_t
+\]
+\DEF Considering a filtration $\FLT$ on  the probability space $(\Omega,\FF,P)$ and a random process $X_t$ on the same space, we say that $X_t$ is adapted to $\FLT$ if $X_t$ is measurable w.r.t. $\FF_t$ for every $t\ge 0$, that is if
+\[
+X_t\in \FF_t, \forall t\ge 0
+\]
+We could say that if for a certain time $t\ge 0$ we take a measure of the random variable $X_t$ and gather the information that its outcome is contained in a certain Borel set $B\in \BOREL$, then, being $X_t\in \FF_t$, we gather the information that $\omega\in X_t^{-1}(B)$, where $X_t^{-1}(B)\in \FF_t$.
+In other words the information we gatherd on $\omega$ does not go beyond $\FF_t$: if for example it was the case that $X_t^{-1}(B)\not\in\FF_t$ but $X_t^{-1}(B)\in\FF_s$ with $s>t$, then $X$ would not have been $\FF_t$-measurable and was instead 'looking into the future' w.r.t. $\FF_t$.\\ \\
+\DEF Two events $A,B\in \FF$ and within $(\Omega, \FF, P)$ are said to be independent if 
+\[
+P(A \cap B)=P(A)\cdot P(B)
+\]
+\DEF Similarly:
+\begin{itemize}
+
+\item Two \SAs $\mathcal{G}, \mathcal{H}\subseteq \FF$ (within $(\Omega, \FF, P)$) are defined independent if 
+\[
+P(G \cap H)=P(G)\cdot P(H)
+\]
+for every $G\in \mathcal{G}$ and every  $H\in \mathcal{H}$.
+\item Two random variables $X, Y$ are independent if $\sigma\{X\}$ and $\sigma\{Y\}$ are independent.
+\item Two stochastic processes $\{X_t; t\ge 0\}, \{Y_t; t\ge 0\}$ are independent if $\sigma\{X_t; t\ge 0\}$ and $\sigma\{Y_t; t\ge 0\}$ are independent.
+\item An indexed family of \SAs $\{\mathcal{G}_\gamma; \gamma\in \Gamma\}$, with $\{\mathcal{G}_\gamma\in \FF;\forall \gamma\in \Gamma\}$, has mutually independent elements if 
+\[
+P\left(\bigcap_{i=1}^n G_i\right)=\prod_{i=1}^n P(G_i)
+\]
+for every finite collection $\{G_1,...,G_n\}$, with $\gamma_i\neq \gamma_j$ for $i\neq j$ and $G_i\in \mathcal{G}_{\gamma_i}$. This definition straightly extends to random variables and processes.
+\end{itemize}
+\PROP Suppose that $X$ and $Y$ are independent random variables and that they both are $L^1(\Omega, \FF, P)$, together with their product $X\cdot Y$. Then we have: $E[X\cdot Y]=E[X]\cdot E[Y]$.\\ \\ 
+\PROOF
+The proposition is straightforward for indicator functions: $X=I_A$, $A\in \sigma\{X\}$, $Y=I_B$, $B\in \sigma\{Y\}$, since
+\[
+E[X\cdot Y]=E[I_A\cdot I_B]=E[I_{A\cap B}]=\int_{A\cap B}dP(\omega)=P(A\cap B)=P(A)\cdot P(B)=E[X]\cdot E[Y]
+\]
+and the extensions to aribitrary simple functions and then to arbitrary random variables in $L^1$ are as usual.
+\subsection{Conditional Expectations}
+\DEF Given $(\Omega, \FF, P)$, the probability of $A$ conditional on $B$ is defined as
+\[
+P(A|B)=\frac{P(A\cap B)}{P(B)}
+\]
+\DEF Given $(\Omega, \FF, P)$, suppose $B\in \FF$ with $P(B)>0$ and $X\in L^1(\Omega, \FF, P)$. Then the conditional expectation of $X$ given $B$ is defined by
+\[
+E[X|B]=\frac{1}{P(B)}\int_B X(\omega) dP(\omega)
+\]
+Let us consider a partition $\mathcal{P}=\{A_1,...,A_K; A_i\in \FF\}$ of $\Omega$, always within $(\Omega, \FF, P)$. Given a $\omega$, one can determine a unique $n$ such that $\omega \in A_n$ end hence compute $E[X|A_n]$. In other words one can define the following $\Omega\rightarrow \Re$ mapping:
+\[
+\omega\rightarrow E[X|A_{n(\omega)}]
+\]
+\DEF More sinthetically one can define the following random variable (mapping $\Omega\rightarrow \Re$):
+\[
+E[X|\mathcal{P}](\omega)=\sum_{n=1}^K I_{A_n}(\omega) \cdot E[X|A_n]
+\]
+under the hypotheis $P(A_n)>0, \forall n=1,..,K$. \\ \\
+\PROP Consider $(\Omega, \FF, P)$ and $X$, $\mathcal{P}$ as above. Consider also $\mathcal{G}=\sigma\{\mathcal{P}\}\subseteq \FF$. Then $Z(\omega)=E[X|\mathcal{P}](\omega)$ is such that
+\begin{itemize}
+\item Z is $\mathcal{G}$-measurable
+\item for evey $G\in \mathcal{G}$ 
+\[
+\int_G Z(\omega)dP(\omega) = \int_G X(\omega) dP(\omega)
+\]
+\end{itemize}
+The reverse is also true: if the two properties  are satisfied by any $Z(\omega)$ then $Z(\omega)=E[X|\mathcal{P}](\omega)$. \\ \\
+\PROOF
+\begin{itemize}
+\item Noticing that $Z(\omega)=E[X|\mathcal{P}](\omega)$ is constant on $A_i$, we can choose any $z\in \Re$ and compute $\{\omega\in \Omega; Z(\omega)\leq z\}=\bigcup_i \{ A_i : E[X|A_i]\leq z\}\in \mathcal{G}$. This proves that $Z(\omega)$ is $\mathcal{G}$-measusrable.
+\item 
+\be
+\nonumber
+\int_G Z(\omega)dP(\omega)&=&\int_G \sum_{n=1}^K I_{A_n}(\omega) \cdot E[X|A_n] dP(\omega)= \sum_{n=1}^K E[X|A_n] \int_{G\cap A_n} dP(\omega)= \\ 
+\nonumber
+&=&\sum_{n=1}^K \frac{P(G\cap A_n)}{P(A_n)} \int_{A_n} X(\omega) dP(\omega)  
+\ee
+At this point we have to consider that since $G\in \mathcal{G}$, it can only be the case that:
+\[
+G=\bigcup_{i=1}^J A_{n_i}
+\]
+for some $J$ and some set of $n_i\in 1,...,K$. This is so since being $\mathcal{P}$ a partition the $A_i$ are disjoint and hence $\mathcal{G}=\sigma\{\mathcal{P}\}\subseteq \FF$ can only have sets of the above type.
+We hence get:
+\be
+\int_G Z(\omega)dP(\omega)&=&\sum_{n=1}^K \frac{P(G\cap A_n)}{P(A_n)} \int_{A_n} X(\omega) dP(\omega) =\sum_{n=1}^K \frac{P(\bigcup_{i=1}^J A_{n_i}\cap A_n)}{P(A_n)} \int_{A_n} X(\omega) dP(\omega)=  \\
+&=&\sum_{i=1}^J  \int_{A_{n_i}} X(\omega) dP(\omega)=\int_G X(\omega)dP(\omega)
+\ee
+\end{itemize}
+Up to now, we have proved that $Z(\omega)=E[X|\mathcal{P}](\omega)$  satisfies the above two properties (i.e. that it is $\mathcal{G}$-measurable and it has the same expecations as $X(\omega)$ on all sets $G\in \mathcal{G}$). Now, on the other hand we prove the reverse. First we notice that if a $Z^{'}$ random variable is $\mathcal{G}$-measurable, it is constant on elements of the partition $A_i, i=1,...,K$ (as our target $Z(\omega)$). It then only remains to determine this constant values. Taking any $i=1,...,K$ and any $\omega\in A_i$ we have by hypothesis:
+\[
+\int_{A_i}Z^{'}(\omega)dP(\omega)=Z(A_i)\cdot P(A_i)=\int_{A_i} X(\omega) dP(\omega)
+\]
+from which we get (as desired) for all $\omega\in A_i$:
+\[
+Z(\omega)=Z(A_i)=\frac{1}{P(A_i)}\int_{A_i} X(\omega) dP(\omega)
+\]
+\DEF Let $(\Omega,\FF,P)$ be a probability space and $X$ a random variable il $L^1(\Omega,\FF,P)$. Let $\mathcal{G}$ be a \SA such that $\mathcal{G}\subset \FF$. If $Z$ is a random variable such that
+\begin{itemize}
+\item $Z$ is $\mathcal{G}$-measurable
+\item For every $G\in \mathcal{G}$ it holds that 
+\[
+\int_G Z(\omega)dP(\omega) = \int_G X(\omega) dP(\omega)
+\]
+\end{itemize}
+Then we say that $Z$ is the conditional expectation of $X$ given the \SA $\mathcal{G}$ and we introduce the notation
+\[
+Z(\omega)=E[X|\mathcal{G}](\omega)
+\]
+\PROP Let $(\Omega,\FF,P)$ be a probability space and $X$ a random variable il $L^1(\Omega,\FF,P)$. Let $\mathcal{G}$ be a \SA such that $\mathcal{G}\subset \FF$. Then
+\begin{itemize}
+\item there always exists a random variable $Z$ such that
+\begin{itemize}
+\item $Z$ is $\mathcal{G}$-measurable
+\item For every $G\in \mathcal{G}$ it holds that 
+\[
+\int_G Z(\omega)dP(\omega) = \int_G X(\omega) dP(\omega)
+\]
+\end{itemize}
+\item $Z$ is unique $P$ almost surely, i.e. if both $Y$ and $Z$ satisfy the two properties then $Y(\omega)=Z(\omega)$ $\forall\omega\in A^c$ with $P(A)=0$.
+\end{itemize}
+\PROOF
+Define the new measure $\nu$ on $(\Omega, \mathcal{G})$ by
+\[
+\nu(G)=\int_G X(\omega) dP(\omega)
+\]
+We have $\nu << P$ and using the Radon-Nikodyn theorem we see that exists (unique $P$-a.s.)
+\[
+\frac{d\nu}{dP}
+\]
+such that
+\[
+\nu(G)=\int_G \frac{d\nu}{dP}(\omega) dP(\omega)=\int_G X(\omega) dP(\omega)
+\]
+(the last equality by definition of $\nu(G)$). This means that $\frac{d\nu}{dP}(\omega)$ is the $Z(\omega)$ we are looking for (notice that it is also $\mathcal{G}$-measurable  by definition).
+Notice in particular that if $\mathcal{G}=\{\emptyset, \Omega\}$ then it is sure that $E[X|\mathcal{G}]$ is constant on the entire $\Omega$ and that such constant is such that
+\[
+\int_\Omega E[X|\mathcal{G}] dP(\omega)=E[X|\mathcal{G}]=\int_\Omega X(\omega) dP(\omega)=E[X]
+\]
+hence $E[X]=E[X|\sigma\{\emptyset, \Omega\}]$.\\ \\
+\PROP Assume $\mathcal{H}\subseteq \mathcal{G}\subseteq \FF$, then the following is true:
+\be
+\label{condexp1}
+E[E[X|\mathcal{G}]|\mathcal{H}]=E[X|\mathcal{H}]\\
+\label{condexp2}
+E[X]=E[E[X|\mathcal{G}]]
+\ee
+\PROOF
+First of all, being $E[X]=E[X|\sigma\{\emptyset, \Omega\}]$,  if (\ref{condexp1}) is true we can use it with $\mathcal{H}=\sigma\{\emptyset, \Omega\}$ and get
+\[
+E[X]=E[X|\sigma\{\emptyset, \Omega\}]=E[E[X|\mathcal{G}]|\sigma\{\emptyset, \Omega\}]=E[E[X|\mathcal{G}]]
+\]
+which has proved (\ref{condexp2}).
+Then we denote $Z(\omega)=E[E[X|\mathcal{G}]|\mathcal{H}](\omega)$ and we observe that by definition of conditional expectation, $Z$ is $\mathcal{H}$ measurable. Furthermore we compute for any $H\in \mathcal{H}$
+\[
+\int_H Z(\omega) dP(\omega)=\int_H E[X|\mathcal{G}](\omega) dP(\omega)=\int_H X(\omega) dP(\omega)
+\]
+where we have again used (twice) the definition of conditional expectation together with the fact that being $\mathcal{H}\subseteq \mathcal{G}$ we also have $H\in \mathcal{G}$.
+This last equaion, using also the previous theorem, proves that 
+\[
+E[E[X|\mathcal{G}]|\mathcal{H}]=E[X|\mathcal{H}]
+\]
+at least $P$-a.s.\\ \\
+\PROP (No proof) Consider $f,g$ integrable in $(\Omega,\FF,P)$ then the following is true:
+\be
+\label{fgeqvsint}
+f(\omega)=g(\omega), P-a.s. \Leftrightarrow \forall A\in \FF, \int_A f(\omega)dP(\omega)=\int_A g(\omega)dP(\omega)
+\ee
+We know that if $X$ is $\mathcal{G}$-measurable then if we can observe the space $\Omega$ with degree of detail given by the sets of $\mathcal{G}$, we can fully "determine/observe" the outcomes of $X$. This will hence intuitively mean that conditioning $X$, that is $\mathcal{G}$-measurable, on $\mathcal{G}$ itself will mean that we can treat it as deterministic (conditional on $\mathcal{G}$). Formally: \\ \\
+\PROP If $X$ is $\mathcal{G}$-measurable ($\mathcal{G}\subseteq \FF$) and if $X,Y,X Y$ are in $L^1(\Omega,\FF,P)$ then
+\be
+\label{condexp3}
+E[X|\mathcal{G}](\omega)=X(\omega), P-a.s.\\
+\label{condexp4}
+E[XY|\mathcal{G}](\omega)=X(\omega)\cdot E[Y|\mathcal{G}](\omega), P-a.s.
+\ee
+\PROOF
+For every $G\in \mathcal{G}$ we have
+\[
+\int_G E[X|\mathcal{G}](\omega)dP(\omega)=\int_G X(\omega)dP(\omega)
+\]
+and being both integrands $\mathcal{G}$-measurable, by (\ref{fgeqvsint}), we directly get (\ref{condexp3}).
+Regarding (\ref{condexp4}), for every $G\in \mathcal{G}$ and starting by $X=I_A$ for any $A\in \sigma\{X\}$:
+\be
+\nonumber
+\int_G E[I_A Y|\mathcal{G}](\omega) dP(\omega)&=&\int_G I_A(\omega) Y(\omega) dP(\omega)=\int _{A\cap G}Y(\omega) dP(\omega)=\\
+\nonumber
+&=&\int_G I_A(\omega)\cdot E[Y|\mathcal{G}](\omega)dP(\omega)=\int _{A\cap G} E[Y|\mathcal{G}](\omega)dP(\omega)=\\
+\nonumber
+&=&\int _{A\cap G}Y(\omega) dP(\omega)
+\ee
+where we used that $A\cap G\in \mathcal{G}$ being $\sigma\{X\}\subseteq \mathcal{G}$ and hence the last equality holds by definition of $E[Y|\mathcal{G}]$.
+We hence proved for any $G\in \mathcal{G}$ it holds that
+\[
+\int_G E[I_A Y|\mathcal{G}](\omega) dP(\omega)=\int_G I_A(\omega)\cdot E[Y|\mathcal{G}](\omega)dP(\omega)
+\]
+which together with the measurability on $\mathcal{G}$ of both $E[I_A Y|\mathcal{G}](\omega)$ and $I_A(\omega)\cdot E[Y|\mathcal{G}](\omega)$ and with (\ref{fgeqvsint}), proves that
+\[
+E[I_A Y|\mathcal{G}](\omega)=I_A(\omega)\cdot E[Y|\mathcal{G}](\omega), P-a.s.
+\]
+Notice that we have used the key assumption that $X$ is $\mathcal{G}$-measurable, i.e. $\sigma\{X\}\subseteq \mathcal{G}$.
+Having proved (\ref{condexp4}) for a general indicator functions on $\sigma\{X\}$, one proceeds with simple functions and then, taking the limit, for $X$ itself to end the proof. \\ \\
+\DEF For any integrable $Y$ in $(\Omega, \FF, P)$ and for any $X\in \FF$ we define
+\[
+E[Y|X]=E[Y|\sigma\{X\}]
+\]
+Since $E[Y|X]$ is by definition $\sigma\{X\}$ measurable, we know by proposition (\ref{borelfunct}) that there exists a Borel function $g: \Re\rightarrow \Re$ such that 
+\be
+\label{eyx1}
+E[Y|X](\omega)=g(X(\omega)), P-a.s.
+\ee
+\DEF Now, using this Borel function $g$, we also define
+\be 
+\label{eyx2}
+E[Y|X=x]=g(x), x\in \Re
+\ee
+\PROP Consider $(\Omega, \FF, P)$ and let $\mu_X$ the distribution measure for $X$ and $Y$ any random variable. Then
+\be
+\label{eyx3}
+E[Y]=\int_{\Re} E[Y|X=x]d\mu_X(x)
+\ee
+\PROOF
+By using 
+\[
+E[Y|X](\omega)=g_Y(X(\omega)), P-a.s.
+\]
+we can write
+\be
+\nonumber
+E[Y]&=&E[E[Y|X](\omega)]=E[g_Y(X(\omega))]=\int_\Omega g_Y(X(\omega))dP(\omega)=\int_\Re g_Y(x) d\mu_X(x)=\\
+\nonumber
+&=&\int_{\Re} E[Y|X=x]d\mu_X(x)
+\ee
+where we also used (\ref{distrmeasureint}).\\ \\
+\PROP  Consider $(\Omega, \FF, P)$ and let $\mu_X$ the distribution measure for $X$ and $Y$ any random variable. Then for any $\bar{x}\in \Re$:
+\be 
+\label{conddeltadirac}
+E\left[Y 1_{\left(X=\bar{x}\right)} \right]=E\left[Y |X=\bar{x} \right]P\left(X=\bar{x}\right)\\
+\label{conddeltadirac2}
+E\left[  Y \delta\left(X-\bar{x}\right) \right] =  E\left[Y |X=\bar{x} \right] f_\mu \left(\bar{x}\right)\\
+\label{conddeltadiracnorm}
+\int_\Re d\mu_X(x)=\int_\Re f_\mu \left(x\right) dx = 1
+\ee
+\PROOF Let us take any $\bar{x}\in \Re$ and consider the Borel set $\{\bar{x}\}$. Being $X$ measurable w.r.t. $\sigma\{X\}$, it holds that $B=X^{-1}(\{\bar{x}\})\in \sigma\{X\}$. Using the definition of $E\left[Y |X \right](\omega)$ and using (\ref{eyx1}), (\ref{eyx2}), we compute what follows:
+\be 
+E\left[Y 1_{\left(X=\bar{x}\right)} \right]=E\left[Y 1_B \right]=\int_\Omega Y(\omega) 1_B(\omega) \DPO=\\
+=\int_B Y(\omega) \DPO=\int_B E\left[Y |X \right](\omega) \DPO=\int_B E\left[Y |X=X(\omega) \right] \DPO=\\
+=\int_B E\left[Y |X=\bar{x} \right] \DPO=E\left[Y |X=\bar{x} \right]P(B)=E\left[Y |X=\bar{x} \right]P\left(X=\bar{x}\right)
+\ee
+where we also used that, by construction, $\forall \omega\in B, X(\omega)=\bar{x}$.
+Now we further compute:
+\be 
+E\left[Y \right]=E\left[\int_\Re Y \delta{\left(X-\bar{x}\right)} d\bar{x}\right]=\int_\Omega \left[\int_\Re Y(\omega) \delta{\left(X(\omega)-\bar{x}\right)} d\bar{x}\right]\DPO=\\
+=\int_\Re \left[\int_\Omega  Y(\omega) \delta\left(X(\omega)-\bar{x}\right)\right]\DPO d\bar{x}=\int_\Re E\left[  Y \delta\left(X-\bar{x}\right) \right] d\bar{x}=\\
+=\int_\Re E\left[Y |X=\bar{x} \right] f_\mu \left(\bar{x}\right)d\bar{x}
+\ee
+In the last equation we used (\ref{eyx3}) and hence we found the proper normalization when using Dirac delta functions:
+\be
+E\left[  Y \delta\left(X-\bar{x}\right) \right] =  E\left[Y |X=\bar{x} \right] f_\mu \left(\bar{x}\right)
+\ee
+Finally, using the same hypothesis of the calculations above, for any Borel function $\phi:\Re\rightarrow \Re$, we get:
+\be 
+\label{conddeltadiracphi}
+E\left[Y \phi\left(X\right) 1_{\left(X=\bar{x}\right)} \right]=\int_\Omega Y(\omega) \phi\left(X(\omega)\right) 1_B(\omega) \DPO=\\
+=\phi(\bar{x})\int_\Omega Y(\omega)1_B(\omega) \DPO=\phi(\bar{x}) E\left[Y |X=\bar{x} \right]P\left(X=\bar{x}\right)
+\ee
+and for Dirac delta functions:
+\be 
+\label{conddeltadiracphi2}
+E\left[  Y \phi(X) \delta\left(X-\bar{x}\right) \right] = \phi(\bar{x}) E\left[Y |X=\bar{x} \right] f_\mu \left(\bar{x}\right)
+\ee
+\PROP Consider $(\Omega, \FF, P)$ and consider $Y\in \GG\subseteq \FF$ and also $X\in \FF$ such that $\sigma\{X\}\perp \GG$. Then:
+\[
+E[Y|X]=E[Y]
+\]
+\PROOF
+We start by $Y=I_A$ with $A\in \GG$ and for any $B\in \sigma\{X\}$
+\be
+\int_B E[Y|X](\omega) \DPO &=& \int_B Y(\omega) \DPO=\int_B I_A(\omega) \DPO=\int_{A\cap B} \DPO=\\
+&=&P(A\cap B)=P(A)\cdot P(B)=\left(\int_\Omega I_A \DPO\right)\cdot P(B)= \\
+&=&E[Y] \cdot P(B)= \int_B E[Y] \DPO
+\ee
+which shows, being $B\in \GG$ arbitrary, that $E[Y|X](\omega)=E[Y], P-a.s.$.
+To go on, the usual generalization to simple functions $\in \GG$ and then to generic functions $\in \GG$ is applied.\\ \\ 
+\PROP Let ($\Omega, \FF, P$) be a given probability space and $\GG$ a sub-sigma-algebra of $\FF$. Let $X\in L^2(\Omega, \FF, P)$. Now consider the problem of minimizing 
+\[
+E\left[(X-Z)^2\right]
+\]
+where $Z$ is allowed to vary in $L^2(\Omega, \GG, P)$. The optimal solution is
+\[
+\hat{Z}(\omega)=E[X|\GG](\omega)
+\]
+\PROOF
+We start by choosing any $A\in \GG$ and considering $Z=I_A$, then, using the definition of $E[X|\GG]$ and the fact that $A\in \GG$
+\[
+E[Z\cdot X]=\int_A X(\omega)\DPO=\int_A E[X|\GG](\omega)\DPO
+\]
+\[
+E[Z\cdot E[X|\GG]]=\int_A E[X|\GG](\omega)\DPO
+\]
+from which we get
+\be
+E[Z\cdot (X-E[X|\GG])]=0
+\label{zgperpxminusave}
+\ee
+Having proved (\ref{zgperpxminusave}) for indicators, we extend it in the usual way to simple and then aribitrary $\GG$ measurable functions.
+Notice that (\ref{zgperpxminusave}) can be summurazied in words by saying that $(X-E[X|\GG])$ is orthogonal to $\GG$, or in again other words, by saying that $E[X|\GG]$ is the orthogonal projection of $X\in L^2(\Omega, \FF, P)$ onto $L^2(\Omega, \GG, P)$.
+Now we write
+\be
+E\left[(X-Z)^2\right]&=&E\left[\left[(X-E[X|\GG])+(E[X|\GG]-Z)\right]^2\right]=\\
+&=&E\left[(X-E[X|\GG])^2\right]+E\left[(E[X|\GG]-Z)^2\right]+\\
+&+&2E\left[(X-E[X|\GG])\cdot E[X|\GG]\right]-2E\left[(X-E[X|\GG])Z\right]
+\ee
+By applying (\ref{zgperpxminusave}) twice (once with $Z$ and once with $E[X|\GG]\in\GG$ in the role of $Z$), we get
+\[
+E\left[(X-Z)^2\right]=E\left[(X-E[X|\GG])^2\right]+E\left[(E[X|\GG]-Z)^2\right]
+\]
+and then the desired result.
+
+\subsection{Equivalent Probability Measures}
+
+\PROP Consider $(\Omega, \FF)$ equipped with two probability measures $P, Q$. It is true that the relation $P\sim Q$ holds if and only if
+\be
+P(A)=1 \Leftrightarrow Q(A)=1, \forall A\in \FF
+\label{paqa1}
+\ee
+\PROOF
+Suppose $P\sim Q$. Then take any $A\in \FF$ such that $P(A)=1$. We can compute
+\[
+P(A)+P(A^c)=1 \Rightarrow P(A^c)=0 \Rightarrow Q(A^c)=0\Rightarrow Q(A)=1-Q(A^c)=1
+\]
+where we used the property that each measure is such that $P(A\cup B)=P(A)+P(B), \forall A\cap B=\emptyset$ and $P(\Omega)=1$. We then shown that $P(A)=1\Rightarrow Q(A)=1$.  $Q(A)=1\Rightarrow P(A)=1$ can be shown in the same way.
+Now suppose (\ref{paqa1}) holds. Then take any $A$ such that $P(A)=0$. Then as before
+\[
+P(A^c)=1\Rightarrow Q(A^c)=1\Rightarrow Q(A)=0
+\]
+showing that $Q<<P$. In the same way one shows $P<<Q$ and hence we have $P\sim Q$.
+As a further observation, suppose that $P\sim Q$ and that $P(A)>0$. Now \emph{per assurdo} suppose that $Q(A)=0$. We will directly get $P(A)=0$ violating the hypothesis. Then:
+\[
+P\sim Q \Leftrightarrow  \{P(A)>0 \Leftrightarrow Q(A)>0\}
+\]
+\PROP Let us know consider a probability space $(\Omega,\FF, P)$ and reminding the Radon-Nikodym theorem (section \ref{radonnikodyn}), we can say that for any other measure $Q$ in the same probability space it holds that
+\[
+Q << P \Leftrightarrow \exists L\in L^1(\Omega,\FF, P): \forall A\in \FF, \int_A dQ(\omega)=\int_A L(\omega) \DPO
+\]
+\PROOF
+The $\Leftarrow$ is obvious, while $\Rightarrow$ is indeed the Radon-Nikodym theorem. \\ \\
+Being $Q$ a probability measure, it must hold that
+\[
+\int_\Omega L(\omega) \DPO = E^P[L]=1
+\]
+that is to say that the Radon-Nikodym derivative is a certain non-negative random variable, measurable in $\FF$, with the property $E^P[L]=1$ (the likelihood ratio of $Q$ w.r.t. $P$). Furthermore:\\ \\
+\PROP For any random variable $X\in L^1(\Omega,\FF, Q)$ it holds that
+\be
+E^Q[X]=E^P[L\cdot X]
+\label{expradnikder}
+\ee
+\PROOF
+Starting with any $B\in \FF$ and with $X(\omega)=I_B(\omega)$, one has
+\[
+E^Q[X]=\int_B dQ(\Omega)=\int_B L(\omega) \DPO=\int_\Omega I_B(\omega)L(\omega)\DPO=\int_\Omega X(\omega)L(\omega)\DPO=E^P[L\cdot X]
+\]
+As usual, one extends to simple and then arbitrary functions $\in \FF$.\\ \\
+\PROP Let us take again $(\Omega,\FF, P)$ and a sub-sigma-algebra $\GG\subseteq \FF$. Consider then a measure $Q<<P$ on $\FF$. The we will have the possibility to see $Q$ both on $(\Omega,\FF, Q)$ and on the restricted measurable space $(\Omega,\GG, Q)$. The same holds of course for the measure $P$.
+We will then have two different Radon-Nikodym derivatives: $L^\FF$ on $\FF$ and $L^\GG$ on $\GG$. Notice that they will in general be different, since $L^\FF$ is $\FF$ measurable but not $\GG\subseteq \FF$ measurable. Furthermore it holds that
+\be
+L^\GG(\omega)=E^P[L^\FF|\GG](\omega)
+\label{lgg}
+\ee
+\PROOF
+First of all we notice that $E^P[L^\FF|\GG]$ is $\GG$-measurable. Then, for any $G\in \GG$, we notice that it also holds that $G\in\FF$ and hence
+\[
+\int_G dQ(\omega)=\int_G L^\FF(\omega)\DPO=\int_G E^P[L^\FF|\GG](\omega)\DPO
+\]
+where we used the definition of conditional expectation. This is enough to prove the result.
+Let us show an example:
+\begin{itemize}
+\item $\Omega=\{1,2,3\}$
+\item $\FF=2^\Omega$
+\item $\GG=\{\emptyset, \Omega, \{1\}, \{2,3\}\}$
+\item $P(1)=1/4, P(2)=1/2, P(3)=1/4$
+\item $Q(1)=1/3, Q(2)=1/3, Q(3)=1/3$
+\item $L^\FF(1)=4/3, L^\FF(2)=2/3,L^\FF(3)=4/3$ which is not $\GG$ measurable
+\item Notice that $P(\{2,3\})=3/4, Q(\{2,3\})=2/3$ and  $Q(\{2,3\})/P(\{2,3\})=8/9$
+\item We hence pose $L^\GG(1)=4/3, L^\GG(2)=8/9,L^\GG(3)=8/9$ which is $\GG$ measurable
+\item Furthermore 	$E^P[L^\FF|\{2,3\}]=\frac{P(2)L^\FF(2)+P(3)L^\FF(3)}{P(\{2,3\})}=8/9=L^\GG(2)=L^\GG(3)$ which agrees with (\ref{lgg}).
+\end{itemize}
+\PROP {\bf{(Bayes' Theorem)}}
+Assume $X$ is any random variable $\in L^1(\Omega, \FF, P)$. Let $Q$ be another probability measure on $(\Omega, \FF)$ with Radon-Nikodym derivative on $\FF$ given by
+\[
+L(\omega)=\frac{dQ}{dP}(\omega)
+\]
+Let $\GG\subseteq\FF$ be a sigma-sub-algebra. Then it holds that
+\be
+E^Q[X|\GG] =\frac{E^P[L\cdot X|\GG]}{E^P[L|\GG]}, Q-a.s.
+\label{bayes}
+\ee
+\PROOF
+First of all we notice that $Q<<P$, being $Q$ defined through a Radon-Nikodym derivative. 
+Then we prove:
+\be
+E^Q[X|\GG]\cdot E^P[L|\GG]=E^P[L\cdot X|\GG], P-a.s.
+\label{bayes2}
+\ee
+We start by choosing any $G\in \GG$ and by computing the integral on $G$ of left-hand side of (\ref{bayes2}) as follows:
+\be
+\int_G E^Q[X|\GG]\cdot E^P[L|\GG] \DPO=\int_G  E^P[L\cdot E^Q[X|\GG]|\GG] \DPO=\\
+=\int_G  L\cdot E^Q[X|\GG] \DPO=\int_G  E^Q[X|\GG] dQ(\omega)=\int_G  X dQ(\omega)
+\ee
+where we used
+\begin{itemize}
+\item in the first passage: the fact that $E^Q[X|\GG]$ is $\GG$-measurable and hence it can pass inside $E^P[L|\GG]$
+\item in the second passage: the definition of $E^P[\cdot|\GG]$
+\item in the third passage: the property in (\ref{expradnikder})
+\item in the fourth passage: the definition of $E^Q[\cdot|\GG]$
+\end{itemize}
+Now we compute the same integral on $G$ but on the right-hand side of (\ref{bayes2}):
+\[
+\int_G E^P[L\cdot X|\GG] \DPO=\int_G L\cdot X \DPO=\int_G  X dQ(\omega)
+\]
+Being $G$ arbitrary we can conlude that (\ref{bayes2}) holds. Since $Q<<P$ as observed before, we can then directly conclude that (\ref{bayes}) also holds (i.e. holds $Q-a.s.$).
+To complete the proof, we have to prove that (\ref{bayes}) is well defined, i.e. that $E^P[L|\GG]\neq 0, Q-a.s.$.
+We can calculate:
+\be
+Q\left(\{\omega\in\Omega: E^P[L|\GG](\omega)=0\}\right)=\int_{\{\omega\in\Omega: E^P[L|\GG](\omega)=0\}}dQ(\omega)=\\
+=\int_{\{\omega\in\Omega: E^P[L|\GG](\omega)=0\}}L(\omega)\DPO=\int_{\{\omega\in\Omega: E^P[L|\GG](\omega)=0\}}E^P[L|\GG](\omega)\DPO=\\
+=\int_{\{\omega\in\Omega: E^P[L|\GG](\omega)=0\}}0\cdot \DPO=0
+\label{nomeasure}
+\ee
+which completes the proof.
+Notice that in deriving (\ref{nomeasure}), we used that
+\begin{itemize}
+\item $\{\omega\in\Omega: E^P[L|\GG](\omega)=0\} \in \GG$ since it is the counter-image of the Borel set $\{0\}$ through the $\GG$-measurable random variable $E^P[L|\GG]$
+\item equation (\ref{expradnikder})
+\item the definition of $E^P[\cdot|\GG]$ taking into account that $\{\omega\in\Omega: E^P[L|\GG](\omega)=0\} \in \GG$.
+\end{itemize} 
+\section{Martingales and Stopping Times}
+\DEF Let ($\Omega, \FF, P, \FLT$) be a filtered probability space and $\{X_t\}_t$ a random process in continuous or discrete time. The process $X$ is and $\FLT$-martingale if
+\begin{itemize}
+\item X is $\FLT$-adapted
+\item $X_t\in L^1(\Omega,\FF_t,P), \forall t$
+\item for every $0\leq s \leq t$ it holds that
+\be
+X_s(\omega)=E[X_t(\omega)|\FF_s](\omega), P-a.s. 
+\ee
+\item if the $=$ sign is replaced by $\leq$ ($\ge$), $X$ is said to be a submartingale (supermartingale).
+\end{itemize}
+\PROP Since $E[X_s|\FF_s]=X_s, P-a.s.$, if $X$ is a $\FLT$-martingale, we have $E[X_t-X_s|\FF_s]=0,\forall s\leq t$
+For processes in discrete time the martingale property must hold just for adjacent times (and will extend to all times automatically). We can indeed state what follows.\\ \\
+\PROP An adapted integrable discrete time process $\{X_n;n=0,1,\cdots\}$ is a martingale w.r.t. the filtration $\{\FF_n;n=0,1,\cdots\}$ if and only if
+\be
+E[X_{n+1}|F_n]=X_n,\forall n=0,1,\cdots
+\label{martingalen}
+\ee
+\PROOF
+$\Rightarrow$ follows from the martingale definition. Take instead any integer $d>0$ and compute
+\be
+E[X_{n+d}|\FF_n]=E[E[\cdots E[X_{n+d}|\FF_{n+d-1}]\cdots |\FF_{n+1}]|\FF_n]=\\
+=E[E[\cdots E[X_{n+d-1}|\FF_{n+d-2}]\cdots |\FF_{n+1}]|\FF_n]=\cdots=E[X_{n+1}|\FF_n]=X_n
+\ee
+which is what we were looking for.\\ \\
+\PROP Given $Y$ any integrable random variable on ($\Omega, \FF, P, \FLT$) , define $X_t(\omega)=E[Y|\FF_t](\omega)$. Then $X_t$ ia an $\FLT$-martingale since for $s\leq t$ (being $\FF_s\subseteq \FF_t)$:
+\[
+E[X_t|\FF_s]=E[E[Y|\FF_t]|\FF_s]=E[Y|\FF_s]=X_s
+\]
+\PROP Now consider a compact interval $[0,T]$ and take any martingale process $M_t$. We notice that for any $t\in [0,T]$ it holds that $M_t=E[M_T|\FF_t], P-a.s.$. This means that any martingale $M_t$ on a compact interval $[0,T]$ can always be represented ($P-a.s.$) as expectation of its final time random variable ($M_T(\omega)$, on $T$). Notice that for non-compact intervals the situation will be more complicated.\\ \\
+\PROP If $X$ is a process with independent increments on ($\Omega, \FF, P, \FLT$) and also if $E[X_t-X_s]=0, \forall s,t$, then $X$ is a martingale.\\ \\
+\PROP Let $X$ be a process on ($\Omega, \FF, P, \FLT$). Then
+\begin{itemize}
+\item If $X$ is a martingale and if $f:\Re\rightarrow \Re$ is a convex (concave) function such that $f(X_t)$ is integrable $\forall t$, then the process
+\[
+Y_t=f(X_t)
+\]
+is a submartingale (supermartingale).
+\item If X is a submartingale and $f:\Re\rightarrow \Re$ is a convex non-decreasing function such that $f(X_t)$ is integrable $\forall t$, then the process
+\[
+Y=f(X_t)
+\]
+is also submartingale.
+\end{itemize}
+\PROOF
+For the first statement, if $f$ is convex (concave) we have by Jensen inequality and for $s\leq t$:
+\[
+E[Y_t|\FF_s]=E[f(X_t)|\FF_s]\geq (\leq) f\left(E[X_t|\FF_s]\right)=f(X_s)=Y_s, P-a.s.
+\]
+For the second statement, we have by Jensen inequality and for $s\leq t$:
+\[
+E[Y_t|\FF_s]=E[f(X_t)|\FF_s]\geq f\left(E[X_t|\FF_s]\right)\geq f(X_s)=Y_s, P-a.s.
+\]
+where we have used that by hypothesis $X_s\leq E[ X_t|\FF_s]$ and that $f$ is also non-decreasing.
+
+We saw that on a finite interval $[0,T]$, every martingale can be represented by
+\[
+X_t=E[X_T|\FF_t]
+\]
+but, in general on an infinite interval $[0,\infty]$ this does not hold, i.e. it is not always true that there exists
+an integrable random variable $X_\infty$ such that
+\be
+X_t=E[X_\infty|\FF_t]
+\ee
+\PROP (No proof, see below for a proof in a less general case.) Let $X$ be a submartingale on ($\Omega, \FF, P, \FLT$) satisfying the condition
+\be 
+\sup_{t\geq 0} E[X_t^+]<\infty
+\ee
+Then there exists a random variable $Y$ such that $X_t\rightarrow Y, P-a.s.$, i.e. such that
+\be
+P\left(\omega\in \Omega :\lim_{t\rightarrow +\infty} X_t(\omega)=Y(\omega) \right)=1
+\label{pconvsuper}
+\ee
+\DEF A martingale $X$ on ($\Omega, \FF, P, \FLT$) is defined to be {\bf{squared integrable}} if there exists a constant $M$ such that
+\be 
+E[X_t^2]\leq M, \forall t\geq 0
+\ee
+\PROP ({\bf{Martingale Convergence}}) Assume $X$ is a square integrable martingale. Then there exists a random variable, which we denote $X_\infty$, such that, for $t\rightarrow +\infty$, one has convergence of  $X_t\rightarrow X_\infty$ both in $L^2(\Omega, \FF, P)$ and also $P-a.s.$, i.e. both the following two relations hold:
+\be
+\lim_{t\rightarrow +\infty} \| X_t-X_\infty \|_2= \lim_{t\rightarrow +\infty} \left(  E[(X_t-X_\infty)^2] \right)^{\frac{1}{2}}=0 \label{l2conv}\\
+P\left(\omega\in \Omega :\lim_{t\rightarrow +\infty} X_t(\omega)=X_\infty(\omega) \right)=1
+\label{pconv}
+\ee
+Furthermore the following representation holds:
+\be 
+X_t=E[X_\infty|\FF_t], \forall t\geq 0
+\label{mrepr}
+\ee
+\PROOF
+The function $x\rightarrow x^2$ is convex and hence the process $X_t^2$ is a submartingale (see above). This means that the mapping
+\be
+m_t=E[X_t^2]
+\ee
+is such that for $s\leq t$
+\[
+m_s=E[X_s^2]\leq E[E[X_t^2|\FF_s]]=E[X_t^2]=m_t
+\]
+i.e. $m_t$ is non-decreasing.
+The assumption that $X_t$ is square integrable is then equivalent to the existence of a real number $c<+\infty$ such that 
+\[
+\lim_{t\rightarrow +\infty}m_t=\lim_{t\rightarrow +\infty}E[X_t^2]=c
+\]
+We will now prove the $L^2$ convergence, i.e. (\ref{l2conv}), by showing that $X_t$ is Cauchy in $L^2$ (remind (\ref{cauchyconv})). Reminding that $X_t$ is a martingale and taking any $0\leq s \leq t$, we have
+\be 
+E[(X_t-X_s)^2]=E[X_t^2-2X_s X_t+X_s^2]=E[E[X_t^2-2X_s X_t+X_s^2|\FF_s]]=\\
+=E[X_t^2]+E[X_s^2]-2E[X_sE[X_t|\FF_s]]=E[X_t^2]-E[X_s^2]=m_t-m_s
+\ee
+Since we know that $\lim_{t\rightarrow +\infty}m_t=c$, we conclude that $m_s$ is Cauchy and hence that also $X_t$ is Cauchy in $L^2$. Having proved the $L^2$ convergence, we have proved the existence of $X_\infty\in L^2$. 
+Now we should also prove the $P-a.s.$ convergence to such $X_\infty$, i.e. (\ref{pconv}). We can do this by directly using proposition (\ref{pconvsuper}), since we know for sure that $\sup_{t\geq 0} E[X_t^+]<\infty$ being $X_t$ squared integrable by hypothesis. 
+Now it only remains to prove the representation (\ref{mrepr}). Let us fix $s\geq 0$ and take any $A\in \FF_s$ and try to prove that it holds that  
+\be
+\int_A X_s(\omega) \DPO=\int_A X_\infty(\omega) \DPO=\int_A E[X_\infty|\FF_s](\omega) \DPO
+\label{xainta}
+\ee
+Being $A$ arbitrary and both $X_s$ and $E[X_\infty|\FF_s]$ $\FF_s$-measurale, (\ref{xainta}) would be enough to prove (\ref{mrepr}), i.e. that 
+\[
+X_s=E[X_\infty|\FF_s], P-a.s.
+\]
+Being $X_t$ a martingale, we know that for every $s \leq t$:
+\be
+X_s(\omega)=E[X_t|\FF_s](\omega), P-a.s.
+\ee
+and hence 
+\[
+\int_A X_s(\omega) \DPO = \int_A E[X_t|\FF_s](\omega) \DPO
+\]
+Being $A\in \FF_s$ and using the definition of $E[\cdot|\FF_s]$
+\be
+\int_A X_s(\omega) \DPO = \int_A X_t(\omega) \DPO
+\label{xsxt}
+\ee
+At this point we remind that, taken $r>s\geq 1$, we have that $L^r$ convergences implies $L^s$ convergence:
+\be 
+\lim_{n \rightarrow \infty} \|f_n - f\|_r =0 \Rightarrow \lim_{n \rightarrow \infty} \|f_n - f\|_s =0 
+\ee
+We use this fact together with the fact that we know that $\|X_t-X_\infty\|_2\rightarrow 0$ for $t\rightarrow \infty
+$ and hence we get:
+\be 
+0=\lim_{t\rightarrow \infty}\|X_t-X_\infty\|_1=\lim_{t\rightarrow \infty}E[|X_t-X_\infty|]=\lim_{t\rightarrow \infty}\int_\Omega |X_t-X_\infty|\DPO
+\ee
+Finally
+\be
+\lim_{t\rightarrow \infty}\left| \int_A X_t(\omega) \DPO - \int_A X_\infty(\omega) \DPO\right|=\lim_{t\rightarrow \infty}\left| \int_A \left(X_t(\omega) - X_\infty(\omega)\right) \DPO\right|\leq \\
+\leq \lim_{t\rightarrow \infty} \int_A \left|X_t(\omega) - X_\infty(\omega)\right| \DPO\leq \lim_{t\rightarrow \infty} \int_\Omega \left|X_t(\omega) - X_\infty(\omega)\right| \DPO=0
+\ee
+that, together with (\ref{xsxt}), proves (\ref{xainta}) that we supposed to hold in the discussion above.
+
+\subsection{Discrete Stochastic Integrals}
+\DEF Consider a filtered space ($\Omega, \FF, P, \FLT$) in discrete time, i.e. $n=0,1,2,\cdots$. Then
+\begin{itemize}
+\item A random process $X$ is $\FLT$-predictable if, $\forall n$, $X_n$ is $\FF_{n-1}$-measurable, with the convention $\FF_{-1}=\FF_0$. Notice that a predictable process is known one step ahead in time.
+\item For any random process $X$, the increment process $\Delta X$ is defined by
+\be 
+(\Delta X)_n=X_n-X_{n-1}
+\ee 
+with the convention $X_{-1}=0$. Notice that $\Delta X$ is adapted to $\FLT$ since $X$ is adapted and the icrement is taken backward.
+\item For any two processes $X$ and $Y$, the discrete stochastic integral process $X*Y$ is defined by
+\be 
+(X*Y)_n=\sum_{k=0}^n X_k (\Delta Y)_k
+\ee
+that can also be denoted by $\int_0^n X_s dY_s$.
+\end{itemize}
+\PROP Consider a filtered space ($\Omega, \FF, P, \FLT$) in discrete time, i.e. $n=0,1,2,\cdots$. Let $X$ be a predictable process, $M$ a martingale and suppose that the process $X_n(\Delta M)_n$ is integrable for each $n$. Then 
+\be 
+X*M
+\label{martix}
+\ee 
+is also a martingale.\\ \\
+\PROOF
+Being $X_{n+1}$ measurable w.r.t. $\FF_n$:
+\be
+E[ (X*Y)_{n+1}|\FF_n]=E\left[ \sum_{k=0}^{n+1} X_k (\Delta Y)_k|\FF_n\right]=(X*Y)_{n}+E[X_{n+1}(\Delta M)_{n+1}|\FF_n]=\nonumber\\
+=(X*Y)_{n}+E[X_{n+1}(M_{n+1}-M_n)|\FF_n]=(X*Y)_{n}+X_{n+1} \left(E[(M_{n+1})|\FF_n]-M_n\right)=(X*Y)_{n}\nonumber
+\ee
+\subsection{Likelihood Processes}
+Let us consider a filtered space ($\Omega, \FF, P, \FLT$) and a compact interval $[0,T]$. Suppose that $L_T$ is some non negative integrable random variable $\in \FF_T$. We can define a new measure $Q$ on $\FF_T$ by setting
+\[
+dQ=L_T\cdot dP, \mbox{on } \FF_T 
+\]
+and is $E^P[L_T]=1$, then $Q$ will also be a probability (measure).
+$L_T$ will hence be the Radon-Nikodym derivative of $Q$ w.r.t. $P$ on $\FF_T$ and it will hold that $Q<<P$ on $\FF_T$. Since $\FF_t\subseteq \FF_T$, it will also hold that $Q<<P$ on $\FF_t$, $\forall t\in [0,T]$.
+By the Radon-Nikodym theorem, for any $t$, we will hence imply the existence of an $L_t$ of $Q$ w.r.t. $P$ on $\FF_t$:
+\[
+L_t = \frac{dQ}{dP}, \mbox{on } \FF_t 
+\]
+In other words, we have defined a process: the likelihood process for the measure transformation from $P$ to $Q$ on $[0, T]$.
+By proposition (\ref{lgg}), it holds that
+\be
+L_t = E[L_T|\FF_t]
+\ee
+and hence we see that $L_t$ is a ($P, \FLT$)-martingale.
+Furthermore, let us take a process $M$ and, for any $0\leq s\leq t$, let us use Bayes' theorem (\ref{bayes}):
+\be 
+E^Q[M_t|\FF_s]=\frac{E^P[M_t\cdot L_t|\FF_s]}{E^P[L_t|\FF_s]}=\frac{E^P[M_t\cdot L_t|\FF_s]}{E^P[E^P[L_T|\FF_t]|\FF_s]}=\frac{E^P[M_t\cdot L_t|\FF_s]}{L_s}
+\ee
+from which we conclude that
+\[
+E^Q[M_t|\FF_s]=M_s \Leftrightarrow E^P[M_t\cdot L_t|\FF_s]=M_s L_s
+\]
+which relates the martingale condition in two different measures.
+\subsection{Stopping Times}
+\DEF Let us consider a filtered probability space ($\Omega, \FF, \FLT, P$). A stopping time w.r.t. the filtration $\FLT$, is a non negative random variable $T$, such that
+\be 
+\{\omega\in \Omega: T(\omega)\leq t\}\in \FF_t, \forall t\geq 0
+\label{stoppingtime}
+\ee
+Suppose $X$ is a discrete time adapted process and define 
+\be
+T\equiv \inf\{n\geq 0; X_n\in A\}
+\label{hittingtime}
+\ee
+where $A$ is some Borel set.
+Then
+\[
+\{\omega\in \Omega: T(\omega)\leq n\}=\{\omega\in \Omega: X_t(\omega)\in A, t\leq n\}=\bigcup_{t=0}^n\{\omega\in \Omega: X_t(\omega)\in A\}
+\]
+Since $X_t\in \FF_t\subseteq \FF_n$ ($X_t$ is adapted), we have $\{\omega\in \Omega: X_t(\omega)\in A\}\in \FF_t$ and hence $\{\omega\in \Omega: T(\omega)\leq n\}\in \FF_n$, which formally shows that (\ref{hittingtime}) defines a stopping time.\\ \\
+\DEF Let $T$ be an $\FLT$ stopping time on a filtered probability space ($\Omega, \FF, \FLT, P$). The sigma algebra $\FF_T$, i.e. the sigma algebra generated by the stopping time $T$, is defined as the class of events satisfying 
+\be 
+\begin{Bmatrix}
+A\in \FF_\infty \\ 
+A\cap \{\omega\in \Omega: T(\omega)\leq t\} \in \FF_t, \forall t\geq 0 
+\label{sigmaalgebrastoppingtime}
+\end{Bmatrix}
+\ee
+\PROP $\FF_T$ is indeed a sigma algebra.\\ \\
+\PROOF
+If $A\in \FF_T$ then
+\[
+\FF_t \ni A \cap \{T\leq t\}=(A^c\cup \{T>t\})^c
+\]
+Since $\FF_t$ is a sigma algebra:
+\[
+\FF_t \ni (A \cap \{T\leq t\})^c=A^c\cup \{T>t\}
+\]
+Now it holds that 
+\[
+\FF_t \ni(A^c\cup \{T>t\})\cap  \{T\leq t\}=A^c \cap \{T\leq t\}
+\]
+where the $\ni$ holds since both $(A^c\cup \{T>t\})$ and $\{T\leq t\}$ are $\in \FF_t$ (which is a sigma algebra).
+So we proved that if $A\in \FF_T$ then $A^c$ is also $\in \FF_T$. If instead we have $A_1,A_2,\cdots \in \FF_T$ then 
+\[
+\left(\bigcup_{i}A_i\right) \cap \{T\leq t\}=\bigcup_{i}\left(A_i \cap \{T\leq t\}\right)\in \FF_t
+\]
+since each $A_i \cap \{T\leq t\}\in \FF_t$ which is a sigma algebra. Hence $\left(\bigcup_{i}A_i\right)\in \FF_T$. This completes the prove that $\FF_T$ is a sigma algebra ($\emptyset \in \FF_T$ is obvious).\\ \\
+\PROP Let $S$ and $T$ be two stopping times on a filtered probability space ($\Omega, \FF, \FLT, P$). Let $X$ be an adapted process, which, in continuous time, is assumed to have either left or right continuous trajectories. For any two real numbers $x, y$, define $x\vee y=\max(x,y)$, $x\wedge y=\min(x,y)$. Define then
+\be
+(S\vee T)(\omega)=S(\omega)\vee T(\omega) \\
+(S\wedge T)(\omega)=S(\omega)\wedge T(\omega)
+\ee
+Then the following hold:
+\begin{itemize}
+\item if $S\leq T, P-a.s.$ then $\FF_S\subseteq \FF_T$
+\item $(S\vee T)$ and $(S\wedge T)$ are stopping times
+\item if $T$ is $P-a.s.$ finite or if $X_\infty$ is well defined in $\FF_\infty$, then $X_T$ is $\FF_T$ measurable.
+\end{itemize}
+\PROOF
+\begin{itemize}
+\item (First item). We restrict to the case $S\leq T$ always (i.e. $\forall \omega\in \Omega$) and not just $P-a.s.$ Let us fix any $t\geq 0$ and define
+\be
+A_S^t= \{\omega\in \Omega: S(\omega)\leq t\}\in \FF_t\\
+A_T^t= \{\omega\in \Omega: T(\omega)\leq t\}\in \FF_t
+\ee
+If $\omega \in A_T^t$ then $S(\omega)\leq T(\omega)\leq t$ and hence $\omega\in A_S^t$, which means that $A_T^t \subseteq A_S^t$. Now take any $A\in \FF_\infty$ and suppose that 
+\[
+A\cap \{\omega\in \Omega: S(\omega)\leq t\}=A\cap  A_S^t \in \FF_t, \forall t\geq 0
+\]
+and compute
+\[
+A\cap A_T^t=A\cap (A_S^t \cap A_T^t)=(A\cap A_S^t) \cap A_T^t\in \FF_t
+\] 
+where the last conclusion $"\in \FF_t "$ follows from the fact that $(A\cap A_S^t) \cap A_T^t$ is the intersection between two sets in $\FF_t$, i.e.  $(A\cap A_S^t)$ and $A_T^t$. We have then proved that an event $A$ that generates $\FF_S$ also generates $\FF_T$, i.e. $\FF_S\subseteq \FF_T$.
+\item (Second item). Let us compute
+\[
+\{\omega\in \Omega: (S\vee T)(\omega)\leq t\}=A_S^t \cap A_T^t\in \FF_t
+\]
+being $A_S^t, A_T^t\in \FF_t$, which proves that $(S\vee T)$ is a stopping time.
+Similarly we can prove that that $(S\wedge T)$ is a stopping time:
+\[
+\{\omega\in \Omega: (S\wedge T)(\omega)\leq t\}=A_S^t \cup A_T^t\in \FF_t
+\]
+\item (Third item). We restrict to the discrete time case. In order to prove that $X_T$ is $\FF_T$ measurable, for any Borel set $B\in \BOREL$, we have to prove that 
+\[
+\{\omega\in \Omega: X_T(\omega)\in B\}\in \FF_T
+\]
+This means that we have to show that, for every time $n$, it holds that
+\be
+\{\omega\in \Omega: X_T(\omega)\in B\}\cap \{\omega\in \Omega: T(\omega)\leq n\}\in \FF_n
+\label{xtmeas}
+\ee
+We can then compute:
+\be
+\{X_T\in B\}\cap \{T\leq n\}=\{X_T\in B\}\cap\bigcup_{k=0}^n \{T= k\}=\\
+=\bigcup_{k=0}^n \{X_T\in B\}\cap \{T= k\}=\bigcup_{k=0}^n \{X_k\in B\}\cap \{T= k\}
+\ee
+We know that $\{X_k\in B\}\in \FF_k$, since $X$ is adapted by hypothesis, and furthermore that $\{T= k\}\in \FF_k$, since $T$ is a stopping time. Since $\FF_k\subseteq \FF_n$, we can conclude (\ref{xtmeas}), i.e. $X_T\in \FF_T$.
+\end{itemize}
+\PROP Let $X$ be a martingale and $T$ a stopping time. Then the stopped process $X^T$ defined by
+\be 
+X_t^T=X_{T\wedge t}
+\label{stoppedmartingale}
+\ee
+is a martingale. \\ \\
+\PROOF We restrict to the discrete time case. Let us define the process $h$:
+\[
+h_n(\omega)=I\{n\leq T(\omega)\}, n=0,1,2,\cdots
+\]
+For a fixed $n$, we can state that 
+\[
+\{\omega\in \Omega: n\leq T(\omega)\}=\{\omega\in \Omega: n> T(\omega)\}^c=\{\omega\in \Omega: n-1\geq T(\omega)\}^c\in \FF_{n-1}
+\]
+We thus see that $h_n	in \FF_{n-1}$, i.e. $h$ is predictable. Furthermore we can write
+\[
+X_n^T=X_{T\wedge n}=\sum_{k=0}^n I\{k\leq T\}(X_k-X_{k-1})=\sum_{k=0}^n h_k\cdot (X_k-X_{k-1})
+\]
+which, by proposition (\ref{martix}), we deduce that the stopped process $X_n^T$ is also a martingale. \\ \\
+\PROP (The Optional Sampling Theorem). Consider as usual a filtered probability space ($\Omega, \FF, \FLT, P$). Let $X$ be a martingale such that 
+\be
+\sup_{t\geq 0} E[X_t^2]<\infty
+\label{intby}
+\ee
+Let then $S$ and $T$ be two stopping times such that $S\leq T$. The we can conclude that 
+\be 
+E[X_T|\FF_S]=X_S, P-a.s.
+\label{martopt}
+\ee
+Furthermore, if $X$ is a submartingale, always satisfying (\ref{intby}), then (\ref{martopt}) transforms to 
+\[
+X_S \leq E[X_T|\FF_S], P-a.s.
+\]
+\PROOF
+We restrict to the case in which $X$ is a martingale and time is discrete. Due to the martingale representation theorem (\ref{mrepr}), we know that there exists an integrable random variable, say $Y$, such that 
+\be
+X_n=E[Y|\FF_n], n=0,1,2,\cdots 
+\ee
+At this point let us try to prove that 
+\be
+X_T=E[Y|\FF_T] 
+\label{xtft}
+\ee
+If we manage to prove (\ref{xtft}), the thesis will be proved since 
+\[
+E[X_T|\FF_S]=E[E[Y|\FF_T]|\FF_S]=E[Y|\FF_S]=X_S
+\]
+where we used that $\FF_S\subseteq \FF_T$ since $S\leq T$ (see proposition above).
+We will then prove that for any $A\in \FF_T$ we have
+\[
+\int_A Y(\omega)\DPO=\int_A X_T(\omega)\DPO
+\]
+For this purpose, let us write
+\[
+A=\bigcup_{n}(A\cap \{T=n\})
+\]
+and notice that $A\cap \{T=n\}\in \FF_n$, to get that
+\be 
+\int_A Y(\omega)\DPO=\sum_{n=0}^\infty \int_{A\cap \{T=n\}}Y(\omega)\DPO
+=\sum_{n=0}^\infty \int_{A\cap \{T=n\}}X_n(\omega)\DPO= \\
+=\sum_{n=0}^\infty \int_{A\cap \{T=n\}}X_T(\omega)\DPO=\int_A X_T(\omega)\DPO
+\ee
+A Wiener process on ($\Omega, \FF, \FLT, P$) is a process such that
+\begin{itemize}
+\item $W_0=0$
+\item $(W_t-W_s)$ is distributed as a Gaussian $\mathcal{N}(0, t-s)$
+\item increments are independent, i.e. $(W_t-W_s) \perp \FF_s$
+\item trajectories are continuous
+\end{itemize}
+It is possible to prove that $W_t, (W_t^2-t), \exp(\lambda W_t-\frac{1}{2}\lambda^2 t)$ (for any $\lambda\in \Re$) are all martingales.
+Now we define the stopping time $T$ as the first time the process $W_t$ hits the barriers $b<0<a$, i.e. 
+\be 
+T=\inf\{t\geq 0: X_t=a\mbox{ or } X_t=b\}
+\ee
+We then define 
+\be
+p_a=P(\mbox{$W_t$ hits a before hitting b})=P(W_T=a)\\
+p_b=P(\mbox{$W_t$ hits b before hitting a})=P(W_T=b)
+\ee
+Then we prove the following facts.
+\begin{itemize}
+\item We know that $W_t^T=W_{T\wedge t}$ remains a martingale (see (\ref{stoppedmartingale})) and hence 
+\[
+0=\lim_{t\rightarrow \infty} W_0 = \lim_{t\rightarrow \infty} E[W_{T\wedge t}|\FF_0]=E[W_T|\FF_0]=p_a a + p_b b \mbox{ and } p_a+p_b=1
+\]
+from which 
+\[
+p_a = \frac{-b}{a-b}, p_b = \frac{a}{a-b}
+\]
+where we used (without proof) that $P(T<\infty)=1$.
+\item In the same way $W_{T\wedge t}^2-{T\wedge t}$ must remain a martingale and then 
+\[
+0=\lim_{t\rightarrow \infty} W_0^2-0^2=\lim_{t\rightarrow \infty} E[W_{T\wedge t}^2-{T\wedge t}|\FF_0]=E[W_{T}^2-{T}|\FF_0]=p_a a^2 + p_b b^2 - E[T]
+\]
+from which
+\be
+E[T]=|ab|
+\label{ett}
+\ee
+\item Using that $\exp(\lambda W_{T\wedge t}-\frac{1}{2}\lambda^2 {T\wedge t})$ is still a martingale, and assuming $a=-b$: 
+\be
+1=\lim_{t\rightarrow \infty} \exp\left(\lambda W_{0}-\frac{1}{2}\lambda^2 0\right)=\lim_{t\rightarrow \infty} E\left[\exp\left(\lambda W_{T\wedge t}-\frac{1}{2}\lambda^2 {T\wedge t}\right)|\FF_0\right]=\\
+=E\left[\exp\left(\lambda W_{T}-\frac{1}{2}\lambda^2 {T}\right)|\FF_0\right]=E\left[\exp\left(\lambda W_{T}-\frac{1}{2}\lambda^2 {T}\right)\right]=\\
+=\int_{\{W_T=a\}}e^{\lambda a} e^{-\frac{1}{2}\lambda^2 {T}}+\int_{\{W_T=-a\}}e^{-\lambda a} e^{-\frac{1}{2}\lambda^2 {T}}
+\ee
+\end{itemize}
+Notice that we used that $\Omega = \{W_T=-a\} \cup \{W_T=a\}$ and, being $a>0$, $ \{W_T=-a\} \cap \{W_T=a\}=\emptyset$.
+Now, by symmetry, we know that 
+\[
+\int_{\{W_T=a\}} e^{-\frac{1}{2}\lambda^2 {T}}=\int_{\{W_T=-a\}}e^{-\frac{1}{2}\lambda^2 {T}}=\frac{E[e^{-\frac{1}{2}\lambda^2 {T}}]}{2}
+\]
+and hence 
+\[
+1=E[e^{-\frac{1}{2}\lambda^2 {T}}] \frac{e^{\lambda a}+e^{-\lambda a}}{2}
+\]
+Defining $\frac{\lambda^2}{2}=\rho$ with $\rho\geq 0$, we get
+\be
+E[e^{-\rho T}]=\frac{2}{e^{a\sqrt{2\rho}}+e^{-a\sqrt{2\rho}}}
+\label{ert}
+\ee
+For small $\rho$, notice that 
+\[
+E[e^{-\rho T}]\approx 1 - \rho E[T]=\frac{2}{e^{a\sqrt{2\rho}}+e^{-a\sqrt{2\rho}}}\approx \frac{1}{1+\rho a^2}\approx 1 - \rho a^2
+\]
+which correctly agrees with (\ref{ett}) (notice that (\ref{ert}) is different from the result claimed in \cite{Bjork} at page 452, point $(vi)$ of exercise C.8 and in particular such claim does not agree with its own point (v), hence \cite{Bjork} is probably wrong on the computation of (\ref{ert})).
+
+
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+
+\section{Girsanov's Theorem}
+
+\PROP (From \cite{Bjork}) Let $W^P$ be a $d$-dimensional standard (i.e. independent components) $P$-Wiener process on $(\Omega, \FF, P, \FLT)$ and let $\varphi$ be any $d$-dimensional adapted column vector process. Choose a fixed $T>0$ and define the (scalar) process $L$ on $[0,T]$ by
+\[
+dL_t=\varphi_t^* L_t dW_t^P; L_0=1
+\]
+that is
+\[
+L_t=\exp\left[\int_0^t \varphi_s^* dW_s^P -\frac{1}{2}\int_0^t \| \varphi_s\|^2 ds\right]
+\]
+Assume that 
+\[
+E^P[L_T]=1
+\]
+and define the new probability measure $Q$ on $\FF_T$ by
+\[
+L_T=\frac{dQ}{dP} 
+\]
+Then 
+\be
+dW_t^P&=&\varphi_t dt + dW_t^Q \label{girseq1}\\
+W_t^Q&=&W_t^P -\int_0^t \varphi_s ds\label{girseq2}
+\ee
+where $W^Q$ is a $Q$-Wiener process. \\ \\
+\PROOF
+\todo
+
+\section{Changing measures between equivalent martingale measures}
+For every non dividend paying tradable asset $H$, measurable on $\FF_{\tau}$, and considering two numerairs $N(\tau)$, $M(\tau)$, we know that the following holds ($t\leq \tau$):
+\[
+H(t)=N(t) E^N\left[\frac{H(\tau)}{N(\tau)} | \FF_t \right]=M(t) E^M\left[\frac{H(\tau)}{M(\tau)} | \FF_t \right]
+\]
+which, defining $G(\tau)=\frac{H(\tau)}{N(\tau)}$, yields
+\[
+E^N\left[G(\tau)| \FF_t \right]= E^M\left[ G(\tau) \frac{M(t)}{M(\tau)} \frac{N(\tau)}{N(t)}| \FF_t \right]= E^M\left[G(\tau) \frac{dQ^N}{dQ^M}(\tau) | \FF_t \right]
+\]
+which gives
+\be 
+\frac{dQ^N}{dQ^M}(\tau) =  \frac{M(t)}{M(\tau)} \frac{N(\tau)}{N(t)}
+\label{radniknumeraires}
+\ee
+
+
+\section{Changing measures between $T$-fwd martingale measures \label{t_fwd_measure_changes}}
+
+Let $t_0<t_1<\cdots < t_{N}$ be a time schedule and referring to (\ref{radniknumeraires}) we assume
+\be 
+M(t) = P(t, t_k) \\
+N(t) = P(t, t_h)
+\ee
+with $t\le \tau \le \min(t_k, t_h)$ and $h,k\ge 0$. By $P(\tau, T)$ we denote the risk free zero coupon bond price as observed from $\tau$ for maturity $T$, delivering $1$ unit of currency at $T$. We then get
+\be 
+\frac{dQ^N}{dQ^M}(\tau) =  \frac{dQ^h}{dQ^k}(\tau) =  \frac{P(t, t_k)}{P(\tau, t_k)} \frac{P(\tau, t_h)}{P(t, t_h)}=L_{t, h/k}(\tau)
+\label{radniknumeraires_tfwdhk}
+\ee
+where $L_{t, h/k}(t)=1$ and 
+\be 
+E^h\left[G(\tau)| \FF_t \right] = E^k\left[G(\tau) L_{t, h/k}(\tau) | \FF_t \right]
+\ee
+We now write
+\be 
+P(\tau, h/k) \equiv \frac{P(\tau, t_h)}{P(\tau, t_k)}= \left\{\Pi_{i=m_{h,k}+1}^{M_{h,k}}\left[ 1 + F_i(\tau)\tau_i \right]\right\}^{s(h,k)} \label{phk}\\
+m_{h,k} = \min(h, k)\\
+M_{h,k} = \max(h, k) \\
+s(h,k) = 1 \mbox{ if $h\le k$}, -1 \mbox{ if $h> k$}
+\ee
+and 
+\be
+F_i(\tau)\equiv \left(\frac{P(\tau, t_{i-1})}{P(\tau, t_i)}-1\right)\frac{1}{\tau_i}
+\ee
+We now compute the following Ito differential in the $t_k$-forward measure
+\be 
+d P(\tau, h/k) = \sum_{l=m_{h,k}+1}^{M_{h,k}} d F_l(\tau) \frac{\partial}{\partial F_l(\tau)}  P(\tau, h/k) =\\
+=\sum_{l=m_{h,k}+1}^{M_{h,k}}\tau_l  s(h,k)  d F_l(\tau)\left[ 1 + F_l(\tau)\tau_l \right]^{s(h,k)-1}  \left\{\Pi_{i=m_{h,k}+1, i\neq l}^{M_{h,k}}\left[ 1 + F_i(\tau)\tau_i \right]\right\}^{s(h,k)}= \\
+= s(h,k) P(\tau, h/k) \sum_{l=m_{h,k}+1}^{M_{h,k}} \frac{\tau_l  d F_l(\tau)}{1 + F_l(\tau)\tau_l } 
+\label{dphk}
+\ee
+From the last equation and (\ref{radniknumeraires_tfwdhk}) we get (always in the $t_k$-forward measure)
+\be 
+d L_{t, h/k}(\tau) = L_{t, h/k}(\tau)  s(h,k) \sum_{l=m_{h,k}+1}^{M_{h,k}} \frac{\tau_l  d F_l(\tau)}{1 + F_l(\tau)\tau_l } 
+\ee
+We now use this last equation, together with the Girsanov's theorem (\ref{girseq1}) to get the following result.
+Suppose to consider a $1$-dimensional Wiener process $Z^{(k)}(\tau)$ where the $(k)$-apex is used to stress that it is a Wiener process in the $t_k$-fwd measure. We can then conclude that $Z^{(h)}(\tau)$ as defined in the following is a Wiener process in the $t_h$-fwd measure:
+\be 
+dZ^{(h)}(\tau) = dZ^{(k)}(\tau)- s(h,k) \sum_{l=m_{h,k}+1}^{M_{h,k}} \frac{\tau_l  \left<d F_l(\tau)\cdot dZ^{(k)}(\tau)\right>}{1 + F_l(\tau)\tau_l } 
+\label{tfwdmeasurechangedet}
+\ee
+
+\subsection{Shifted log-normal fwd rate model and measure change between $T$-fwd martingale measures}
+
+We now assume that
+\be 
+F_l(\tau) = \lambda_l + f_l(\tau)
+\ee
+where $\lambda_l$ is a constant and $f_l(\tau)$ is the following (martingale) log-normal process in the $t_l$-fwd measure:
+\be 
+\frac{d f_l(\tau)}{f_l(\tau)} = -\frac{1}{2}\sigma_l^2 d\tau + \sigma_l dW_l^{(l)}(\tau)
+\ee
+where we used a notation that stresses that $W_l^{(l)}$ is the Wiener process driving $f_l(\tau)$ in the $t_l$-fwd measure and we introduced an annual volatility process $\sigma_l$ (not a constant in general).
+We now further observe the obvious relation 
+\be 
+d F_l(\tau) = d f_l(\tau)
+\ee
+Equation (\ref{tfwdmeasurechangedet}) then becomes
+\be 
+dZ^{(h)}(\tau) = dZ^{(k)}(\tau)- s(h,k) \sum_{l=m_{h,k}+1}^{M_{h,k}} \frac{\tau_l \sigma_l f_l(\tau) \left<d W_l^{(l)}(\tau)\cdot dZ^{(k)}(\tau)\right>}{1 + F_l(\tau)\tau_l } =\\
+= dZ^{(k)}(\tau)- s(h,k) \sum_{l=m_{h,k}+1}^{M_{h,k}} \frac{\tau_l \sigma_l (F_l(\tau)-\lambda_l) \left<d W_l^{(l)}(\tau)\cdot dZ^{(k)}(\tau)\right>}{1 + F_l(\tau)\tau_l }
+\label{shifttfwdmeasurechange}
+\ee
+We further notice that one could apply the 'freezing the drift approximation' in the last equation to get
+\be 
+dZ^{(h)}(\tau) =dZ^{(k)}(\tau)- s(h,k) \sum_{l=m_{h,k}+1}^{M_{h,k}} \frac{\tau_l \sigma_l (F_l(t)-\lambda_l) \left<d W_l^{(l)}(\tau)\cdot dZ^{(k)}(\tau)\right>}{1 + F_l(t)\tau_l }
+\ee
+where $t$ has been substituted in place of $\tau$ in some of the factors.
+
+\subsection{Changing measures between $T$-fwd martingale measures of different currencies}
+
+Let us consider a tradable asset $A$ quoted in currency $\alpha$ and suppose to know its market-agreed forward value as seen from time $t$ for maturity $t_k$. For example, $A$ could be a stock with $t_k$ any future maturity or a fwd-rate ibor index with $t_k$ equal to its 'natural pay date' (typically its calendar adjusted end accrual date). 
+By definition of fwd contract we can write 
+\be 
+F_A^{\alpha}(t,t_k)P^{\alpha}(t,t_k) = E^{\alpha}\left[A(f_k) D^{\alpha}(t,t_k)| F_t\right]= P^{\alpha}(t,t_k) E^{k, \alpha}\left[A(f_k)| F_t\right]
+\ee
+where $D^{\alpha}$ denotes the stochastic risk neutral discount factor in $\alpha$ currency and $E^{\alpha}$ the expectation operator in the corresponding measure. 
+Furthermore $f_k\ge t_k$ deones the fixing date of $A$ associated to the forward contract delivering at $t_k$ (typically $f_k=t_k$ for stocks or $f_k=t_{k-1}$ for ibor indexes). 
+We can then write
+\be 
+F_A^{\alpha}(t,t_k) = E^{k, \alpha}\left[A(f_k)| F_t\right]
+\ee
+We now consider the problem of quanto-ing the forward contract in a $\beta$-currency and at the same time of changing its payment date from $t_k$ to $t_h$, with $t_h\ge f_k$. 
+We define $X$ as the value of $1$ unit of $\beta$ currency expressed in $\alpha$ currency. The quanto fwd price will be
+\be 
+E^{\beta}\left[A(f_k) D^{\beta}(t,t_h)| F_t\right] =P^{\beta}(t,t_h) E^{h, \beta}\left[A(f_k)| F_t\right]=F_A^{\beta}(t,t_h)P^{\beta}(t,t_h)=\phi_A(t,t_h,\beta)
+\label{eqa1}
+\ee
+where the $t_h$-fwd quantoed in $\beta$-currency is then defined as
+\be 
+F_A^{\beta}(t,t_h) = E^{h, \beta}\left[A(f_k)| F_t\right]
+\ee
+By no arbitrage, it must also hold that
+\be 
+\phi_A(t,t_h,\beta)=E^{\alpha}\left[A(f_k) D^{\alpha}(t,t_h) X(t_h) | F_t\right] \frac{1}{X(t)}=\\
+= E^{\alpha}\left[E^{\alpha}\left[A(f_k) D^{\alpha}(t,t_h)\frac{X(t_h)}{X(t)} | F_{f_k}\right] | F_t\right] =\\
+= E^{\alpha}\left[D^{\alpha}(t,f_k) A(f_k) E^{\alpha}\left[ D^{\alpha}(f_k,t_h)\frac{X(t_h)}{X(t)} | F_{f_k}\right] | F_t\right] 
+\ee
+Again by no arbitrage it must hold that
+\be 
+E^{\alpha}\left[ D^{\alpha}(f_k,t_h)\frac{X(t_h)}{X(f_k)} | F_{f_k}\right] =E^{\beta}\left[ 1 \cdot D^{\beta}(f_k,t_h) | F_{f_k}\right] = P^{\beta}(f_k,t_h)
+\ee
+meaning that the contract delivering $1$ unit of $\beta$ currency at $t_h$ musthave the same price as seen form $f_k$ irrespective of the measure we use to compute the price.
+Then we get
+\be 
+\phi_A(t,t_h,\beta)=E^{\alpha}\left[D^{\alpha}(t,f_k) A(f_k)  \frac{X(f_k)}{X(t)}  P^{\beta}(f_k,t_h) | F_t\right] 
+\label{eqa2}
+\ee
+Equation (\ref{eqa1}) to (\ref{eqa2}) we obtain
+\be 
+P^{\beta}(t,t_h) E^{h, \beta}\left[A(f_k)| F_t\right] = E^{\alpha}\left[D^{\alpha}(t,f_k) A(f_k)  \frac{X(f_k)}{X(t)}  P^{\beta}(f_k,t_h) | F_t\right]=\\
+=  E^{\alpha}\left[\frac{D^{\alpha}(t,t_k)}{P^{\alpha}(f_k,t_k)} A(f_k)  \frac{X(f_k)}{X(t)}  P^{\beta}(f_k,t_h) | F_t\right]
+=E^{k, \alpha}\left[\frac{P^{\alpha}(t,t_k)}{P^{\alpha}(f_k,t_k)} A(f_k)  \frac{X(f_k)}{X(t)}  P^{\beta}(f_k,t_h) | F_t\right]
+\ee
+where we also applied a payoff deferring formula and change from the risk neutral expectation $E^{\alpha}$ to the $t_k$-fwd measure expectation of the $\alpha$ currency.
+Summarizing, we proved that for any asset $A$ it holds that
+\be 
+E^{h, \beta}\left[A(f_k)| F_t\right] = E^{k, \alpha}\left[A(f_k) \frac{L_X (f_k; \alpha, \beta, t_h, t_k)}{L_X (t; \alpha, \beta, t_h, t_k)}| F_t\right]
+\ee
+where
+\be 
+L_X (\tau; \alpha, \beta, t_h, t_k) = X(\tau)\frac{P^{\beta}(\tau,t_h)}{P^{\alpha}(\tau,t_k)}=\frac{dQ^{h, \beta}}{dQ^{k, \alpha}}(\tau)
+\ee
+is the Radon-Nikodyn derivative.
+We also write $L$ in another illuminating form
+\be 
+L_X (\tau; \alpha, \beta, t_h, t_k) =\frac{dQ^{h, \beta}}{dQ^{k, \alpha}}(\tau)=
+X(\tau)\frac{P^{\beta}(\tau,t_h)}{P^{\alpha}(\tau,t_h)}\frac{P^{\alpha}(\tau,t_h)}{P^{\alpha}(\tau,t_k)}
+\ee
+We notice that $L_X (\tau; \alpha, \beta, t_h, t_k)$ is a martingale in the $t_k$-fwd measure of the $\alpha$ currency (being a $X(\tau)P^{\beta}(\tau,t_h)$ a tradable asset).
+We now define the process of the forward of the $X$ fx rate for date $t_h$ as
+\be 
+F_X(\tau, t_h)=X(\tau)\frac{P^{\beta}(\tau,t_h)}{P^{\alpha}(\tau,t_h)}
+\ee
+and finally obtain (see (\ref{phk}))
+\be 
+L_X (\tau; \alpha, \beta, t_h, t_k) =\frac{dQ^{h, \beta}}{dQ^{k, \alpha}}(\tau)=
+F_X(\tau, t_h)\cdot\frac{P^{\alpha}(\tau,t_h)}{P^{\alpha}(\tau,t_k)}=F_X(\tau, t_h)\cdot P^{\alpha}(\tau, h/k)
+\label{chengecurrencyandtfwdradnyk}
+\ee
+We now write (in the $t_k$-fwd measure of the $\alpha$ currency)
+\be 
+d F_X(\tau, t_h) = \cdots dt +\sigma_{F_X(t_h)}  F_X(\tau, t_h)  dW_X(\tau)
+\ee
+We now consider the following Ito differential (see (\ref{dphk})):
+\be 
+\frac{d L_X (\tau; \alpha, \beta, t_h, t_k)}{ L_X (\tau; \alpha, \beta, t_h, t_k)}=\cdots dt+ \sigma_{F_X(t_h)}dW_X(\tau) + \frac{1}{P^{\alpha}(\tau, h/k)}d P^{\alpha}(\tau, h/k)=\\
+= \cdots dt+ \sigma_{F_X(t_h)}dW_X(\tau) +s(h,k) \sum_{l=m_{h,k}+1}^{M_{h,k}} \frac{\tau_l  d F_l^{\alpha}(\tau)}{1 + F_l^{\alpha}(\tau)\tau_l } 
+\ee
+We now use this last equation, together with the Girsanov's theorem (\ref{girseq1}) to get the following result.
+Suppose to consider a $1$-dimensional Wiener process $Z^{(k, \alpha)}(\tau)$ where the $(k, \alpha)$-apex is used to stress that it is a Wiener process in the $t_k$-fwd measure of the $\alpha$ currency. We can then conclude that $Z^{(h, \beta)}(\tau)$ as defined in the following is a Wiener process in the $t_h$-fwd measure of the $\beta$ currency:
+\be 
+dZ^{(h, \beta)}(\tau) = dZ^{(k, \alpha)}(\tau)- s(h,k) \sum_{l=m_{h,k}+1}^{M_{h,k}} \frac{\tau_l  \left<d F_l^{\alpha}(\tau)\cdot dZ^{(k, \alpha)}(\tau)\right>}{1 + F_l^{\alpha}(\tau)\tau_l } -\\
+- \sigma_{F_X(t_h)} \left<dW_X(\tau)\cdot dZ^{(k, \alpha)}(\tau)\right>
+\label{tfwdmeasurechangedet}
+\ee
+
+
+
+%= E^{h, \alpha}\left[A(f_k)X(t_h) | F_t\right] \frac{ P^{\alpha}(t,t_h) }{X(t)}
+
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+%%%%
+
+\section{Differential Equations \label{de}}
+
+\DEF Let us consider a filtered probability space ($\Omega, \FF, \FLT, P$) and a vector process
+\be 
+X=(X_1,\cdots,X_n)^*
+\ee
+where $*$ stands for transpose and for each $i=1,\dots, n$ it holds that
+\be 
+d X_i(t)=\mu_i(t, x) dt +\sum_{r=1}^d \sigma_{ir}(t, x) dW_r(t)
+\ee
+where $W_1,\cdots,W_d$ are $d$ independent Wiener processes.
+Consider also a $C^{1,2}$ mapping $f: \Re^+ \times \Re^n\rightarrow \Re$ defining the process
+\be
+Z(t) = f(t, X(t)) 
+\ee
+It holds that
+\be
+df(t,X(t))=\frac{\partial f}{\partial t}+\sum_{i=1}^n \frac{\partial f}{\partial x_i} dX_i+\frac{1}{2}\sum_{i,j=1}^n \frac{\partial^2 f}{\partial x_i\partial x_i} dX_i dX_j
+\ee
+with formally 
+\be 
+dX_i dX_j = \sum_{r,s=1}^d \sigma_{ir}\sigma_{js} \delta_{rs} dt=(\sigma \sigma^*)_{ij} dt\equiv C_{ij}(t, x) dt
+\ee
+and so
+\be
+df(t,X(t))=\left[\frac{\partial f}{\partial t}+\sum_{i=1}^n \frac{\partial f}{\partial x_i} \mu_i(t, x) +\frac{1}{2}\sum_{i,j=1}^n \frac{\partial^2 f}{\partial x_i\partial x_i} C_{ij}(t, x) \right] dt + \\
++ \sum_{i=1}^n \frac{\partial f}{\partial x_i} \sum_{r=1}^d \sigma_{ir}(t,x) dW_r(t)
+\label{ito}
+\ee
+In other terms
+\be
+df(t,X(t))=\left[\frac{\partial f}{\partial t}+\AAA f \right] dt + \triangledown_x f \cdot \sigma \cdot dW 
+\ee
+where $\AAA$ is the infinitesimal (or Dynkin or Ito or Kolmogorov backward) operator defined by
+\be 
+\AAA h(t,x)=\sum_{i=1}^n \mu_i(t, x) \frac{\partial h}{\partial x_i}  +\frac{1}{2}\sum_{i,j=1}^n C_{ij}(t, x) \frac{\partial^2 h}{\partial x_i\partial x_i}  
+\ee
+\DEF A process $g$ belongs to $\ell^2[a,b]$ if the following conditions are met
+\begin{itemize}
+\item $\int_a^b E[g^2(s)] ds < \infty$
+\item $g$ is adapted to $\FF_t^W$-filtration
+\end{itemize} 
+Furthermore we say that the process $g$ belongs to $\ell^2$, if $\forall t>0$ it holds that $g\in \ell^2[0,t]$. \\ \\
+\PROP (Feynman-Kac) Suppose that the function $f: \Re^+ \times \Re^n\rightarrow \Re$ is such that
+\be
+\label{ipo1}
+\frac{\partial f}{\partial t}+\AAA f-r_t f=0 \\
+\label{ipo2}
+f(T,x)=\Phi(x)
+\ee
+with
+\be 
+\frac{\partial f}{\partial x_i} \sigma_{ir}(t,x) \in \ell^2,\forall i,r
+\ee
+Then it holds that
+\be
+f(t,X_t)= E_{t,X_t}\left[ e^{-\int_t^T r_u du} \Phi(X_T) \right] 
+\ee
+\proof 
+For any $t\le s \le T$, define 
+\[
+z(s,X_s)=e^{-\int_t^s r_u du}f(s,X_s)
+\]
+and compute
+\be
+dz(s,X_s)=e^{-\int_t^s r_u du}\left[-r_s f + \frac{\partial f}{\partial t}+\AAA f + \triangledown_x f \cdot \sigma \cdot dW \right] 
+\ee
+Using (\ref{ipo1},)by integrating in $[t,T]$ we get
+\[
+z(T,X_T)=z(t,X_t) + \int_t^T e^{-\int_t^s r_u du} \triangledown_x f \cdot \sigma \cdot dW_s 
+\]
+Considering that
+\[
+E_{t,X_t}\left[\int_t^T e^{-\int_t^s r_u du} \triangledown_x f \cdot \sigma \cdot dW_s \right]=0
+\]
+by taking expectations of both sides and using (\ref{ipo2}) we get what needed:
+\[
+E_{t,X_t}\left[ e^{-\int_t^T r_u du}  \phi(X_T)\right]=z(t,X_t)=f(t,X_t)
+\]
+
+
+\subsection{Kolmogorov Equations}
+
+Let us go back to (\ref{ipo1}) in the hypothesis $r=0$ and for $\Phi(y)=I_B(y)$ (the indicator function of $B$). In other words, let us suppose $u(s,y)$ to be a solution of the following boundary value problem:
+\be
+\label{ipo3}
+\frac{\partial u(s,y)}{\partial s}+\AAA u(s,y)=0 \\
+\label{ipo4}
+u(T,y)=I_B(y)
+\ee
+We know that the solution is 
+\be 
+u(s,y)=E_{s,y}\left[I_B(X_T)\right]=P\left(X_T\in B | X_s = y\right)=P(s,y,T,B)
+\ee
+where $P(s,y,T,B)$ is the transition probability from $(s,y)$ to $(T,B)$. \\ \\
+\PROP({\bf Kolmogorov backward equation}) It is possible to get a similar formula  also for the transition density between $(s,y)$ and any $(t,x)$ as solution of the following boundary value problem:
+\be
+\label{ipo5}
+\frac{\partial p(s,y;t,x)}{\partial s}+\AAA p(s,y;t,x)=0 \\
+\label{ipo6}
+ p(t,y;t,x)=\delta(y-x)
+\ee
+with $(s,y)\in(0,t)\times \Re^n$. Notice that (\ref{ipo5}) is called backward since $\frac{\partial}{\partial s}$ and $\AAA$ are both acting on backward variables $(s,y)$.
+We now move on deriving the corresponding forward equations where the differential operators act on the forward variables $(t, x)$.
+Let us consider an infinite differentiable arbitrary test function $h(t,x)$ on the compact support $(s,T)\times \Re$ 
+(so we are in the scalar case) and compute by the Ito formula:
+\be
+h(T,X_T)=h(s,X_s)+\int_s^T \left[\frac{\partial h}{\partial t}+\AAA h \right](t,X_t) dt + \int_s^T \frac{\partial h}{\partial t}(t,X_t)  \cdot \sigma(t,X_t) \cdot dW_t 
+\ee
+Let us now suppose that $h(T,x)=h(s,x)=0$ $\forall x$, $h(t,\pm \infty)\rightarrow 0$ $\forall t$ and take expectations of both sides. Considering that the expectation of the $dW_t$ integral is zero, we get
+\be
+E_{s,y}\left[\int_s^T \left[\frac{\partial h}{\partial t}+\AAA h \right](t,X_t) dt\right]=0 
+\ee
+where $X_s\equiv y$.
+This last equation  can be written also in terms of the transition density $p(s,y;t,x)$:
+\be 
+\int_{-\infty}^{\infty} \int_s^T p(s,y;t,x) \left[\frac{\partial h}{\partial t}+\AAA h \right](t,x) dx dt=0
+\ee
+We now perform partial integration in $\frac{\partial }{\partial t}$ and $\frac{\partial }{\partial x}$:
+\be 
+\int_{-\infty}^{\infty} \int_s^T  \left[-h(t,x) \frac{\partial p(s,y;t,x)}{\partial t}-h(t,x)\frac{\partial }{\partial x}\left(\mu(t,x) p(s,y;t,x)\right) \right](t,x) dx dt-\\
+-\int_{-\infty}^{\infty} \int_s^T  \left[\frac{\partial }{\partial x}h(t,x)\frac{1}{2}\frac{\partial }{\partial x}\left(\sigma^2(t,x) p(s,y;t,x)\right) \right](t,x) dx dt=0
+\ee
+Partial-integrating again in $\frac{\partial }{\partial x}$ we get
+\be 
+\int_{-\infty}^{\infty} \int_s^T  h(t,x) \left[- \frac{\partial p(s,y;t,x)}{\partial t}-\frac{\partial }{\partial x}\left(\mu(t,x) p(s,y;t,x)\right) \right](t,x) dx dt+\\
++\int_{-\infty}^{\infty} \int_s^T  \left[h(t,x)\frac{1}{2}\frac{\partial^2 }{\partial x^2}\left(\sigma^2(t,x) p(s,y;t,x)\right) \right](t,x) dx dt=0
+\ee
+which must be valid for any $h$ satisfying the boundary condition described above.
+We finally got the {\bf{Kolmogorov forward equation}} also known as  {\bf{Fokker-Planck equation}}:
+\be
+\label{kolmfwdfokkplanck}
+\frac{\partial }{\partial t}p(s,y;t,x)= -\frac{\partial }{\partial x}\left(\mu(t,x) p(s,y;t,x)\right)+\frac{1}{2}\frac{\partial^2 }{\partial x^2}\left(\sigma^2(t,x) p(s,y;t,x)\right)\\
+ p(s,y;t,x)\rightarrow \delta(y-x), t\rightarrow s^+
+\ee
+In the multidimensional case, one can similarly get
+\be
+\label{kolmfwdfokkplanckmulti}
+\frac{\partial }{\partial t}p(s,y;t,x)= \AAA^* p(s,y;t,x)
+\ee
+where $\AAA^*$ is the adjoint Fokker-Planck forward operator:
+\be
+\label{adjointop}
+\left(\AAA^* f\right)(t,x)=-\sum_{i=1}^n  \frac{\partial }{\partial x_i}\left[\mu_i(t, x) f(t,x)\right]  +\frac{1}{2}\sum_{i,j=1}^n  \frac{\partial^2 }{\partial x_i\partial x_i}\left[C_{ij}(t, x)  f(t,x)\right]
+\ee
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Models \label{ModelsChapter}}
+ 
+\section{Dupire Local Volatility \label{dupirelv}}
+We follow \cite{FabriceDouglasRouahDupire}.
+Let us start consider an asset with the following dynamics in the risk neutral measure
+\be 
+\label{assetdupiredyn}
+dS_t =\mu_t S_t dt +\sigma(S_t,t)S_td W_t\\
+\label{assetdupiredynmu}
+\mu_t = r_t-q_t
+\ee
+where $q_t$ is the continuous dividend yield. We assume deterministic interest rates and write down the following notation for the zero coupon bond price of maturity $T>t$:
+\be
+\label{zerocopuondupire}
+P(t,T)=e^{-\int_t^T r_s ds} 
+\ee
+\subsection{Derivation of the Dupire local volatility from the Fokker-Planck equation}
+The Fokker-Planck equation (\ref{kolmfwdfokkplanckmulti}) for the particular case of (\ref{assetdupiredyn}) is
+\be 
+\label{fokkerplanckdupire}
+\frac{\partial }{\partial T}p(t,S_t;T,S_T)= -\frac{\partial }{\partial S_T}\left(\mu_T S_T p(t,S_t;T,S_T)\right)+\frac{1}{2}\frac{\partial^2 }{\partial S_T^2}\left(\sigma^2(T,S_T)S_T^2 p(t,S_t;T,S_T)\right)
+\ee
+where one should remind that $\mu$ and $\sigma$ are the ones of (\ref{assetdupiredyn}).
+The call price will be computed as 
+\be
+\label{callpricedupire}
+C(t,S_t;K)= P(t,T)\int_K^\infty (S_T-K) p(t,S_t;T,S_T) dS_T
+\ee
+We also compute call derivatives w.r.t. the strike variable:
+\be
+\label{callfirstdupire} 
+\frac{\partial C(t,S_t;K)}{\partial K}=- P(t,T)\int_K^\infty p(t,S_t;T,S_T) dS_T\\
+\label{callseconddupire} 
+\frac{\partial^2 C(t,S_t;K)}{\partial^2 K}= P(t,T) p(t,S_t;T,K) \\
+\label{calltimedupire} 
+\frac{\partial C(t,S_t;K)}{\partial T}=-r_T P(t,T)\int_K^\infty (S_T-K) p(t,S_t;T,S_T) dS_T
++\\
++P(t,T)\int_K^\infty (S_T-K)\frac{\partial p(t,S_t;T,S_T)}{\partial T} dS_T=\\
+\label{ctimederdupiresec}
+=-r_T C(t,S_t;K) + P(t,T)\int_K^\infty (S_T-K)\frac{\partial p(t,S_t;T,S_T)}{\partial T} dS_T
+\ee
+where we used that 
+\be
+\label{zerocouppnfirstdupire}
+\frac{\partial P(t,T)}{\partial T} = -r_T P(t,T)
+\ee
+Using (\ref{fokkerplanckdupire}) in (\ref{ctimederdupiresec}) we get
+\be 
+\label{protodupire}
+\frac{\partial C(t,S_t;K)}{\partial T}+r_T C(t,S_t;K) =P(t,T)\cdot \\
+\cdot \int_K^\infty (S_T-K)\left\{ -\frac{\partial }{\partial S_T}\left(\mu S_T p(t,S_t;T,S_T)\right)+\frac{1}{2}\frac{\partial^2 }{\partial S_T^2}\left(\sigma^2S_T^2 p(t,S_t;T,S_T)\right)\right\} dS_T=\\
+=\left(-I_1+\frac{1}{2}I_2\right)P(t,T)
+\ee
+with
+\be 
+\label{i1dupire}
+I_1= \mu_T \int_K^\infty (S_T-K) \frac{\partial }{\partial S_T}\left(S_T p(t,S_t;T,S_T)\right)dS_T\\
+\label{i2dupire}
+I_2=\int_K^\infty (S_T-K) \frac{\partial^2 }{\partial S_T^2}\left(\sigma(T,S_T)^2S_T^2 p(t,S_t;T,S_T)\right) dS_T
+\ee
+
+\subsubsection{Useful identities}
+The first identity we want to state come directly from (\ref{callseconddupire}):
+\be 
+\label{ptstTK}
+p(t,S_t;T,K) = \frac{1}{P(t,T)}\frac{\partial^2 C(t,S_t;K)}{\partial^2 K}
+\ee
+The second identity starts from 
+\be
+\frac{C(t,S_t;K)}{P(t,T)} = \int_K^\infty S_T p(t,S_t;T,S_T) dS_T-K\int_K^\infty  p(t,S_t;T,S_T) dS_T
+\ee
+which using (\ref{callfirstdupire} ) yields to
+\be 
+\label{secidentdupire}
+\int_K^\infty S_T p(t,S_t;T,S_T) dS_T=\frac{C(t,S_t;K)}{P(t,T)} -\frac{K}{P(t,T)}\frac{\partial C(t,S_t;K)}{\partial K}
+\ee
+\subsubsection{Evaluate $I_1$}
+Integrating $I_1$ by parts:
+\be 
+I_1= \mu_T \int_K^\infty (S_T-K) \frac{\partial }{\partial S_T}\left(S_T p(t,S_t;T,S_T)\right)dS_T=\\
+=\left[\mu_T(S_T-K)\left(S_T p(t,S_t;T,S_T)\right)\right]_K^\infty -\mu_T \int_K^\infty \left(S_T p(t,S_t;T,S_T)\right)dS_T
+\ee
+Assuming that $\left[\mu_T(S_T-K)\left(S_T p(t,S_t;T,S_T)\right)\right]_\infty = 0$ and using (\ref{secidentdupire}) we get
+\be 
+\label{i1defdupire}
+I_1=-\mu_T\left[\frac{C(t,S_t;K)}{P(t,T)} -\frac{K}{P(t,T)}\frac{\partial C(t,S_t;K)}{\partial K}\right]
+\ee 
+\subsubsection{Evaluate $I_2$}
+Integrating $I_2$ by parts:
+\be 
+I_2=\int_K^\infty (S_T-K) \frac{\partial^2 }{\partial S_T^2}\left(\sigma(T,S_T)^2S_T^2 p(t,S_t;T,S_T)\right) dS_T=\\
+=\left[(S_T-K) \frac{\partial }{\partial S_T}\left(\sigma(T,S_T)^2S_T^2 p(t,S_t;T,S_T)\right)\right]_K^\infty-\\
+-\int_K^\infty  \frac{\partial }{\partial S_T}\left(\sigma(T,S_T)^2S_T^2 p(t,S_t;T,S_T)\right) dS_T
+\ee
+Assuming $\left[(S_T-K) \frac{\partial }{\partial S_T}\left(\sigma(T,S_T)^2S_T^2 p(t,S_t;T,S_T)\right)\right]_\infty=0$, we get
+\be 
+\label{i2defdupire}
+I_2=\sigma(T,K)^2 K^2 p(t,S_t;T,K)= \frac{\sigma(T,K)^2 K^2}{P(t,T)}\frac{\partial^2 C(t,S_t;K)}{\partial^2 K}
+\ee
+\subsubsection{Dupire equation}
+Using (\ref{i1defdupire}) and (\ref{i2defdupire}) in (\ref{protodupire}):
+\be
+\frac{\partial C(t,S_t;K)}{\partial T}+r_T C(t,S_t;K)=\left(-I_1+\frac{1}{2}I_2\right)P(t,T)=\\
+=\left\{  \mu_T\left[\frac{C(t,S_t;K)}{P(t,T)} -\frac{K}{P(t,T)}\frac{\partial C(t,S_t;K)}{\partial K}\right]  +\frac{\sigma(T,K)^2 K^2}{2 P(t,T)}\frac{\partial^2 C(t,S_t;K)}{\partial^2 K} \right\}P(t,T)
+\ee
+from which
+\be 
+\label{finaldupireeq}
+\sigma(T,K)^2 = \frac{\frac{\partial C(t,S_t;K)}{\partial T}+q_T C(t,S_t;K)+(r_T-q_T) K\frac{\partial C(t,S_t;K)}{\partial K}}{\frac{ K^2}{2}\frac{\partial^2 C(t,S_t;K)}{\partial^2 K}}
+\ee
+where we also used (\ref{assetdupiredynmu}).
+
+\subsection{Derivation of the Dupire local volatility as expected volatility}
+
+We write the following preliminaries:
+\be 
+\label{preldupexp1}
+\frac{\partial}{\partial S}(S-K)^+=1_{(S>K)},\frac{\partial}{\partial K}(S-K)^+=-1_{(S>K)} \\
+\label{preldupexp2}
+\frac{\partial}{\partial S}1_{(S>K)}=\delta(S-K), \frac{\partial}{\partial K}1_{(S>K)}=-\delta(S-K) \\
+\label{preldupexp3}
+\frac{\partial C}{\partial K}=-P(t,T) E[1_{(S>K)}], \frac{\partial^2 C}{\partial^2 K}=P(t,T) E[ \delta(S-K)]
+\ee
+Let us now define the following function
+\be 
+\label{fdupexp1}
+f(S_T,T)=P(t,T)(S_T-K)^+
+\ee
+where the process for $S_t$ is always given by (\ref{assetdupiredyn}). By Ito's lemma we get
+\be 
+\label{dfdupexp1}
+df=\left[\frac{\partial f}{\partial T}+\mu_TS_T\frac{\partial f}{\partial S_T}+\frac{1}{2}\sigma^2(T,S_T,\omega) S_T^2\frac{\partial^2 f}{\partial^2 S_T}\right]dT+\left[\sigma(T,S_T,\omega) S_T\frac{\partial f}{\partial S_T}\right]dW_T(\omega)
+\ee
+where we outlined the dependence on the sample space variable $\omega$ in $\sigma(T,S_T,\omega)$ (and in $dW_T(\omega)$) in order to underline that, in the present discussion, the volatility $\sigma$ is not restricted to be just a local volatility, i.e. a function of the form $\sigma(T,S_T)$, but can depend on any other general random factor through $\omega$.
+Using (\ref{preldupexp1}), (\ref{preldupexp2}), (\ref{preldupexp3}) and  (\ref{zerocouppnfirstdupire}) in (\ref{dfdupexp1}), we get:
+\be 
+df=P(t,T)\left[-r_T(S_T-K)^+ + \mu_T S_T 1_{(S_T>K)} + \frac{1}{2}\sigma^2(T,S_T,\omega) S_T^2 \delta(S_T-K) \right]dT+\\
++P(t,T) \left[\sigma(T,S_T,\omega) S_T 1_{(S_T>K)} \right]dW_T(\omega)
+\ee
+The following holds
+\be 
+-r_T(S_T-K)^+ + \mu_T S_T 1_{(S_T>K)}=\left[-r_T(S_T-K) + \mu_T S_T \right]1_{(S_T>K)}=\\
+=\left[ r_T K  - q_T S_T \right]1_{(S_T>K)}
+\ee
+and hence 
+\be 
+df(T,S_T)=P(t,T)\left[\left[ r_T K  - q_T S_T \right]1_{(S_T>K)}  + \frac{1}{2}\sigma^2(T,S_T,\omega) S_T^2 \delta(S_T-K) \right]dT+\\
++P(t,T) \left[\sigma(T,S_T,\omega) S_T 1_{(S_T>K)} \right]dW_T(\omega)
+\ee
+Integrating this last equation between $t$ and $\tau$ we get
+\be 
+\int_t^\tau df(T,S_T)=f(\tau,S_\tau)-f(t,S_t)=P(t,\tau)(S_\tau-K)^+ - P(t,t)(S_t-K)^+=\\
+=\int_t^\tau   P(t,T)\left[\left[ r_T K  - q_T S_T \right]1_{(S_T>K)}  + \frac{1}{2}\sigma^2(T,S_T,\omega) S_T^2 \delta(S_T-K) \right]dT  +\\
++\int_t^\tau  P(t,T) \left[\sigma(T,S_T,\omega) S_T 1_{(S_T>K)} \right]dW_T(\omega)
+\ee
+Taking expectation of both sides and considering that the diffusive term has vanishing expectation, we get
+\be 
+C(t,S_t;\tau,K)-C(t,S_t;t,K) =\\
+= \int_t^\tau   P(t,T)E\left[\left[ r_T K  - q_T S_T \right]1_{(S_T>K)}  + \frac{1}{2}\sigma^2(T,S_T,\omega) S_T^2 \delta(S_T-K) \right]dT
+\ee
+By deriving both sides w.r.t. $\tau$ (and by calling $\tau=T$ just to keep the same notation as above), we get
+\be 
+\frac{\partial C(t,S_t;T,K)}{\partial T} = P(t,T)E\left[\left[ r_T K  - q_T S_T \right]1_{(S_T>K)}  + \frac{1}{2}\sigma^2(T,S_T,\omega) S_T^2 \delta(S_T-K) \right]
+\ee
+We now use (\ref{preldupexp3})
+\be 
+\label{dupireexpect}
+\frac{\partial C(t,S_t;T,K)}{\partial T} = -r_T K \frac{\partial C(t,S_t;T,K)}{\partial K}-q_T\left(C(t,S_t;T,K) - K \frac{\partial C(t,S_t;T,K)}{\partial K} \right)+\\
++\frac{1}{2}P(t,T)E\left[\sigma^2(T,S_T,\omega) S_T^2 \delta(S_T-K) \right]
+\ee
+Using (\ref{conddeltadirac2}) and (\ref{conddeltadiracphi2}) with:
+\begin{itemize}
+\item  $S_T(\omega)$ acting as $X(\omega)$,
+\item $\sigma^2(T,S_T,\omega)$ acting as $Y(\omega)$,
+\item $\phi(X)=X^2$,
+\end{itemize}
+we get:
+\be 
+\label{expsigmadeltadupireexpect}
+E\left[\sigma^2(T,S_T,\omega) S_T^2 \delta(S_T-K) \right]=E\left[\sigma^2(T,S_T,\omega) S_T^2 \delta(S_T-K) \right]=\\
+=K^2 E\left[\sigma^2(T,S_T,\omega)|S_T=K \right] p(t,S_t;T,K)=\\
+= K^2 E\left[\sigma^2(T,S_T,\omega)|S_T=K \right]  \frac{1}{P(t,T)}\frac{\partial^2 C(t,S_t;K)}{\partial^2 K}
+\ee
+where we also used (\ref{ptstTK}) in the last passage.
+Using (\ref{expsigmadeltadupireexpect}) into (\ref{dupireexpect}), we finally arrive at
+\be 
+\label{finaldupireeqexpect}
+E\left[\sigma^2(T,S_T,\omega)|S_T=K \right] = \frac{\frac{\partial C(t,S_t;K)}{\partial T}+q_T C(t,S_t;K)+(r_T-q_T) K\frac{\partial C(t,S_t;K)}{\partial K}}{\frac{ K^2}{2}\frac{\partial^2 C(t,S_t;K)}{\partial^2 K}}
+\ee
+Comparing (\ref{finaldupireeq}) and (\ref{finaldupireeqexpect}) and recognizing that the right hand sides are  equivalent, we then observe that the Dupire local volatility at $(T,S_T=K)$ can be interpreted as the expectation of the asset volatility, conditional on the asset hitting $K$ at $T$.
+
+\subsection{Local Volatility in Terms of Implied Volatility}
+
+Let us define the standard Black-Scholes formula for a call option with strike $x$, forward $f$, log-asset cumulated standard deviation $w$, interest rates $r_s$, time to maturity $\tau$:
+\be 
+\label{bs}
+BS(f,x,\tau,w,\{r\})= e^{-\int_0^\tau r_s ds}\left[f\cdot  \NN\left( \frac{\log\left(\frac{f}{x}\right)}{w} + \frac{w}{2} \right)-x\cdot \NN\left( \frac{\log\left(\frac{f}{x}\right)}{w} - \frac{w}{2} \right)\right]
+\ee
+Considering the function $C(t,S_t;K)$ appearing in both (\ref{finaldupireeq}) and (\ref{finaldupireeqexpect}), we then define the following parametrization of the call price in terms of the market {\emph{implied}} Black-Scholes volatility (we assume $t=0$ without loss of generality):
+\be 
+\label{callbs}
+C(0,S_0;K)\equiv BS\left(S_0\cdot e^{\int_0^T (r_s-q_s) ds} , K , T, \sigma_{i}(K,T)\cdot\sqrt{T} ,\{r\}\right)
+\ee
+where we performed the following substitutions:
+\be 
+\label{assetfwdbs}
+F_T=S_0\cdot e^{\int_0^T (r_s-q_s) ds} \rightarrow f\\
+K \rightarrow x\\
+\sigma_{i}(K,T)\sqrt{T} \rightarrow w\\
+T \rightarrow \tau
+\ee
+Notice that we introduce the implied volatility surface $\sigma_{i}(K,T)$.
+It is now possible to use (\ref{callbs}) in (\ref{finaldupireeq}). Let us for example examine the term of (\ref{finaldupireeq}) involving $\frac{\partial C(t,S_t;K)}{\partial K}$. Using (\ref{callbs}) one has to make the following computation:
+\be 
+\nonumber
+\frac{\partial C(t,S_t;K)}{\partial K}=\frac{d}{dK}BS\left(S_0\cdot e^{\int_0^T (r_s-q_s) ds} , K , T, \sigma_{i}(K,T)\cdot\sqrt{T} ,\{r\}\right)=\\
+\nonumber
+=\frac{\partial}{\partial x}BS\left(f=S_0\cdot e^{\int_0^T (r_s-q_s) ds} , x=K , \tau=T,w= \sigma_{i}(K,T)\cdot\sqrt{T} ,\{r\}\right)+\\
+\nonumber
++\left[\frac{\partial}{\partial w}BS\left(f=S_0\cdot e^{\int_0^T (r_s-q_s) ds} , x=K , \tau=T,w= \sigma_{i}(K,T)\cdot\sqrt{T} ,\{r\}\right)\right]\cdot\frac{\partial \left[\sigma_{i}(K,T)\cdot\sqrt{T}\right]}{\partial K}
+\ee
+where we used the total derivative symbol in order to underline that the $K$ derivative must act also on $\sigma_{i}(K,T)$. 
+Similarly
+\be 
+\nonumber
+\frac{\partial C(t,S_t;K)}{\partial T}=\frac{d}{dT}BS\left(S_0\cdot e^{\int_0^T (r_s-q_s) ds} , K , T, \sigma_{i}(K,T)\cdot\sqrt{T} ,\{r\}\right)=\\
+\nonumber
+=\frac{\partial}{\partial \tau}BS\left(f=S_0\cdot e^{\int_0^T (r_s-q_s) ds} , x=K , \tau=T,w= \sigma_{i}(K,T)\cdot\sqrt{T} ,\{r\}\right)+\\
+\nonumber
++\left[\frac{\partial}{\partial w}BS\left(f=S_0\cdot e^{\int_0^T (r_s-q_s) ds} , x=K , \tau=T,w= \sigma_{i}(K,T)\cdot\sqrt{T} ,\{r\}\right)\right]\cdot\frac{\partial \left[\sigma_{i}(K,T)\cdot\sqrt{T}\right]}{\partial T}+\\
+\nonumber
++\left[\frac{\partial}{\partial f}BS\left(f=S_0\cdot e^{\int_0^T (r_s-q_s) ds} , x=K , \tau=T,w= \sigma_{i}(K,T)\cdot\sqrt{T} ,\{r\}\right)\right]\cdot\frac{\partial \left[S_0\cdot e^{\int_0^T (r_s-q_s) ds}\right]}{\partial T}
+\ee
+Using Mathematica software we have then verified that the local volatility can also be expressed in terms of the Black-Scholes implied volatility as follows
+\be 
+\sigma(T,K)^2 = \frac{\frac{\partial C(t,S_t;K)}{\partial T}+q_T C(t,S_t;K)+(r_T-q_T) K\frac{\partial C(t,S_t;K)}{\partial K}}{\frac{ K^2}{2}\frac{\partial^2 C(t,S_t;K)}{\partial^2 K}}=\\
+\label{finaldupireeqImplied}
+=\frac{\sigma_{i}^2(K,T)+2\sigma_{i}(K,T)T\left[\frac{\partial \sigma_{i}(K,T)}{\partial T } + (r_T-q_T)K \frac{\partial \sigma_{i}(K,T)}{\partial K }\right]}
+{\left(1-\frac{K y(K,T)}{ \sigma_{i}(K,T)}\frac{\partial \sigma_{i}(K,T)}{\partial K }\right)^2+K\sigma_{i}(K,T) T \left[\frac{\partial \sigma_{i}(K,T)}{\partial K }-\frac{K\sigma_{i}(K,T) T}{4} \left(\frac{\partial \sigma_{i}(K,T)}{\partial K }\right)^2 + K \frac{\partial^2 \sigma_{i}(K,T)}{\partial^2 K }\right]}
+\ee
+where we defined the log-moneyness
+\be 
+\label{moneyness}
+y(K,T)=\log\left[\frac{K}{S_0 e^{\int_0^T (r_s-q_s)ds}}\right]=\log\left[\frac{K}{F_T}\right]
+\ee
+Eq. (\ref{finaldupireeqImplied}) is coherent with eq. (2.25) of \cite{Kamp}, but there's a different sign in the $y$ term in denominator with respet to \cite{FabriceDouglasRouahDupire}.
+Another way to write the local volatility in terms of the implied one is the following\footnote{Using the Mathematica software, we checked  that (\ref{finaldupireeqImplied} and (\ref{finaldupireeqImplied2}) are coherent.}, that can be found also in eq. (22.20) of \cite{riskfxbook} and in eq. (2.12) of \cite{SeppBarr}:
+\be 
+\label{finaldupireeqImplied2}
+\sigma(T,K)^2 = \frac{ \frac{\sigma_{i}(K,T)}{T} + 2\frac{\partial \sigma_{i}(K,T)}{\partial T }+ 2 (r_T-q_T)K \frac{\partial \sigma_{i}(K,T)}{\partial K}}{K^2\left[\frac{\partial^2 \sigma_{i}(K,T)}{\partial^2 K}-d_1\sqrt{T}\left(\frac{\partial \sigma_{i}(K,T)}{\partial K}\right)^2 +\frac{1}{\sigma_{i}(K,T)}\left(\frac{1}{K\sqrt{T}}+d_1 \frac{\partial \sigma_{i}(K,T)}{\partial K} \right)^2\right]}
+\ee
+with
+\be 
+\label{d1d2bs}
+d_{1,2}=d_\pm = \frac{\log\left[\frac{S_0}{K}\right]+\int_0^T (r_s-q_s)ds}{\sigma_{i}(K,T)\sqrt{T}}\pm \sigma_{i}(K,T)\sqrt{T}
+\ee
+If we choose
+\be 
+\label{sigmaimplpower}
+\sigma_{i}(K,T)=\sigma_0 \left(\frac{K}{F_T}\right)^\beta
+\ee
+we can compute
+\be 
+\label{sigmalvimplpower}
+\sigma(T,K)^2 = \frac{\sigma_0^2  \left(\frac{K}{F_T}\right)^{2\beta}}{1-\frac{\beta^2}{4}\left(\frac{K}{F_T}\right)^{2\beta} \sigma_0^2 T \left(\sigma_0^2 T\left(\frac{K}{F_T}\right)^{2\beta} - 4\right)+2\beta \log\frac{F_T}{K}+\beta^2 \left(\log\frac{F_T}{K}\right)^2}
+\ee
+We hence see that 
+\be 
+\sigma(T,F_T)^2=\frac{\sigma_0^2  }{1-\frac{\beta^2}{4} \sigma_0^2 T \left(\sigma_0^2 T - 4\right)}
+\ee
+that shows that the at the money forward local volatility is of the order of the at the money forward implied volatility (the denominator is of order $1$).
+
+
+\section{CSA Derivative Pricing}
+
+The following section is taken from \cite{PiterbargCSA}. Let $S(t)$ be an asset that, in the real worlds measure, follows the following dynamics:
+\be 
+\frac{dS(t)}{S(t)} = \mu_S(t)dt+\sigma_S(t) dW(t)
+\ee
+and let $V(t,S)$ be a derivative security on $S$. By Ito's lemma we get
+\be 
+dV(t,S)=\left(\LL V(t,S)\right) dt+\Delta(t,S) dS(t)
+\ee
+where
+\be 
+\LL = \frac{\partial}{\partial t}+\frac{\sigma_S^2 S^2}{2}\frac{\partial^2}{\partial^2 S} \\
+\Delta(t,S)=\frac{\partial  V(t,S)}{\partial S}
+\ee
+Let us now write
+\be
+V(t)= V(t)-C(t) + C(t)
+\ee
+where $C(t)$ is the collateral (cash) amount held against $V(t)$\footnote{For example, V(t) could be a negative amount, meaning that a derivative desk owe some money (option sold) to bank clients and for this reason the desk keeps a cash account to cover and guarantee its debt, eliminating the risk of not getting paid for the clients (credit risk).}.
+In order to replicate the derivative we hold $\Delta(t)$ of stock and $\gamma(t)$ unit of cash, in such a way that
+\be 
+V(t)=\Delta(t)S(t)+\gamma(t)
+\ee
+We hence can write
+\be
+\gamma(t)= V(t)-\Delta(t)S(t)=\left[C(t)\right]+\left[V(t)-C(t)\right]-\left[\Delta(t)S(t)\right]
+\ee
+This means that
+\be 
+d\gamma(t)=r_c(t) C(t) dt+r_f(t)\left[V(t)-C(t)\right]dt-r_r(t)\left[\Delta(t)S(t)\right]dt+r_d(t)\left[\Delta(t)S(t)\right]dt
+\ee
+where we introduced
+\begin{itemize}
+\item $r_c$, the collateral rate (the risk free rate), i.e. the rate of funding when securing the loan with $C(t)$ (i.e. with cash)
+\item $r_f$, the rate at which the derivative desk, that is pricing $V$, can lend and borrow money (we assume equal rates for lending and borrowing are available). This is the rate taking into account the credit spread for the bank the desk belongs to, i.e. the rate of its treasury function.
+\item $r_r$, the repo rate for $S(t)$, i.e. the rate of funding when securing the loan with $S(t)$
+\item $r_d$, the dividend rate paid by the stock.
+\end{itemize}
+By imposing the self-financing condition, it must hold that 
+\be
+dV(t)-\Delta(t)dS(t)=d\gamma(t)
+\ee
+that yields
+\be 
+\left(\frac{\partial}{\partial t}+\frac{\sigma_S^2 S^2}{2}\frac{\partial^2}{\partial^2 S}\right) V(t,S)=\\
+=r_c(t) C(t) +r_f(t)\left[V(t)-C(t)\right]+\left(r_d(t)-r_r(t)\right)\left[S(t)\frac{\partial  V(t,S)}{\partial S}\right]
+\ee
+that is
+\be 
+\left(\frac{\partial}{\partial t}+\left(r_r(t)-r_d(t)\right)S\frac{\partial}{\partial S}+\frac{\sigma_S^2 S^2}{2}\frac{\partial^2}{\partial^2 S}\right) V(t,S)=r_f(t)V(t,S)- \left(r_f(t)-r_c(t)\right)C(t)
+\label{bss}
+\ee
+Let us know define 
+\be
+\tilde{V}(t)= e^{\int_t^T r_f(u)du}V(t)
+\ee
+which, in the measure in which the $S$-drift is
+\be 
+\label{dsmeasrfrd}
+\frac{dS(t)}{S(t)} = \left(r_r(t)-r_d(t)\right) dt+\sigma_S(t) dW(t)
+\ee
+yields to
+\be 
+d\tilde{V}(t,S)=e^{\int_t^T r_f(u)du}\left(\frac{\partial}{\partial t}+\left(r_r(t)-r_d(t)\right)S\frac{\partial}{\partial S}+\frac{\sigma_S^2 S^2}{2}\frac{\partial^2}{\partial^2 S}-r_f(t)\right)V(t,S)dt+\\
++\left(r_r(t)-r_d(t)\right)S\frac{\partial \tilde{V}(t,S)}{\partial S}dW(t) \\
+=-e^{\int_t^T r_f(u)du}\left(r_f(t)-r_c(t)\right)C(t)dt+\left(r_r(t)-r_d(t)\right)S\frac{\partial \tilde{V}(t,S)}{\partial S}dW(t)
+\ee
+Let us now integrate both sides between $t$ and $T$
+\be 
+\int_t^T d\tilde{V}(t,S)=\tilde{V}(T,S_T)-\tilde{V}(t,S_t)=V(T,S_T)-e^{\int_t^T r_f(u)du}V(t,S_t)=\\
+=-\int_t^T e^{\int_\nu^T r_f(u)du}\left(r_f(\nu)-r_c(\nu)\right)C(\nu)\nu+\int_t^T \left(r_r(\nu)-r_d(\nu)\right)S_\nu\frac{\partial \tilde{V}(\nu,S_\nu)}{\partial S_\nu}dW(\nu)
+\ee
+which becomes
+\be 
+V(t,S_t)=e^{-\int_t^T r_f(u)du} V(T,S_T)+\int_t^T e^{-\int_t^\nu r_f(u)du}\left(r_f(\nu)-r_c(\nu)\right)C(\nu)\nu-\\
+\label{2eqdvtilde}
+-e^{-\int_t^T r_f(u)du}\int_t^T \left(r_r(\nu)-r_d(\nu)\right)S_\nu\frac{\partial \tilde{V}(\nu,S_\nu)}{\partial S_\nu}dW(\nu)
+\ee
+By taking expectations of both sides, and using that the expectation of (\ref{2eqdvtilde}) vanishes, we get
+\be 
+\label{bswithcsa}
+V(t,S_t)=E_{t,S_t}\left[e^{-\int_t^T r_f(u)du} V(T,S_T)+\int_t^T e^{-\int_t^\nu r_f(u)du}\left(r_f(\nu)-r_c(\nu)\right)C(\nu)d\nu\right]
+\ee
+always valid in the measure such that (\ref{dsmeasrfrd}) holds.
+With a completely similar computation, but starting from $\bar{V}(t)= e^{\int_t^T r_c(u)du}V(t)$ instead of $\tilde{V}(t)= e^{\int_t^T r_f(u)du}V(t)$ and using that 
+\be 
+\nonumber
+\left(\frac{\partial}{\partial t}+\left(r_r(t)-r_d(t)\right)S\frac{\partial}{\partial S}+\frac{\sigma_S^2 S^2}{2}\frac{\partial^2}{\partial^2 S}-r_c(t)\right)V(t,S)=-\left(r_f(t)-r_c(t)\right)\left(C(t)-V(t)\right)
+\ee
+it is possible to arrive at 
+\be 
+\label{bswithcsa2}
+V(t,S_t)=E_{t,S_t}\left[e^{-\int_t^T r_c(u)du} V(T,S_T)-\int_t^T e^{-\int_t^\nu r_c(u)du}\left(r_f(\nu)-r_c(\nu)\right)(V(\nu)-C(\nu))d\nu\right]
+\ee 
+From (\ref{bss}) we can observe that
+\be 
+E_{t,S_t}\left[dV(t)\right]=\left[r_f(t)V(t,S)- \left(r_f(t)-r_c(t)\right)C(t)\right]dt=\left[r_f(t)V(t,S)- s_f(t)C(t)\right]dt
+\ee
+with $s_f(t)= \left(r_f(t)-r_c(t)\right)$ equal to the spread between the bank funding rate $r_f(t)$ and the collateral funding rate $r_c(t)$. 
+
+
+\subsection{Zero strike call option under no CSA}
+
+Assuming no dividends for simplicity, we can find:
+\be 
+V_{zsc}(t)=E_{t,S_t}\left[ e^{-\int_t^T r_f(u)du} S(T) \right]\\
+S_t = E_{t,S_t}\left[ e^{-\int_t^T r_r(u)du} S(T) \right]
+\ee
+showing that the price of the zero strike call is different from the stock price $S_t$. The reason for this is that the call is subject to the credit risk of the bank, while the stock can be used as collateral in a transaction of type
+\begin{itemize}
+\item At time $t$, $A$ lends $B$ be $1$ unit of currency 
+\item At time $t$, $B$ lends $1/S_t$ stocks to $A$
+\item At time $T$, $B$ pays $A$ an amount of $e^{+\int_t^T r_r(u)du}$ units of currency
+\item At time $T$, $A$ returns $1/S_t$ stocks to $B$
+\end{itemize}
+In other words, the zero strike call is not a collateral equivalent (in theory as good as) to the stock due to the bank credit spread.
+
+\subsection{Forward without CSA}
+
+By definition, the forward price seen by the bank at time $t$ for expiry $T$ is the value that solves the following equation
+\be 
+0=E_{t,S_t}\left[ e^{-\int_t^T r_f(u)du} \left(S(T)-F_{noCSA}(t,T)\right)\right]
+\ee
+We then have
+\be 
+\label{fnocsa}
+F_{noCSA}(t,T) = \frac{E_{t,S_t}\left[ e^{-\int_t^T r_f(u)du} S(T)\right]}{E_{t,S_t}\left[ e^{-\int_t^T r_f(u)du}\right]}
+\ee
+We then define the risky zero coupon issued by the bank as
+\be 
+P_f(t,T)=E_{t}\left[ e^{-\int_t^T r_f(u)du}\right]=E_{t}\left[ \frac{1}{B_f(t,T)}\right]
+\ee
+where
+\be
+ B_f(t,T)=e^{\int_t^T r_f(u)du}
+\ee
+\subsection{Forward with CSA}
+
+Similarly the condition is
+\be 
+0=E_{t,S_t}\left[ e^{-\int_t^T r_c(u)du} \left(S(T)-F_{CSA}(t,T)\right)\right]
+\ee
+which yields
+\be 
+F_{CSA}(t,T)=\frac{E_{t,S_t}\left[ e^{-\int_t^T r_c(u)du} S(T)\right]}{E_{t,S_t}\left[ e^{-\int_t^T r_c(u)du}\right]}
+\ee
+\subsection{Convexity adjustment}
+\be 
+F_{noCSA}(t,T) =\frac{E_{t,S_t}\left[ e^{-\int_t^T r_f(u)du} S(T)\right]}{P_f(t,T)}=\frac{E_{t,S_t}\left[ e^{-\int_t^T r_c(u)du} e^{-\int_t^T s_f(u)du} S(T)\right]}{P_f(t,T)}=\\
+=P_c(t,T)\frac{E_{t,S_t}^T\left[ e^{-\int_t^T s_f(u)du} S(T)\right]}{P_f(t,T)}
+\ee
+where we changed measure from the one having the risk free bank account as numeraire\footnote{always the same measure in which (\ref{dsmeasrfrd}) holds.} to the one having the risk free  zero coupon bond $P_c(t,T)=E_{t}\left[ e^{-\int_t^T r_c(u)du}\right]$ as numeraire.
+Now we define
+\be 
+\label{mt}
+M(t,T)=\frac{P_f(t,T)}{P_c(t,T)}e^{-\int_0^t s_f(u)du}\\
+M(T,T)=e^{-\int_0^T s_f(u)du}
+\ee
+and compute
+\be
+\label{fnocsa} 
+F_{noCSA}(t,T) = E_{t,S_t}^T\left[\frac{M(T,T)}{M(t,T)} S(T)\right]
+\ee
+It holds that 
+\be 
+M(t,T)=\frac{P_f(t,T)}{P_c(t,T)}e^{-\int_0^t s_f(u)du}=E_{t}\left[ e^{-\int_t^T r_f(u)du}\right]\frac{e^{-\int_0^t s_f(u)du}}{P_c(t,T)}=\\
+= \frac{E_{t}\left[ e^{-\int_0^t s_f(u)du}e^{-\int_t^T r_f(u)du}\right]}{P_c(t,T)}=\frac{E_{t}\left[ e^{-\int_0^t s_f(u)du}e^{-\int_t^T (r_f(u)-r_c(u))du}e^{-\int_t^T r_c(u)du}\right]}{P_c(t,T)}=\\
+=\frac{E_{t}\left[ e^{-\int_0^T s_f(u)du}e^{-\int_t^T r_c(u)du}\right]}{P_c(t,T)}=\frac{P_c(t,T) E_{t}^T\left[ e^{-\int_0^T s_f(u)du}\right]}{P_c(t,T)}=E_{t}^T\left[ e^{-\int_0^T s_f(u)du}\right]=\\
+=E_{t}^T\left[ M(T,T)\right]
+\ee
+which clearly shows that $M(t,T)$ is a martingale in the risk free $T$ forward measure.
+Furthermore it is at this point trivial that
+\be 
+E_{t}^T\left[ \frac{M(T,T)}{M(t,T)}\right]=1
+\ee
+We hence compute the convexity adjustment as
+\be 
+F_{noCSA}(t,T)-F_{CSA}(t,T)=E_{t}^T\left[\left( \frac{M(T,T)}{M(t,T)}\right) S(T) -  S(T)\right]=\\
+=E_{t}^T\left[\left( \frac{M(T,T)}{M(t,T)}\right) S(T) -  E_{t}^T\left[ \frac{M(T,T)}{M(t,T)}\right] S(T)\right]=\\
+=E_{t}^T\left[\left( \frac{M(T,T)}{M(t,T)}-E_{t}^T\left[ \frac{M(T,T)}{M(t,T)}\right]\right) \left(S(T) -F_{CSA}(t,T)\right)\right]=\\
+\label{ca}
+=\frac{1}{M(t,T)}\Cov_t^T\left[M(T,T),F_{CSA}(T,T)\right]
+\ee
+\subsection{Vanilla options}
+We have (the put case is similar):
+\be 
+\Pi_{noCSA}(t)=E_{t,S_t}\left[ e^{-\int_t^T r_f(u)du} \left(S(T)-K\right)^+\right]\\
+\Pi_{CSA}(t)=E_{t,S_t}\left[ e^{-\int_t^T r_c(u)du} \left(S(T)-K\right)^+\right]
+\ee
+which can also be written in the non risky $T$ forward measure:
+\be 
+\Pi_{noCSA}(t)=P_c(t,T)E_{t,S_t}^T\left[ e^{-\int_t^T s_f(u)du} \left(S(T)-K\right)^+\right]\\
+\Pi_{CSA}(t)=P_c(t,T)E_{t,S_t}^T\left[ \left(S(T)-K\right)^+\right]
+\ee
+Using (\ref{mt}) we can recast $\Pi_{noCSA}(t)$ as follows
+\be 
+\Pi_{noCSA}(t)=P_f(t,T)E_{t,S_t}^T\left[ \frac{M(T,T)}{M(t,T)} \left(S(T)-K\right)^+\right]=\\
+=P_f(t,T)E_{t,S_t}^T\left[ E_{t,S_T}^T\left[ \frac{M(T,T)}{M(t,T)} \left(S(T)-K\right)^+\right]\right]=\\
+=P_f(t,T)E_{t,S_t}^T\left[ \left(S(T)-K\right)^+ E_{t,S_T}^T\left[ \frac{M(T,T)}{M(t,T)} \right]\right]
+\ee 
+where it should be noticed the difference between the small $t$ and capital $T$ in $E_{t,S_T}^T$. Defining
+\be 
+\label{alphaca}
+\alpha(t,T,x)=E_{t}^T\left[ \frac{M(T,T)}{M(t,T)}|S_T=x \right]
+\ee
+we get
+\be
+\label{pinocsa} 
+\Pi_{noCSA}(t)=P_f(t,T)E_{t,S_t}^T\left[ \left(S(T)-K\right)^+ \alpha(t,T,S_T)\right]
+\ee
+Now we approximate (this is an hypothesis): 
+\be 
+\alpha(t,T,x) = \alpha_0(t,T)+ \alpha_1(t,T)x
+\ee
+and notice that 
+\be 
+E_{t,S_t}^T\left[\alpha(t,T,S_T) \right] = E_{t,S_t}^T\left[E_{t}^T\left[ \frac{M(T,T)}{M(t,T)}|S_T \right] \right]= E_{t,S_t}^T\left[\frac{M(T,T)}{M(t,T)} \right]=1=\\
+\label{eq1}
+=\alpha_0(t,T) + \alpha_1(t,T)E_{t,S_t}^T\left[ S_T\right] =\alpha_0(t,T) + \alpha_1(t,T) F_{CSA}(t,T)
+\ee
+where we used 
+\be 
+F_{CSA}(t,T) = E_{t,S_t}^T\left[ S_T\right]
+\ee
+Now we go on calibrating the two parameters $\alpha_0(t,T)$, $\alpha_1(t,T)$ (we already found one equation, we need another one).
+We saw above (see (\ref{fnocsa})) that 
+\be 
+F_{noCSA}(t,T)= E_{t,S_t}^T\left[\frac{M(T,T)}{M(t,T)} S(T)\right]=E_{t,S_t}^T\left[\frac{M(T,T)}{M(t,T)} S(T)\right]=\\
+=E_{t,S_t}^T\left[ E_{t,S_T}^T\left[ \frac{M(T,T)}{M(t,T)}S(T)\right]\right]=
+E_{t,S_t}^T\left[\alpha(t,T,S_T)S_T\right]=\\
+=E_{t,S_t}^T\left[\left(\alpha_0(t,T)+ \alpha_1(t,T) S_T \right)S_T\right]=\\
+\label{eq2}
+=\alpha_0(t,T)F_{CSA}(t,T)+\alpha_1(t,T)\left(\Var_t^T\left(S_T\right)+F_{CSA}^2(t,T)\right)
+\ee
+Using (\ref{eq1}) and (\ref{eq2}) we get:
+\be 
+\alpha_0(t,T)=1-\alpha_1(t,T) F_{CSA}(t,T)\\
+\alpha_1(t,T)=\frac{F_{noCSA}(t,T)-F_{CSA}(t,T)}{\Var_t^T\left(S_T\right)}
+\ee
+Let us now go back to (\ref{pinocsa}):
+\be
+\Pi_{noCSA}(t)=P_f(t,T)\int_K^\infty dS_T f_t^T(S_T) \left(S_T-K\right) \alpha(t,T,S_T)=\\
+=P_f(t,T)\int_K^\infty dS_T f_t^{\tilde{T}}(S_T) \left(S_T-K\right)
+\ee
+where $f_t^T(S_T)$ is the density in the non risky $T$ forward measure, while $f_t^{\tilde{T}}(S_T)$ is the density in the measure such that
+\be 
+\Pi_{noCSA}(t)=P_f(t,T)E_{t,S_t}^{\tilde{T}}\left[ \left(S(T)-K\right)^+ \right]
+\ee
+Differentiating twice in $K$ we get 
+\be 
+f_t^{\tilde{T}}(S_T) = f_t^T(S_T)  \alpha(t,T,S_T)
+\ee
+which shows that the probability density under no CSA, that is $f_t^{\tilde{T}}(S_T)$, is obtained by multiplying the probability density under CSA, by a linear function of the stock level, which amounts in a slope distortion of the volatility smile.
+\subsection{Numeric Example}
+Suppose the stock follows a log-normal process with volatility $\sigma_s$
+\be 
+dS(t)=\cdots dt + \sigma_s S(t) dW_s(t)
+\ee
+and let the funding spread of the bank be governed by 
+\be 
+ds_f(t)=-a_f(\theta-s_f(t))dt+\sigma_f dW_f(t)
+\ee
+Suppose also that $r_c(t), r_r(t)$ are deterministic and that $r_d(t)=0$.
+Under the $T$ forward measure $F_{CSA}(t,T)$ is a martingale and we can write
+\be 
+\label{fcsaeq}
+F_{CSA}(t,T) = F_{CSA}(0,T)e^{-\frac{1}{2}\int_0^t \sigma_s^2(u)du + \int_0^t \sigma_s(u) dW_s(u) }
+\ee
+It also holds that 
+\be 
+\frac{M(t,T)}{M(0,T)} = e^{-\int_0^t s_f(u)du}\frac{P_c(0,T)}{P_f(0,T)}\frac{P_f(t,T)}{P_c(t,T)}
+\ee
+We then observe that (as usual $b_x(t)=(1-e^{-x t})/x$):
+\be 
+\int_0^t s_f(u)du = \cdots + \int_0^t \sigma_f b_a(t-u) dW_f(u) 
+\ee
+or better, reminding that $M(t,T)$ must be a martingale (see before), we get
+\be 
+\label{Mmart}
+\frac{M(T,T)}{M(0,T)}=\exp\left[ -\frac{1}{2}\int_0^T \sigma_f ^2 b_a^2(T-u) du -\int_0^T \sigma_f  b_a(T-u) dW_f(u) \right]
+\ee
+We now remind (\ref{fnocsa})
+\be
+F_{noCSA}(0,T) = E_{0,S_0}^T\left[\frac{M(T,T)}{M(0,T)} S(T)\right]= E_{0,S_0}^T\left[\frac{M(T,T)}{M(0,T)} F_{CSA}(T,T)\right]=\\
+\ee
+and using both (\ref{Mmart}) and (\ref{fcsaeq}) we finally arrive at
+\be 
+\label{ca2}
+F_{noCSA}(0,T) = F_{CSA}(0,T)\exp\left[-\int_0^T \sigma_f \sigma_s b_a(T-u) \rho_{s,f} du   \right]
+\ee
+where $\rho_{s,f}$ is the instantaneous correlation between $dW_f(u)$ and $dW_s(u)$.
+Equation (\ref{ca2}) gives a convexity adjustment estimation and it in particular shows that the adjustment grows for increasing $T$, as expected.
+
+\section{Options on defaultable bonds}
+
+\subsection{Lognormal credit model}
+
+Let $t_0=0$ be calculation date and consider the following time schedule
+\be 
+0=t_0<t_1<t_2<\cdots < t_N
+\ee
+Let us define the probability to default after time $t_i$ to be $Q_i$, i.e.
+\be 
+Q_i=Prob\left(\tau\ge t_i\right)
+\ee
+where $\tau$ is the default stopping time.
+It holds that
+\be 
+1=Q_0\ge Q_1 \ge Q_2 \ge \cdots \ge Q_N
+\ee
+where we supposed that default hasn't happened up to time $t_0$ included.
+We introduce the following further notation $\forall i=1,2,\cdots , N$:
+\be 
+\label{fwddefault}
+Q_i(t_0) = Q_{i-1}(t_0)\frac{1}{1+\delta_i q_i(t_0,t_{i-1},t_i)}\le Q_{i-1}(t_0)\\
+\delta_i = t_i - t_{i-1}
+\ee
+where we outlined the fact that the probabilities are observed at time $t_0$ and we introduced the positive quantity $q_i(t_0,t_{i-1},t_i)$.
+Equation (\ref{fwddefault}) tries to resemble the way one usually writes interest rate zero coupon bond values in a libor market model framework, with the following identifications:
+\be 
+Q_i(t)\leftrightarrow P_i(t,t_i)\\
+q_i(t,t_{i-1},t_i)\leftrightarrow F_i(t,t_{i-1},t_i), t\le t_{i-1}
+\ee
+Let us now notice that if all $q_i(t,t_{i-1},t_i)$ are taken to be constant, i.e. if 
+\[
+q_i(t,t_{i-1},t_i)=q_i(t_0,t_{i-1},t_i), t_0\le t \le t_{i-1}
+\]
+then the model reduces to a deterministic default intensity model, where the integral of the default intensity between any two times $(t_{i-1},t_i)$ is specified by $\left( Q_{i-1}(t_0), Q_i(t_0) \right)$, or equivalently by  $\left(Q_{i-1}(t_0), q_i(t_0,t_{i-1},t_i)\right)$.
+Notice that if the condition $q_i(t,t_{i-1},t_i)\ge 0$ is satisfied, the default intensity is  by construction non negative.
+Let us now introduce some processes $\phi_i(t)$, $i=1,\cdots, d$, such that 
+\be 
+\label{dphi}
+d \ln \phi_i(t) = -\frac{1}{2} \sigma_i^2(t) dt + \sigma_i(t) dW_i(t)
+\ee
+for some deterministic non negative functions $ \sigma_i(t), t\ge 0$.
+We then write
+\be 
+\label{qit}
+q_i(t,t_{i-1},t_i) = q_i(t_0,t_{i-1},t_i)\cdot  \psi_i(t) \cdot \prod_{k=1}^d \phi_k(t)^{\gamma_{i,k}}
+\ee
+In words, $q_i(t,t_{i-1},t_i)$ is proportional to its value at present date $q_i(t_0,t_{i-1},t_i)$ through a log normal stochastic factor $\prod_{k=1}^d \phi_k(t)^{\gamma_{i,k}}$ and a deterministic normalization function $\psi_i(t)$. 
+Let us now imagine to perform a Monte Carlo evolution from time $t_0$ to time $t_1$. As seen from $t_0$, the unconditional probability to default between any two times $(t_{i-1},t_i)$, $i>0$, is given by
+\be 
+\label{defaultini}
+D_i(t_0) \equiv Q_{i-1}(t_0)-Q_i(t_0)\ge 0
+\ee
+We suppose that the strip of probabilities $D_1(t_0), D_2(t_0),\cdots , D_N(t_0)$ is calibrated to the market\footnote{Notice that $t_N$ could formally be $\infty$ and $Q_{N}(t_0)=0$.} and hence the Monte Carlo evolution we are about to consider should mandatory produce the exact strip of $D_i(t_0), i\ge 0$ in order to be calibrated to the market.
+Simulating from $t_0$ to $t_1$ there is a probability $D_1(t_0)$ to default in $(t_0, t_1)$ and we assume that as seen from $t_1$ and conditional to not having defaulted in $(t_0, t_1)$, the new strip of survival probabilities will be given by
+\be 
+\label{probdefaultt1}
+1=Q_1(t_1) \ge Q_2(t_1) \ge \cdots \ge Q_N(t_1)
+\ee
+with 
+\be 
+\label{fwddefaultt1}
+Q_i(t_1) = Q_{i-1}(t_1)\frac{1}{1+\delta_i q_i(t_1,t_{i-1},t_i)}\le Q_{i-1}(t_1), i\ge 2\\
+\ee
+Assuming independence between the stochastic event that decides whether the default in $(t_0, t_1)$ happens or not - given the probability $D_1(t_0)$ - and the stochastic process factor that drives $q_i(t_0,t_{i-1},t_i)$ to $q_i(t_1,t_{i-1},t_i)$, in order to fit the market, we should impose that $D_1(t_0), D_2(t_0),\cdots , D_N(t_0)$ will be correcly reproduced. This implies that 
+\be 
+\label{equilibrioprobdefault}
+Q_1(t_0) \cdot E\left[ D_i(t_1)| \FF_0 \right] = D_i(t_0), i\ge 2
+\ee 
+that yields to 
+\be 
+E\left[ 1 - \frac{1}{1+\delta_2 q_2(t_1,t_{1},t_2)} | \FF_0 \right] = \frac{D_2(t_0)}{Q_1(t_0)} \\
+E\left[ \frac{1}{1+\delta_2 q_2(t_1,t_{1},t_2)} \left(1 - \frac{1}{1+\delta_3 q_3(t_1,t_{2},t_3)} \right) | \FF_0 \right] = \frac{D_3(t_0)}{Q_1(t_0)} \\
+\cdots 
+\ee
+that, using a numerical integration, should allow to calibrate the parameters of (\ref{dphi}), (\ref{qit})
+\be 
+\psi_2(t_1), \sigma_2(t_1) \\
+\psi_3(t_1), \sigma_3(t_1)\\
+\cdots
+\ee
+in a bootstrap-like procedure.
+Notice that going on with the calibration of time intervals, i.e. considering the further simulation step $(t_1, t_2)$, the analogous of (\ref{equilibrioprobdefault}) will be given by
+\be 
+E\left[ D_i(t_2) 1_{\tau>t_2}| \FF_0 \right] = D_i(t_0), i\ge 3
+\ee
+and there is dependence between $D_i(t_2)$ and  $1_{\tau>t_2}$ which, even if the default probability of the model is calibrated up to $t_2$, implies that 
+\be 
+E\left[ D_i(t_2) 1_{\tau>t_2}| \FF_0 \right] \neq Q_2(t_0)\cdot E\left[ D_i(t_2) | \FF_0 \right] 
+\ee
+This difficulty implies that the calibration of interval $(t_1, t_2)$ and subsequent ones will be possible only through direct computations (for example: Monte Carlo calibration).
+
+\subsection{Stochastic credit spread model}
+
+Let $t_0=0$ be calculation date and consider the following time schedule
+\be 
+0=t_0<t_1<t_2<\cdots < t_N
+\ee
+Consider the fixed rate bond paying the cashflow $c_i$ at time $t_i$, $i>0$, whose value at present date is\footnote{$\GG_t=\FF_t\vee \sigma \left(\{\tau\le u \}, u\le t\right)$ is the usual market filtration completed with the observation of default events.}
+\be 
+\label{bondmkt}
+B(t_0)=E\left[ \sum_{i=1}^N \left( c_i 1_{\tau > t_i} + R c_i 1_{\tau \le t_i}\right)D(t_0, t_i)| \GG_0 \right]=B_{mkt}(t_0)
+\ee
+where $R$ is the recovery rate, $D(t_0, t_i)$ is the stochastic discount factor and we also introduced the price $B_{mkt}(t_0)$ quoted by the market for the bond at time $t_0$.
+We can now introduce the following additional way to write the price of the bond
+\be 
+\label{bondspreaddef}
+B(t_0)= 1_{\tau>t_0} \sum_{i=1}^N c_i P(t_0, t_i) e^{-s(t_0)\cdot (t_i-t_0)} + 1_{\tau\le t_0} \sum_{i=1}^N R(t_0) c_i P(t_0, t_i)  = B_{mkt}(t_0)
+\ee
+which is just a way to implicitly define an effective credit spread w.r.t. the risk free rates, that has to be chosen with the only prescription to match $B_{mkt}(t_0)$.
+In words, if the issuer is already defaulted in $t_0$ the bond is worth the (estimated) recovery rate times the risk free price of the remaining cash flows, otherwise the bond values is the discounted value of the future cash flows using discount factors that have a spread w.r.t. the risk free rates calibrated in order to take into account that the issuer can default after $t_0$ and also possible liquidity issues.
+Notice that we added a dependence on the time $t_0$ in the recovery rate $R(t_0)$ in order to outline that it can in principle be stochastic.
+Let us now compute the price as seen from $t_0$ of a vanilla call option\footnote{put would be analogous.} written on the bond with maturity $t_m$, $m\le N$, pay date $t_p$:
+\be
+\label{vanillaonbond}
+\Pi\left(t_0, t_m, K \right)=E\left[ \left( B(t_m) - K \right)^+ D(t_0, t_p) | \GG_0 \right]=\\
+=P(t_0, t_p)E^p\left[ \left( B(t_m) - K \right)^+ | \GG_0 \right]=P(t_0, t_p)\cdot \\
+\cdot E^p\left[ \left(1_{\tau>t_m} \sum_{i\ge m}^N c_i P(t_m, t_i) e^{-s(t_m)\cdot (t_i-t_m)} + 1_{\tau\le t_m} \sum_{i\ge m}^N R(t_m) c_i P(t_m, t_i)  - K \right)^+ | \GG_0 \right]=\\
+=P(t_0, t_p)E^p\left[ 1_{\tau>t_m} \left( \sum_{i\ge m}^N c_i P(t_m, t_i) e^{-s(t_m)\cdot (t_i-t_m)} - K \right)^+ | \GG_0 \right]+\\
++P(t_0, t_p)E^p\left[ 1_{\tau\le t_m} \left(\sum_{i\ge m}^N R(t_m) c_i P(t_m, t_i)  - K \right)^+ | \GG_0 \right]
+\ee
+Assuming that the stopping time $\tau$ is independent from all other random variables we get
+\be
+\label{vanillaonbond2}
+\Pi\left(t_0, t_m, K \right)=\\
+\label{vanillaonbond3}
+=P(t_0, t_p)Q\left(\tau>t_m | \GG_0\right) E^p\left[\left( \sum_{i\ge m}^N c_i P(t_m, t_i) e^{-s(t_m)\cdot (t_i-t_m)} - K \right)^+ | \GG_0 \right]+\\
+\label{vanillaonbond4}
++P(t_0, t_p)\left[1-Q\left(\tau>t_m | \GG_0\right)\right]E^p\left[ \left(\sum_{i\ge m}^N R(t_m) c_i P(t_m, t_i)  - K \right)^+ | \GG_0 \right]
+\ee
+where $Q\left(\tau>t_m | \GG_0\right)$ is the probability of the default event occurring after $t_m$ as observed from $t_0$ knowing $\GG_0$.
+At this point we assume a normal distribution for $s(t_m)$
+\be 
+\label{sstocheq}
+s(t_m)\sim \NN\left[\mu_s(t_m), \Sigma_s^2\left(t_m, t_n-t_m, s_m^*(K) \right) | \FF_0\right]
+\ee
+where $\Sigma_s^2$ is the variance that is supposed to depend on the maturity of the option, the remaining time to maturity of the underlying bond $(t_n-t_m)$ and the par discounting spread $s_m^*$ that would satisfy the following equation:
+\be 
+\label{pasbondspread}
+\sum_{i>m}^N c_i \bar{P}(t_m, t_i) e^{-s_m^*(K)\cdot (t_i-t_m)}=K
+\ee
+where $\bar{P}$ is the expected forward zero coupon bond value for delivering $1$ unit of cash in $t_i$ as seen from $t_0$ and assuming deterministic interest rates for simplicity.
+In words, (\ref{pasbondspread}) finds the credit discounting spread that would make the bond worth as the strike $K$ assuming default is not possible. Notice that when $t_m \rightarrow t_n$, it could happen that $s_m^*(K)$ diverges, but in this case the actual strike $s_m^*(K)$ to extract $\Sigma_s^2$ is no more important due to the fact that the variance of the stochastic term $ P(t_m, t_i) e^{-s(t_m)\cdot (t_i-t_m)}$ in (\ref{vanillaonbond3}) approaches in any case zero in reason of the vanishing time to maturity.
+The expect value $\mu_s(t_m)$ appearing in (\ref{sstocheq}) will be implied by the following equation that ensures the calibration to market price of the bond as seen from $t_0$\footnote{$\sum_{t_i< t_m} \Pi_{mkt}\left(c_i\right)$ in (\ref{calibmu}) is the sum of the market present values of the cashflows of the bond occurring before the maturity date of the option $t_m$.}
+\be
+\label{calibmu} 
+\Pi\left(t_0, t_m, K=0 \right)=B_{mkt}(t_0)-\sum_{t_i< t_m} \Pi_{mkt}\left(c_i\right)
+\ee
+computed with the condition 
+\be 
+\Sigma_s^2 = \Sigma_s^2\left(t_m, t_n-t_m, s_m^*(K)  \right)
+\ee
+and 
+assuming that the distribution of $R(t_m)$ is known to be a log normal with exogenously given mean and volatility parameters\footnote{The recovery random variable is assumed to be independent from all other stochastic quantities.}:
+\be 
+\label{recoverydistr}
+\ln R(t_m) = \NN\left[\mu_R(t_m), \Sigma_R^2\left(t_m, t_n-t_m, K \right) | \FF_0\right]
+\ee
+It is now worth noticing from (\ref{vanillaonbond2}) that for the case $t_p=t_m = t_N$, $K=0$, $C_N=1$, one has
+\be 
+\Pi\left(t_0, t_N, K=0 \right)=P(t_0, t_N)Q\left(\tau>t_N | \GG_0\right) + P(t_0, t_N)\left[1-Q\left(\tau>t_N | \GG_0\right)\right]E^p\left[ R(t_N) | \GG_0 \right]
+\ee
+This last equation correctly ensures that 
+\be
+\Pi\left(t_0, t_N, K=0 \right)=B_{mkt}(t_0)-\sum_{t_i< t_N} \Pi_{mkt}\left(c_i\right)
+\ee
+by construction, if one  assumes that $Q\left(\tau>t_N | \GG_0\right)$ has been correctly calibrated to the market price of the bond, taking into account the exogenously given mean of the recovery rate $E^p\left[ R(t_m) | \GG_0 \right]$.
+
+\subsection{Interest rate model and detailed computation}
+We assume that interest rates are stochastic, driven by a gaussian short rate model.
+The basic dynamics of the short rate is given by
+\be
+r\left(t\right)=\sum_i x_{i}\left(t\right)+\varphi\left(t\right)
+\ee
+with $\varphi\left(t\right)$ deterministic, $x_{i}\left(0\right)=0$
+and with
+\be
+dx_{i}\left(t\right)=-a_{i}\, x_{i}\left(t\right)dt+\eta_{i}\left(t\right)dW_{i}\left(t\right)
+\ee
+We consider $a_{i}$ as constants, $\eta_{i}\left(t\right)$ as deterministic
+functions of time and we set the correlation of the Brownian motions
+to be
+\be
+dW_{i}\left(t\right)dW_{j}\left(t'\right)=\rho_{ij}\left(t\right)\,\delta\left(t-t'\right)\, dt\, dt^{\prime}
+\ee
+again with $\rho_{ij}\left(t\right)$ deterministic and with $\rho_{ii}\left(t\right)=1$.
+For $t_0<t<s$ one then has the following dynamics for the short rate component $x_i$ in the $T$-forward measure
+\be
+x_{i}\left(s\right)=x_{i}\left(t\right)\, b_{i}\left(t,s\right)+\int_{t}^{s}\,\eta_{i}\left(u\right)\, b_{i}\left(u,s\right)\, dW_{i}\left(u\right)+\mu_{i}^{T}\left(t,s\right)
+\ee
+with 
+\be
+b_{i}\left(t,T\right) & = & e^{-a_{i}\left(T-t\right)}\\
+B_{i}\left(t,T\right) & = & \frac{1}{a_{i}}\left(1-e^{-a_{i}\left(T-t\right)}\right)
+\ee
+and
+\be
+\mu_{i}^{T}\left(t,s\right) & = & \sum_{j}\mu_{ij}^{T}\left(t,s\right)\\
+\mu_{ij}^{T}\left(t,s\right) & = & -\int_{t}^{s}\, b_{i}\left(u,s\right)B_{j}\left(u,T\right)\eta_{ij}\left(u\right)\, du 
+\ee
+The zero coupon bond valueas seen from $\FF_T$ is 
+\be 
+P\left(T,S\right)=\frac{P\left(0,S\right)}{P\left(0,T\right)}\, e^{-M\left(T,S\right)+\frac{1}{2}\left[V\left(T,S\right)-V\left(0,S\right)+V\left(0,T\right)\right]}
+\ee
+where 
+\be 
+M\left(t,T\right) = \sum_i x_{i}\left(t\right)B_{i}\left(t,T\right)
+\ee
+and for the $V$ terms expressions refer to standard computations (see ....).
+If we now go back to (\ref{vanillaonbond2}) that we rewrite here for clarity
+\be
+\label{vanillaonbond5}
+\Pi\left(t_0, t_m, K \right)=\\
+=P(t_0, t_p)Q\left(\tau>t_m | \GG_0\right) E^p\left[\left( \sum_{i\ge m}^N c_i P(t_m, t_i) e^{-s(t_m)\cdot (t_i-t_m)} - K \right)^+ | \GG_0 \right]+\\
++P(t_0, t_p)\left[1-Q\left(\tau>t_m | \GG_0\right)\right]E^p\left[ \left(\sum_{i\ge m}^N R(t_m) c_i P(t_m, t_i)  - K \right)^+ | \GG_0 \right]
+\ee
+we realize that the calculation of the two expectations reduce to multivariate Gaussian integrations\footnote{to be performed numerically} w.r.t. either the following vector of correlated Gaussian variables
+\be 
+\left( s(t_m), x_{i}\left(t_m\right) \right)
+\ee
+or 
+\be 
+\left( \ln R(t_m), x_{i}\left(t_m\right) \right)
+\ee
+This ends the description of the model and its implementation.
+
+
+\section{Stochastic volatility's orderly smiles}
+
+The following is taken from \cite{bergomismile}.
+Let us consider a stock $S_t$, $x_t=\ln S_t$ and the dynamics
+\be 
+\label{dynamicssv}
+d x_t = \lp -\frac{1}{2}\xi_t^t + m_t \rp dt + \sqrt{\xi_t^t} dZ_t^1, x_0=x \\
+d \xi_t^u = \lambda(t,u,\xi_t) \cdot dZ_t, \xi_0^u=\xi^u
+\ee
+where $\xi_t \equiv \left(\xi_t^u, u \ge t\right)$ is the instantaneous forward variance curve as seen from time $t$ for time $u$, $dZ_t$ is a $d$-dimensional standard Brownian motion with orthogonal components, $m_t$ is the drift component:
+\be 
+\label{mt}
+m_t = r_t-d_t
+\ee
+with $r_t$ the (deterministic) short interest rate, $d_t$ the continuous dividend yield.
+Furthermore we choose
+\be
+\label{lambdavv} 
+\lambda(t,u,\xi_t)=\lp \lambda_1, \lambda_2, \cdots, \lambda_d \rp
+\ee
+with $\lambda_1$ driving the covariance between the spot and the variance processes.
+One could infer the instantaneous forward variance curve at time $0$ from the variance swap market\footnote{or from ATM vanilla options at time $0$, or using other similar sensible choices.} as
+\be 
+\xi_0^u = \frac{d}{du} \lp {\hat{\sigma}}_u^2 u \rp
+\ee
+where ${\hat{\sigma}}_u$ is the variance swap implied volatility for maturity $u$.
+Befor going on, we outline the following:
+\begin{itemize}
+\item the model has no local volatility component
+\item the model is a second generation stochastic volatility model, meaning that it models the evolution of the all curve $\left(\xi_t^u, u \ge t\right)$ and not only $\xi_t^t$ (like for example heston models does)
+\end{itemize}
+We will proceed with a (second order) perturbative expansion for small $\epsilon$, making the following substitution in the dynamics:
+\be 
+\label{perturbativeexp}
+\lambda \rightarrow \epsilon \lambda
+\ee
+Let us consider any derivative (undiscounted) price within the model specified by (\ref{dynamicssv}):
+\be 
+\label{pricemodel}
+\Pi\lp t, x, \xi^u\rp
+\ee
+By Ito formula, it holds that
+\be 
+\label{ito1}
+d\Pi\lp t, x, \xi^u\rp =\Pi_t  dt + \Pi_x   \lp -\frac{1}{2}\xi_t^t dt + m_t dt + \sqrt{\xi_t^t} dZ_t^1 \rp +\frac{1}{2} \Pi_{xx}   \lp \xi_t^t dt \rp+ \\
++ \int_t^T  \lp \Pi_u \lambda(t,u,\xi_t) \cdot dZ_t \rp du +  \int_t^T \lp \int_t^T  \lp \frac{\Pi_{u u'}}{2} \sum_{i=1}^ d \lambda_i(t,u,\xi_t) \lambda_i(t,u',\xi_t) dt \rp du \rp du' + \\
++\int_t^T  \lp \Pi_{x u} \lambda_1(t,u,\xi_t) \sqrt{\xi_t^t} dt  \rp du 
+\ee
+where we used the short notation 
+\be 
+\frac{\partial}{\partial z}\Pi\lp t, x, \xi^u\rp = \Pi_z \mbox{ for } z=t, x\ee
+and 
+\be 
+\frac{\partial}{\partial \xi_t^u}\Pi\lp t, x, \xi^u\rp = \Pi_u, u\ge t
+\ee
+We now define
+\be 
+\label{variancefactors}
+\mu \lp t, u, \xi_t \rp \lambda_1(t,u,\xi_t) \sqrt{\xi_t^t} \\
+\nu \lp t, u, u', \xi_t \rp = \sum_{i=1}^ d \lambda_i(t,u,\xi_t) \lambda_i(t,u',\xi_t)
+\ee
+and get
+\be 
+\label{ito2}
+d\Pi\lp t, x, \xi^u\rp =\Pi_t  dt + \Pi_x   \lp -\frac{1}{2}\xi_t^t dt + m_t dt + \sqrt{\xi_t^t} dZ_t^1 \rp +\frac{1}{2} \Pi_{xx}   \lp \xi_t^t dt \rp+ \\
++ dZ_t \cdot \int_t^T  \lp \Pi_u \lambda(t,u,\xi_t) \rp du + dt  \int_t^T \lp \int_t^T  \lp \frac{\Pi_{u u'}}{2} \nu \lp t, u, u', \xi_t \rp \rp du \rp du' + \\
++dt \int_t^T  \lp \Pi_{x u} \mu \lp t, u, \xi_t \rp \rp du 
+\ee
+We now integrate and take expectations of both sides between $t$ and any $\tau$ such that $t \le \tau \le T$:
+\be 
+E_t\lpq \int_t^\tau d\Pi\lp t, x, \xi^u\rp \rpq = E_t\lpq \Pi\lp \tau, x_\tau, \xi_\tau^u\rp - \Pi\lp t, x, \xi^u\rp\rpq = 
+E_t\lpq (\cdots)_{1} dt  \rpq + E_t\lpq (\cdots)_{2} \cdot dZ_t  \rpq 
+\ee
+where we used dots to shorty group the $dt$ terms and the $dZ_t$ terms, that one obtains when integrating the right hand side of (\ref{ito2}).
+We now know that $E_t\lpq (\cdots)_{2} \cdot dZ_t  \rpq = 0 $\footnote{notice that $(\cdots)_{2}$ is adapted to $dZ_t$} and observe that, being $\Pi\lp t, x, \xi^u\rp$ the undiscounted derivative price, it must be a martingale. This brings us to the pricing equation $(\cdots)_{1}(s) = 0$ for all $s\ge t$\footnote{remind that $\tau$ is generic and hence the martingale condition implies that $(\cdots)_{1}(s) = 0$ for all $s\ge t$}, that explicitly amounts to
+\be 
+\label{pricingeq}
+\Pi_t  + \Pi_x   \lp -\frac{1}{2}\xi_t^t + m_t \rp +\frac{1}{2} \xi_t^t \Pi_{xx} + \\
++   \int_t^T \lp \int_t^T  \lp \frac{\Pi_{u u'}}{2} \nu \lp t, u, u', \xi_t \rp \rp du \rp du' + \int_t^T  \lp \Pi_{x u} \mu \lp t, u, \xi_t \rp \rp du =0 \\
+ \Pi\lp T, x_T, \xi_T^u\rp = g(x_T)
+\ee
+where $g(x_T)$ is the non path dependent derivative payoff at maturity time $T$.
+Without loss of generality, we now assume $m_t=0$\footnote{if this is not the case, one should work out all the subsequent calculations with a shifted $x_t$ without drift and plug $m_t$ in just in the final results.}.
+We can define
+\be 
+\label{ht0}
+H_t^0 = \frac{\xi_t^t}{2}  \lp \frac{\partial^2}{\partial x ^2 } - \frac{\partial}{\partial x }  \rp \\
+\label{wt1}
+W_t^1 = \int_t^T  du  \mu \lp t, u, \xi_t \rp \frac{\partial^2}{\partial x \partial \xi_t^u} \\
+\label{wt2}
+W_t^2 =  \frac{1}{2} \int_t^T du  \int_t^T  du' \nu \lp t, u, u', \xi_t \rp  du  \frac{\partial^2}{\partial \xi_t^{u'} \partial \xi_t^u} \\
+H_t = H_t^0 + W_t^1 + W_t^2
+\ee
+that permits to rewrite (\ref{pricingeq}) as
+\be 
+\label{pricingeq1}
+\lp \frac{\partial}{\partial t } + H_t  \rp \Pi\lp t, x, \xi^u\rp = 0 \\
+\Pi\lp T, x_T, \xi_T^u\rp = g(x_T)
+\ee
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BIBLIOGRAFIA 																		%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{thebibliography}{99}
+\bibitem{Pelsser} Antoon Pelsser, 'Efficient Methods for Valuing Interest Rate Derivatives', Springer Finance\\
+\bibitem{Bjork} Bjork, 'Arbitrage Theory in Continuos Time', 2nd ed, Oxford\\
+\bibitem{PiterbargCSA} Vladimir Piterbarg, 'Funding beyond discounting: collateral agreements and derivatives pricing, Risk Magazine'\\
+\bibitem{FabriceDouglasRouahDupire} 'Derivation of Local Volatility', by Fabrice Douglas Rouah (seems not published, search the internet..)
+\bibitem{Kamp} 'LOCAL VOLATILITY MODELLING',Roel van der Kamp, July 13, 2009, 'A DISSERTATION SUBMITTED FOR THE DEGREE OF
+Master of Science in Applied Mathematics (Financial Engineering)'
+\bibitem{SeppBarr} 'Pricing Barrier Options under Local Volatility', Artur Sepp, Mail: artursepp@hotmail.com, Web: www.hot.ee/seppar, 16 November 2002
+\bibitem{riskfxbook} 'Foreign Exchange Risk: Models, Instruments and Stategies', Risk Books, 2002 (ed. Hakala, Wystup)
+\bibitem{bergomismile} 'Stochastic volatility's orderly smiles', Lorenzo Bergomi, Julien Guyon, Risk Magazine, May 2012, page 60
+
+
+\end{thebibliography}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INDICE ANALITICO																%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\printindex
+
+\end{document}

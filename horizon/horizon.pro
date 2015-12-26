@@ -50,6 +50,9 @@ unix:!macx: PRE_TARGETDEPS += $$PWD/../boost_1_55_0/stage/lib/libboost_log-gcc48
 unix:!macx: LIBS += -L$$PWD/../boost_1_55_0/stage/lib/ -lboost_thread-gcc48-mt-sd-1_55
 unix:!macx: PRE_TARGETDEPS += $$PWD/../boost_1_55_0/stage/lib/libboost_thread-gcc48-mt-sd-1_55.a
 #------------------------------------------------------------------------------------------------------------------
+unix:!macx: LIBS += -L$$PWD/../boost_1_55_0/stage/lib/ -lboost_date_time-gcc48-mt-sd-1_55
+unix:!macx: PRE_TARGETDEPS += $$PWD/../boost_1_55_0/stage/lib/libboost_date_time-gcc48-mt-sd-1_55.a
+#------------------------------------------------------------------------------------------------------------------
 # end debug
 } else {
 #release
@@ -76,6 +79,9 @@ unix:!macx: PRE_TARGETDEPS += $$PWD/../boost_1_55_0/stage/lib/libboost_log-gcc48
 #------------------------------------------------------------------------------------------------------------------
 unix:!macx: LIBS += -L$$PWD/../boost_1_55_0/stage/lib/ -lboost_thread-gcc48-mt-s-1_55
 unix:!macx: PRE_TARGETDEPS += $$PWD/../boost_1_55_0/stage/lib/libboost_thread-gcc48-mt-s-1_55.a
+#------------------------------------------------------------------------------------------------------------------
+unix:!macx: LIBS += -L$$PWD/../boost_1_55_0/stage/lib/ -lboost_date_time-gcc48-mt-s-1_55
+unix:!macx: PRE_TARGETDEPS += $$PWD/../boost_1_55_0/stage/lib/libboost_date_time-gcc48-mt-s-1_55.a
 #------------------------------------------------------------------------------------------------------------------
 # end release
 }

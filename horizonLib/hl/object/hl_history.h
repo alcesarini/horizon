@@ -46,6 +46,8 @@ class HL_History : public virtual HLSER::HL_Serializable, public Descriptable
 
         HL_SER(hl_ObjCodePtr_);
         HL_SER(histories_);
+        HL_SER(refTime_);
+
 
     }
     //@} Serialization -----------------------------------
@@ -56,11 +58,10 @@ public:
     typedef TIME_TYPE TimeType;
     typedef FIXING_TYPE FixingType;
     typedef typename std::map<TimeType, FixingType> HistType;
-    typedef typename BSP<HistType> HistPtrType;
     /**
     The string is a tag to recognize one history from another.
     */
-    typedef typename std::map<HLSTRING, HistPtrType> HistoryCollectionType;
+    typedef typename std::map<HLSTRING, HistType> HistoryCollectionType;
 
     /**
     Constructors & destructors
@@ -88,6 +89,9 @@ public:
 
     HL_CLASS_VAR_ACCESS_METHODS(HistoryCollectionType/*ClassVariableType*/, histories/*classVariableName_no_underscore*/);
 
+    HL_CLASS_VAR_ACCESS_METHODS(TimeType, refTime);
+
+
     /**
     If the return ptr is null, it means that the fixing is not found.
     The method throws an exception if the fixing is not present and time<refTime.
@@ -104,31 +108,32 @@ public:
     */
     const FixingType * getFixingPtr(const HLSTRING & historyTag,
                                     const TimeType& time,
-                                    const TimeType& refTime) const
+                                    bool allowEmptyStrictlyPastFixing=false
+                                    ) const
     {
 
         fixingPtr_=NULL;
 
-        if(time>refTime)
+        if(time>refTime_)
             return fixingPtr_;
 
-        bool exactlyAtRefTime = (time==refTime);
+        bool exactlyAtRefTime = (time==refTime_);
 
         typename HistoryCollectionType::const_iterator coll_cIt = histories_.find(historyTag);
 
         if(coll_cIt==histories_.end())
         {
-            HL_SRE(exactlyAtRefTime, "history tag not found: " << errorString(historyTag, time));
+            HL_SRE(allowEmptyStrictlyPastFixing || exactlyAtRefTime, "history tag not found: " << errorString(historyTag, time));
             return fixingPtr_;
         }
 
-        const HistType & hist = (*(coll_cIt->second));
+        const HistType & hist = coll_cIt->second;
 
         typename HistType::const_iterator hist_cIt = hist.find(time);
 
         if(hist_cIt==hist.end())
         {
-            HL_SRE(exactlyAtRefTime, "time not found: "  << errorString(historyTag, time));
+            HL_SRE(allowEmptyStrictlyPastFixing || exactlyAtRefTime, "time not found: "  << errorString(historyTag, time));
             return fixingPtr_;
         }
 
@@ -141,6 +146,26 @@ public:
 
         return fixingPtr_;
     } // end getFixingPtr
+
+
+    void storeFixing(const HLSTRING & historyTag,
+                     const TimeType& time,
+                     const FixingType & newFixingValue)
+    {
+
+        const FixingType * alreadyStoredFixingValue = getFixingPtr(historyTag, time, true/*allowEmptyStrictlyPastFixing*/);
+
+
+        HL_SRE(alreadyStoredFixingValue==NULL,
+               "Fixing already stored, historyTag=" << historyTag << ", time=" << time <<
+               ", newFixingValue=" << newFixingValue << ", alreadyStoreFixingValue=" << alreadyStoredFixingValue);
+
+
+        histories_[historyTag][time]=newFixingValue;
+
+
+
+    } // end storeFixing
 
     //@}
 
@@ -200,7 +225,7 @@ protected:
     {
         std::stringstream ss;
         ss << " [historyTag=" << historyTag << ", time=" << time <<
-        "] for the following HL_History object: " << (*this);
+              "] for the following HL_History object: " << (*this);
         return ss.str();
     }
 
@@ -218,6 +243,8 @@ protected:
     HL_ObjCodePtr hl_ObjCodePtr_;
 
     HistoryCollectionType histories_;
+
+    TimeType refTime_;
 
     /**
     Service ptr
@@ -244,13 +271,13 @@ private:
 //------------------------------------------------------------------------------------------------------
 
 
-typedef HL_History<date, HLR> HL_BaseDateRealHistory;
+typedef HL_History<ptime, HLR> HL_BaseTimeRealHistory;
 
 
 
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
-// class HL_DateRealHistory
+// class HL_TimeRealHistory
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
 
@@ -260,7 +287,7 @@ typedef HL_History<date, HLR> HL_BaseDateRealHistory;
 \brief History: time vs double
 */
 
-class HL_DateRealHistory : public HL_BaseDateRealHistory
+class HL_TimeRealHistory : public HL_BaseTimeRealHistory
 {
 
     /**
@@ -275,7 +302,7 @@ class HL_DateRealHistory : public HL_BaseDateRealHistory
     {
 
 
-        HL_SERIALIZE_BASE_CLASS(HL_BaseDateRealHistory);
+        HL_SERIALIZE_BASE_CLASS(HL_BaseTimeRealHistory);
 
         HL_SER(expectedPositiveFixing_);
 
@@ -290,9 +317,9 @@ public:
     */
     //@{
 
-    HL_DateRealHistory();
+    HL_TimeRealHistory();
 
-    virtual ~HL_DateRealHistory();
+    virtual ~HL_TimeRealHistory();
     //@}
 
 
@@ -342,17 +369,33 @@ protected:
     //@}
 
 }
-; // end class HL_DateRealHistory
+; // end class HL_TimeRealHistory
 
 
 
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
-// class HL_DateRealHistory: defines
+// class HL_TimeRealHistory: defines
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
 
-#define HL_DateRealHistoryPtr BSP<HLOBJ::HL_DateRealHistory>
+#define HL_TimeRealHistoryPtr BSP<HLOBJ::HL_TimeRealHistory>
+
+
+
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+// HLTEST_get_HL_TimeRealHistory
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+
+HL_TimeRealHistoryPtr HLTEST_get_HL_TimeRealHistory(const HL_ObjCodePtr & objCode,
+                                                    const date & refDate,
+                                                    const HLSTRING & historyTag,
+                                                    const std::vector<HLR> & fixingValues);
+
+
+
 
 
 

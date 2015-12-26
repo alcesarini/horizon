@@ -293,9 +293,9 @@ void HL_Interpolator::set_interpControlsPtr(const HL_InterpControlsPtr &interpCo
     HL_PNN(interpControlsPtr_);
 
 
-    nDim_ = interpControlsPtr_->get_nDim();
+    domainDim_ = interpControlsPtr_->get_nDim();
 
-    HL_SR(nDim_>0);
+    HL_SR(domainDim_>0);
 
 
 
@@ -339,7 +339,7 @@ void HL_Interpolator::set_realMultiArrayPtr(const HL_RealMultiArrayPtr &realMult
 HL_Disposable<HLCTRS::HL_MultiIndexHelper::ShapeType> HL_Interpolator::get_shape() const
 {
 
-    HLCTRS::HL_MultiIndexHelper::ShapeType shape(nDim_);
+    HLCTRS::HL_MultiIndexHelper::ShapeType shape(domainDim_);
     HLS i=0;
     BOOST_FOREACH(const HL_DirectionPtr & dir, get_directions())
     {
@@ -369,7 +369,8 @@ void HL_Interpolator::localize(const VEC::const_iterator & b, const VEC::const_i
 
 void HL_Interpolator::descriptionImpl(std::ostream & os) const
 {
-    HL_Function::descriptionImpl(os);
+    os << "HL_Interpolator:\n";
+    HL_RealFunction_n_1::descriptionImpl(os);
     hl_fillDescriptionStream(realMultiArrayPtr_);
 } // end descriptionImpl
 

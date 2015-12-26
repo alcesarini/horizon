@@ -69,9 +69,15 @@ To eliminate this warning when including the following bunch of serialization-re
 #include <boost/iostreams/stream.hpp>
 #include <boost/iostreams/device/back_inserter.hpp>
 
+
+/*
+serialization
+*/
+#include <boost/serialization/utility.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/map.hpp>
 #include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/weak_ptr.hpp>
 #include <boost/date_time/posix_time/time_serialize.hpp>
 
 
@@ -97,6 +103,17 @@ random
 #include <boost/random/variate_generator.hpp>
 #include <boost/generator_iterator.hpp>
 #include <boost/random/mersenne_twister.hpp>
+#include <boost/math/tools/roots.hpp>
+
+/*
+math
+*/
+
+/*
+probability distributions
+*/
+#include <boost/math/distributions/normal.hpp>
+
 
 
 //------------------------------------------------------------------------------------------------------

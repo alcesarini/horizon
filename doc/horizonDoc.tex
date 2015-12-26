@@ -1,0 +1,349 @@
+\documentclass[12pt, a4paper]{article}
+
+
+%http://pgfplots.sourceforge.net/pgfplots.pdf
+
+\usepackage{pdfsync}
+\usepackage{hyperref}
+\usepackage{amsfonts }
+%\usepackage[pdftex]{graphicx}
+\usepackage{float}
+\usepackage{authblk}
+\usepackage{ifthen}
+\usepackage{subfigure}
+
+\usepackage{pgfplots} 
+\usepackage{filecontents}
+
+\usepackage[toc,page]{appendix}
+
+%%%% sets paper dimensions as A4
+\setlength{\paperwidth}{210mm} 
+\setlength{\paperheight}{297mm}
+
+%%%%%% Text dimensions
+
+\oddsidemargin 0 mm
+\evensidemargin 0 mm
+\textwidth 160 mm
+\topmargin -3 mm
+\textheight 240 mm
+
+\newcommand{\todo}{{\bf TODO:}}
+
+\newcommand\be{\begin{eqnarray}}    
+\newcommand\ee{\end{eqnarray}}	
+\newcommand\ba{\begin{array}}	   
+\newcommand\ea{\end{array}}
+\newcommand\eeq{\end{equation}}	 	
+\newcommand\beq{\begin{equation}}
+
+
+
+\newcommand{\nn}{\nonumber}
+
+\newcommand{\KK}{{\cal{K}}}
+
+\newcommand{\BS}{{\mathrm{{\cal{BS}}}}}
+
+
+\newcommand{\SSS}{{\cal{S}}}
+
+\newcommand{\BBB}{{\cal{B}}}
+
+\newcommand{\WWW}{{\cal{W}}}
+
+
+\newcommand{\DEF} {{\bf{Definition: }}}
+\newcommand{\PROP} {{\bf{Proposition: }}}
+\newcommand{\PROOF} {{\emph{Proof: \\ \\}}}
+
+
+
+\newcommand{\AAA} {\mathcal{A} }
+\newcommand{\LL} {\mathcal{L} }
+\newcommand{\FF} {\mathcal{F} }
+\newcommand{\GG} {\mathcal{G} }
+\newcommand{\DPO} {dP(\omega) }
+\newcommand{\BOREL} {{\mathcal{B}(\Re)} }
+\newcommand{\FLT} {\underline{\mathcal{F}}} 
+\newcommand{\TS} {\tilde{S}} 
+\newcommand{\TX} {\tilde{X}} 
+\newcommand{\OW} {\overrightarrow{w}} 
+\newcommand{\OS} {\overrightarrow{\sigma}} 
+\newcommand{\OV} {\overrightarrow{v}} 
+\newcommand{\OZ} {\overrightarrow{z}} 
+\newcommand{\NN} {\mathcal{N}} 
+
+\newcommand{\lp} {\left( }
+\newcommand{\rp} {\right)}
+\newcommand{\lpq} {\left[}
+\newcommand{\rpq} {\right]}
+\newcommand{\lpg} {\left\{ }
+\newcommand{\rpg} {\right\} }
+
+
+
+\title{\textbf{Horizon Documentation}}
+
+
+\author{Horizons}
+\affil{Horizon}
+
+\date{\today}
+
+
+\begin{document}
+
+
+\maketitle
+
+\section{Notation}
+Unless explicitly stated, the following symbols will be used with the meaning defined here below:
+\begin{enumerate}
+\item $N$: standard cumulative normal
+\item: $n(z)=\frac{e^{-\frac{z^2}{2}}}{\sqrt{2\pi}}$: standard normal probability density
+\end{enumerate}
+
+\section{Normal Black-Scholes Model}
+
+{\bf{A. Cesarini 20140601-NBS}} \\
+Let us consider an asset having the following dynamics for the evolution from $t$ to a certain maturity $T>t$:
+\be
+S(T) = F+\sigma z
+\ee
+where $z$ is a standard normal and $F$ is called $T$-maturity asset forward.
+Let us compute the undiscounted price of a vanilla option on $S(T)$:
+\be
+\Pi[\phi] = E\left[ \left( \phi (S(T)-K) \right)^+\right]= E\left[ \left( \phi (\sigma z - (K-F)) \right)^+\right]
+\ee
+We have
+\be
+\Pi[\phi] = \int_{z^*}^{\phi \infty} n(z)  (\sigma z - (K-F)) dz 
+\ee  
+with 
+\be
+z^* = \frac{K-F}{\sigma}
+\ee
+which gives
+\be
+\Pi[\phi] = \phi (F-K) N(-\phi z^*) + \sigma n(z^*)
+\ee
+
+
+\section{Girsanov's Theorem}
+
+\PROP (From \cite{Bjork}) Let $W^P$ be a $d$-dimensional standard (i.e. independent components) $P$-Wiener process on $(\Omega, \FF, P, \FLT)$ and let $\varphi$ be any $d$-dimensional adapted column vector process. Choose a fixed $T>0$ and define the (scalar) process $L$ on $[0,T]$ by
+\[
+dL_t=\varphi_t^* L_t dW_t^P; L_0=1
+\]
+that is
+\[
+L_t=\exp\left[\int_0^t \varphi_s^* dW_s^P -\frac{1}{2}\int_0^t \| \varphi_s\|^2 ds\right]
+\]
+Assume that 
+\[
+E^P[L_T]=1
+\]
+and define the new probability measure $Q$ on $\FF_T$ by
+\[
+L_T=\frac{dQ}{dP} 
+\]
+Then 
+\be
+dW_t^P&=&\varphi_t dt + dW_t^Q \label{girseq1}\\
+W_t^Q&=&W_t^P -\int_0^t \varphi_s ds\label{girseq2}
+\ee
+where $W^Q$ is a $Q$-Wiener process. \\ \\
+\PROOF
+\todo
+
+\section{Changing measures between equivalent martingale measures}
+For every non dividend paying tradable asset $H$, measurable on $\FF_{\tau}$, and considering two numerairs $N(\tau)$, $M(\tau)$, we know that the following holds ($t\leq \tau$):
+\[
+H(t)=N(t) E^N\left[\frac{H(\tau)}{N(\tau)} | \FF_t \right]=M(t) E^M\left[\frac{H(\tau)}{M(\tau)} | \FF_t \right]
+\]
+which, defining $G(\tau)=\frac{H(\tau)}{N(\tau)}$, yields
+\[
+E^N\left[G(\tau)| \FF_t \right]= E^M\left[ G(\tau) \frac{M(t)}{M(\tau)} \frac{N(\tau)}{N(t)}| \FF_t \right]= E^M\left[G(\tau) \frac{dQ^N}{dQ^M}(\tau) | \FF_t \right]
+\]
+which gives
+\be 
+\frac{dQ^N}{dQ^M}(\tau) =  \frac{M(t)}{M(\tau)} \frac{N(\tau)}{N(t)}
+\label{radniknumeraires}
+\ee
+
+
+\section{Changing measures between $T$-fwd martingale measures \label{t_fwd_measure_changes}}
+{\bf{A. Cesarini 20140823-CONVADJ}} \\
+Let $t_0<t_1<\cdots < t_{N}$ be a time schedule and referring to (\ref{radniknumeraires}) we assume
+\be 
+M(t) = P(t, t_k) \\
+N(t) = P(t, t_h)
+\ee
+with $t\le \tau \le \min(t_k, t_h)$ and $h,k\ge 0$. By $P(\tau, T)$ we denote the risk free zero coupon bond price as observed from $\tau$ for maturity $T$, delivering $1$ unit of currency at $T$. We then get
+\be 
+\frac{dQ^N}{dQ^M}(\tau) =  \frac{dQ^h}{dQ^k}(\tau) =  \frac{P(t, t_k)}{P(\tau, t_k)} \frac{P(\tau, t_h)}{P(t, t_h)}=L_{t, h/k}(\tau)
+\label{radniknumeraires_tfwdhk}
+\ee
+where $L_{t, h/k}(t)=1$ and 
+\be 
+E^h\left[G(\tau)| \FF_t \right] = E^k\left[G(\tau) L_{t, h/k}(\tau) | \FF_t \right]
+\ee
+We now write
+\be 
+P(\tau, h/k) \equiv \frac{P(\tau, t_h)}{P(\tau, t_k)}= \left\{\Pi_{i=m_{h,k}+1}^{M_{h,k}}\left[ 1 + F_i(\tau)\tau_i \right]\right\}^{s(h,k)} \label{phk}\\
+m_{h,k} = \min(h, k)\\
+M_{h,k} = \max(h, k) \\
+s(h,k) = 1 \mbox{ if $h\le k$}, -1 \mbox{ if $h> k$}
+\ee
+and 
+\be
+F_i(\tau)\equiv \left(\frac{P(\tau, t_{i-1})}{P(\tau, t_i)}-1\right)\frac{1}{\tau_i}
+\ee
+We now compute the following Ito differential in the $t_k$-forward measure
+\be 
+d P(\tau, h/k) = \sum_{l=m_{h,k}+1}^{M_{h,k}} d F_l(\tau) \frac{\partial}{\partial F_l(\tau)}  P(\tau, h/k) =\\
+=\sum_{l=m_{h,k}+1}^{M_{h,k}}\tau_l  s(h,k)  d F_l(\tau)\left[ 1 + F_l(\tau)\tau_l \right]^{s(h,k)-1}  \left\{\Pi_{i=m_{h,k}+1, i\neq l}^{M_{h,k}}\left[ 1 + F_i(\tau)\tau_i \right]\right\}^{s(h,k)}= \\
+= s(h,k) P(\tau, h/k) \sum_{l=m_{h,k}+1}^{M_{h,k}} \frac{\tau_l  d F_l(\tau)}{1 + F_l(\tau)\tau_l } 
+\label{dphk}
+\ee
+From the last equation and (\ref{radniknumeraires_tfwdhk}) we get (always in the $t_k$-forward measure)
+\be 
+d L_{t, h/k}(\tau) = L_{t, h/k}(\tau)  s(h,k) \sum_{l=m_{h,k}+1}^{M_{h,k}} \frac{\tau_l  d F_l(\tau)}{1 + F_l(\tau)\tau_l } 
+\ee
+We now use this last equation, together with the Girsanov's theorem (\ref{girseq1}) to get the following result.
+Suppose to consider a $1$-dimensional Wiener process $Z^{(k)}(\tau)$ where the $(k)$-apex is used to stress that it is a Wiener process in the $t_k$-fwd measure. We can then conclude that $Z^{(h)}(\tau)$ as defined in the following is a Wiener process in the $t_h$-fwd measure:
+\be 
+dZ^{(h)}(\tau) = dZ^{(k)}(\tau)- s(h,k) \sum_{l=m_{h,k}+1}^{M_{h,k}} \frac{\tau_l  \left<d F_l(\tau)\cdot dZ^{(k)}(\tau)\right>}{1 + F_l(\tau)\tau_l } 
+\label{tfwdmeasurechangedet}
+\ee
+
+\subsection{Shifted log-normal fwd rate model and measure change between $T$-fwd martingale measures}
+
+We now assume that
+\be 
+F_l(\tau) = \lambda_l + f_l(\tau)
+\ee
+where $\lambda_l$ is a constant and $f_l(\tau)$ is the following (martingale) log-normal process in the $t_l$-fwd measure:
+\be 
+\frac{d f_l(\tau)}{f_l(\tau)} = -\frac{1}{2}\sigma_l^2 d\tau + \sigma_l dW_l^{(l)}(\tau)
+\ee
+where we used a notation that stresses that $W_l^{(l)}$ is the Wiener process driving $f_l(\tau)$ in the $t_l$-fwd measure and we introduced an annual volatility process $\sigma_l$ (not a constant in general).
+We now further observe the obvious relation 
+\be 
+d F_l(\tau) = d f_l(\tau)
+\ee
+Equation (\ref{tfwdmeasurechangedet}) then becomes
+\be 
+dZ^{(h)}(\tau) = dZ^{(k)}(\tau)- s(h,k) \sum_{l=m_{h,k}+1}^{M_{h,k}} \frac{\tau_l \sigma_l f_l(\tau) \left<d W_l^{(l)}(\tau)\cdot dZ^{(k)}(\tau)\right>}{1 + F_l(\tau)\tau_l } =\\
+= dZ^{(k)}(\tau)- s(h,k) \sum_{l=m_{h,k}+1}^{M_{h,k}} \frac{\tau_l \sigma_l (F_l(\tau)-\lambda_l) \left<d W_l^{(l)}(\tau)\cdot dZ^{(k)}(\tau)\right>}{1 + F_l(\tau)\tau_l }
+\label{shifttfwdmeasurechange}
+\ee
+We further notice that one could apply the 'freezing the drift approximation' in the last equation to get
+\be 
+dZ^{(h)}(\tau) =dZ^{(k)}(\tau)- s(h,k) \sum_{l=m_{h,k}+1}^{M_{h,k}} \frac{\tau_l \sigma_l (F_l(t)-\lambda_l) \left<d W_l^{(l)}(\tau)\cdot dZ^{(k)}(\tau)\right>}{1 + F_l(t)\tau_l }
+\ee
+where $t$ has been substituted in place of $\tau$ in some of the factors.
+
+\subsection{Changing measures between $T$-fwd martingale measures of different currencies}
+{\bf{A. Cesarini 20140902-CCYCONVADJ}} \\
+Let us consider a tradable asset $A$ quoted in currency $\alpha$ and suppose to know its market-agreed forward value as seen from time $t$ for maturity $t_k$. For example, $A$ could be a stock with $t_k$ any future maturity or a fwd-rate ibor index with $t_k$ equal to its 'natural pay date' (typically its calendar adjusted end accrual date). 
+By definition of fwd contract we can write 
+\be 
+F_A^{\alpha}(t,t_k)P^{\alpha}(t,t_k) = E^{\alpha}\left[A(f_k) D^{\alpha}(t,t_k)| F_t\right]= P^{\alpha}(t,t_k) E^{k, \alpha}\left[A(f_k)| F_t\right]
+\ee
+where $D^{\alpha}$ denotes the stochastic risk neutral discount factor in $\alpha$ currency and $E^{\alpha}$ the expectation operator in the corresponding measure. 
+Furthermore $f_k\le t_k$ denotes the fixing date of $A$ associated to the forward contract delivering at $t_k$ (typically $f_k=t_k$ for stocks or $f_k=t_{k-1}$ for ibor indexes). 
+We can then write
+\be 
+F_A^{\alpha}(t,t_k) = E^{k, \alpha}\left[A(f_k)| F_t\right]
+\ee
+We now consider the problem of quanto-ing the forward contract in a $\beta$-currency and at the same time of changing its payment date from $t_k$ to $t_h$, with $t_h\ge f_k$. 
+We define $X$ as the value of $1$ unit of $\beta$ currency expressed in $\alpha$ currency. The quanto fwd price will be
+\be 
+E^{\beta}\left[A(f_k) D^{\beta}(t,t_h)| F_t\right] =P^{\beta}(t,t_h) E^{h, \beta}\left[A(f_k)| F_t\right]=F_A^{\beta}(t,t_h)P^{\beta}(t,t_h)=\phi_A(t,t_h,\beta)
+\label{eqa1}
+\ee
+where the $t_h$-fwd quantoed in $\beta$-currency is then defined as
+\be 
+F_A^{\beta}(t,t_h) = E^{h, \beta}\left[A(f_k)| F_t\right]
+\ee
+By no arbitrage, it must also hold that
+\be 
+\phi_A(t,t_h,\beta)=E^{\alpha}\left[A(f_k) D^{\alpha}(t,t_h) X(t_h) | F_t\right] \frac{1}{X(t)}=\\
+= E^{\alpha}\left[E^{\alpha}\left[A(f_k) D^{\alpha}(t,t_h)\frac{X(t_h)}{X(t)} | F_{f_k}\right] | F_t\right] =\\
+= E^{\alpha}\left[D^{\alpha}(t,f_k) A(f_k) E^{\alpha}\left[ D^{\alpha}(f_k,t_h)\frac{X(t_h)}{X(t)} | F_{f_k}\right] | F_t\right] 
+\ee
+Again by no arbitrage it must hold that
+\be 
+E^{\alpha}\left[ D^{\alpha}(f_k,t_h)\frac{X(t_h)}{X(f_k)} | F_{f_k}\right] =E^{\beta}\left[ 1 \cdot D^{\beta}(f_k,t_h) | F_{f_k}\right] = P^{\beta}(f_k,t_h)
+\ee
+meaning that the contract delivering $1$ unit of $\beta$ currency at $t_h$ must have the same price as seen form $f_k$ irrespective of the measure we use to compute it.
+Then we get
+\be 
+\phi_A(t,t_h,\beta)=E^{\alpha}\left[D^{\alpha}(t,f_k) A(f_k)  \frac{X(f_k)}{X(t)}  P^{\beta}(f_k,t_h) | F_t\right] 
+\label{eqa2}
+\ee
+Equating (\ref{eqa1}) to (\ref{eqa2}) we obtain
+\be 
+P^{\beta}(t,t_h) E^{h, \beta}\left[A(f_k)| F_t\right] = E^{\alpha}\left[D^{\alpha}(t,f_k) A(f_k)  \frac{X(f_k)}{X(t)}  P^{\beta}(f_k,t_h) | F_t\right]=\\
+=  E^{\alpha}\left[\frac{D^{\alpha}(t,t_k)}{P^{\alpha}(f_k,t_k)} A(f_k)  \frac{X(f_k)}{X(t)}  P^{\beta}(f_k,t_h) | F_t\right]
+=E^{k, \alpha}\left[\frac{P^{\alpha}(t,t_k)}{P^{\alpha}(f_k,t_k)} A(f_k)  \frac{X(f_k)}{X(t)}  P^{\beta}(f_k,t_h) | F_t\right]
+\ee
+where we also applied a payoff deferring formula and changed from the risk neutral expectation $E^{\alpha}$ to the $t_k$-fwd measure expectation of the $\alpha$ currency.
+Summarizing, we proved that for any asset $A$ it holds that
+\be 
+E^{h, \beta}\left[A(f_k)| F_t\right] = E^{k, \alpha}\left[A(f_k) \frac{L_X (f_k; \alpha, \beta, t_h, t_k)}{L_X (t; \alpha, \beta, t_h, t_k)}| F_t\right]
+\ee
+where
+\be 
+L_X (\tau; \alpha, \beta, t_h, t_k) = X(\tau)\frac{P^{\beta}(\tau,t_h)}{P^{\alpha}(\tau,t_k)}=\frac{dQ^{h, \beta}}{dQ^{k, \alpha}}(\tau)
+\ee
+is the Radon-Nikodyn derivative.
+We also write $L$ in another illuminating form
+\be 
+L_X (\tau; \alpha, \beta, t_h, t_k) =\frac{dQ^{h, \beta}}{dQ^{k, \alpha}}(\tau)=
+X(\tau)\frac{P^{\beta}(\tau,t_h)}{P^{\alpha}(\tau,t_h)}\frac{P^{\alpha}(\tau,t_h)}{P^{\alpha}(\tau,t_k)}
+\ee
+We notice that $L_X (\tau; \alpha, \beta, t_h, t_k)$ is a martingale in the $t_k$-fwd measure of the $\alpha$ currency (being a $X(\tau)P^{\beta}(\tau,t_h)$ a tradable asset).
+We now define the process of the forward of the $X$ fx rate for date $t_h$ as
+\be 
+F_X(\tau, t_h)=X(\tau)\frac{P^{\beta}(\tau,t_h)}{P^{\alpha}(\tau,t_h)}
+\ee
+and finally obtain (see (\ref{phk}))
+\be 
+L_X (\tau; \alpha, \beta, t_h, t_k) =\frac{dQ^{h, \beta}}{dQ^{k, \alpha}}(\tau)=
+F_X(\tau, t_h)\cdot\frac{P^{\alpha}(\tau,t_h)}{P^{\alpha}(\tau,t_k)}=F_X(\tau, t_h)\cdot P^{\alpha}(\tau, h/k)
+\label{chengecurrencyandtfwdradnyk}
+\ee
+We now write (in the $t_k$-fwd measure of the $\alpha$ currency)
+\be 
+d F_X(\tau, t_h) = \cdots dt +\sigma_{F_X(t_h)}  F_X(\tau, t_h)  dW_X(\tau)
+\ee
+We now consider the following Ito differential (see (\ref{dphk})):
+\be 
+\frac{d L_X (\tau; \alpha, \beta, t_h, t_k)}{ L_X (\tau; \alpha, \beta, t_h, t_k)}=\cdots dt+ \sigma_{F_X(t_h)}dW_X(\tau) + \frac{1}{P^{\alpha}(\tau, h/k)}d P^{\alpha}(\tau, h/k)=\\
+= \cdots dt+ \sigma_{F_X(t_h)}dW_X(\tau) +s(h,k) \sum_{l=m_{h,k}+1}^{M_{h,k}} \frac{\tau_l  d F_l^{\alpha}(\tau)}{1 + F_l^{\alpha}(\tau)\tau_l } 
+\ee
+We now use this last equation, together with the Girsanov's theorem (\ref{girseq1}) to get the following result.
+Suppose to consider a $1$-dimensional Wiener process $Z^{(k, \alpha)}(\tau)$ where the $(k, \alpha)$-apex is used to stress that it is a Wiener process in the $t_k$-fwd measure of the $\alpha$ currency. We can then conclude that $Z^{(h, \beta)}(\tau)$ as defined in the following is a Wiener process in the $t_h$-fwd measure of the $\beta$ currency:
+\be 
+dZ^{(h, \beta)}(\tau) = dZ^{(k, \alpha)}(\tau)- s(h,k) \sum_{l=m_{h,k}+1}^{M_{h,k}} \frac{\tau_l  \left<d F_l^{\alpha}(\tau)\cdot dZ^{(k, \alpha)}(\tau)\right>}{1 + F_l^{\alpha}(\tau)\tau_l } -\\
+- \sigma_{F_X(t_h)} \left<dW_X(\tau)\cdot dZ^{(k, \alpha)}(\tau)\right>
+\label{tfwdmeasurechangedet}
+\ee
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BIBLIOGRAFIA 																		%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{thebibliography}{99}
+\bibitem{Bjork} Bjork, 'Arbitrage Theory in Continuos Time', 2nd ed, Oxford\\
+
+
+\end{thebibliography}
+
+
+
+\end{document}

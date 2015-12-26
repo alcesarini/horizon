@@ -1,0 +1,10 @@
+{% if iborIndex_list %}
+    <ul>
+    {% for iborIndex in iborIndex_list %}
+	<li><a href="{% url 'hlwsfinapp:iborIndex_detailView' iborIndex.ref_name %}">{{ iborIndex.ref_name }}</a></li> 
+        <!-- <li>{{ iborIndex.ref_name }}</li> -->
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No iborIndexes are available.</p>
+{% endif %}

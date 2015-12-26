@@ -7,7 +7,7 @@ DATE= 20131223
 #ifndef _hl_dcc_h_
 #define _hl_dcc_h_
 
-#include <hl/basicFiles/hl_workingIncludes.h>
+#include <hl/basicFiles/hl_commonDeclarations.h>
 
 namespace HorizonLib
 {

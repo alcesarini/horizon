@@ -33,7 +33,7 @@ DATE= 20131117
 
 //#include <ql/quantlib.hpp>
 //#include <iostream>
-
+#include <numeric>
 
 #include <hl/basicFiles/hl_auto_link.hpp>
 
@@ -63,6 +63,7 @@ DATE= 20131117
 #define QL QuantLib
 #define HL HorizonLib
 #define HLINS HL::HL_Instruments
+#define HLAN HLINS::HL_Anagraphics
 #define HLCTRS HL::HL_Containers
 #define HLENV HL::HL_Enviroment
 #define HLLOG HL::HL_Logging
@@ -71,7 +72,9 @@ DATE= 20131117
 #define HLSER HL::HL_Serialization
 #define HLMD HL::HL_MarketData
 #define HLTS HLMD::HL_TermStructures
+#define HLINTERACTIONS HLMD::HL_Interactions
 #define HLVOL HLMD::HL_VolSurfaces
+#define HLMQS HLMD::HL_MktQuotes
 #define HLDT HL::HL_DateTime
 #define HLCAL HLDT::HL_Calendars
 #define HLCCY HL::HL_Currencies
@@ -80,6 +83,7 @@ DATE= 20131117
 #define HLMA HL::HL_Math
 #define HLINTP HLMA::HL_Interpolation
 #define HLLA HLMA::HL_LinearAlgebra
+#define HLPE HL::HL_PricingEngines
 
 
 
@@ -101,7 +105,8 @@ DATE= 20131117
 #define HL_EPSILON             ((std::numeric_limits<HLR>::epsilon)())
 // specific values---these should fit into any Integer or Real (code taken from Quantlib 1.3)
 #define HL_NULL_INTEGER        ((std::numeric_limits<HLI>::max)())
-#define HL_NULL_REAL           ((std::numeric_limits<HLF>::max)())
+#define HL_NULL_REAL        ((std::numeric_limits<HLR>::max)())
+#define HL_NAN           (std::numeric_limits<HLF>::signaling_NaN())
 
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
@@ -110,78 +115,139 @@ DATE= 20131117
 //------------------------------------------------------------------------------------------------------
 
 #define HL_DYN_PTR_CAST_OPERATION(outPtr, inPtr, dynCastingOperator, DynCastingOperatorArg) \
-                outPtr = dynCastingOperator<DynCastingOperatorArg> (inPtr); \
-                HL_SRE(outPtr, HLSTRING(#dynCastingOperator) + " unable to cast to type " + HLSTRING(#DynCastingOperatorArg));
+    outPtr = dynCastingOperator<DynCastingOperatorArg> (inPtr); \
+    HL_SRE(outPtr, HLSTRING(#dynCastingOperator) + " unable to cast to type " + HLSTRING(#DynCastingOperatorArg));
 
 //------------------------------------------------------------------------------------------------------
 
 #define HL_DYN_C_PTR_CAST_OPERATION(OutPtrType, outPtr, inPtr) \
-                HL_DYN_PTR_CAST_OPERATION(outPtr, inPtr, dynamic_cast, OutPtrType)
+    HL_DYN_PTR_CAST_OPERATION(outPtr, inPtr, dynamic_cast, OutPtrType)
 
 //------------------------------------------------------------------------------------------------------
 
 #define HL_DYN_C_PTR_CAST(OutPtrType, outPtr, inPtr) \
-		OutPtrType outPtr;\
-		HL_DYN_C_PTR_CAST_OPERATION(OutPtrType, outPtr, inPtr)
+    OutPtrType outPtr;\
+    HL_DYN_C_PTR_CAST_OPERATION(OutPtrType, outPtr, inPtr)
 
 //------------------------------------------------------------------------------------------------------
 
 
 #define HL_DYN_SHARED_PTR_CAST_OPERATION(OutPtrType, outPtr, inPtr) \
-                HL_DYN_PTR_CAST_OPERATION(outPtr, inPtr, boost::dynamic_pointer_cast, OutPtrType)
+    HL_DYN_PTR_CAST_OPERATION(outPtr, inPtr, boost::dynamic_pointer_cast, OutPtrType)
 
 
 //------------------------------------------------------------------------------------------------------
 
 
 #define HL_DYN_SHARED_PTR_CAST(OutPtrType, outPtr, inPtr) \
-		BSP<OutPtrType> outPtr;\
-		HL_DYN_SHARED_PTR_CAST_OPERATION(OutPtrType, outPtr, inPtr)
+    BSP<OutPtrType> outPtr;\
+    HL_DYN_SHARED_PTR_CAST_OPERATION(OutPtrType, outPtr, inPtr)
 
 
 //------------------------------------------------------------------------------------------------------
 
 #define HL_CLASS_VAR_ACCESS_METHODS_I(ClassVariableType, classVariableName_no_underscore) \
-		void set_##classVariableName_no_underscore(const ClassVariableType & x)\
-		{\
-	classVariableName_no_underscore##_=x;\
-		}
+    void set_##classVariableName_no_underscore(const ClassVariableType & x)\
+{\
+    classVariableName_no_underscore##_=x;\
+    }
 
 //------------------------------------------------------------------------------------------------------
 
 #define HL_CLASS_VAR_ACCESS_METHODS_O(ClassVariableType, classVariableName_no_underscore) \
-		const ClassVariableType & get_##classVariableName_no_underscore() const\
-		{\
-	return classVariableName_no_underscore##_;\
-		}
+    const ClassVariableType & get_##classVariableName_no_underscore() const\
+{\
+    return classVariableName_no_underscore##_;\
+    }
 
 
 //------------------------------------------------------------------------------------------------------
 #define HL_CLASS_VAR_ACCESS_METHODS(ClassVariableType, classVariableName_no_underscore) \
-		HL_CLASS_VAR_ACCESS_METHODS_I(ClassVariableType, classVariableName_no_underscore) \
-		HL_CLASS_VAR_ACCESS_METHODS_O(ClassVariableType, classVariableName_no_underscore)
+    HL_CLASS_VAR_ACCESS_METHODS_I(ClassVariableType, classVariableName_no_underscore) \
+    HL_CLASS_VAR_ACCESS_METHODS_O(ClassVariableType, classVariableName_no_underscore)
 
 
 //------------------------------------------------------------------------------------------------------
 
 #define HL_ENUM_CHECK(EnumTypeName, enumValue) \
-		HL_SRE_ID(enumValue>EnumTypeName##_InvalidMin && enumValue<EnumTypeName##_InvalidMax,\
-				HLSTRING(#enumValue) << "= " << enumValue);
+    HL_SRE_ID(enumValue>EnumTypeName##_InvalidMin && enumValue<EnumTypeName##_InvalidMax,\
+    HLSTRING(#enumValue) << "= " << enumValue);
 
 //------------------------------------------------------------------------------------------------------
 
 #define HL_ENUM_CHECK_LARGE(EnumTypeName, enumValue) \
-		HL_SRE_ID(enumValue>=EnumTypeName##_InvalidMin && enumValue<=EnumTypeName##_InvalidMax,\
-				HLSTRING(#enumValue) << "= " << enumValue);
+    HL_SRE_ID(enumValue>=EnumTypeName##_InvalidMin && enumValue<=EnumTypeName##_InvalidMax,\
+    HLSTRING(#enumValue) << "= " << enumValue);
+
+//------------------------------------------------------------------------------------------------------
+
+#define HL_ENUM_DEFAULT_INIT(EnumTypeName, enumValue) \
+    enumValue=EnumTypeName##_InvalidMin;
+
 
 //------------------------------------------------------------------------------------------------------
 
 #define HL_SUCCESSFULL_TEST(testMethodName) \
-    {\
+{\
     HL_GET_LOGGER(false/*addTimer*/);\
-    HL_LOG(HLLOG::HL_severity_level_notification, "\n" << std::string(#testMethodName) <<  ": ok\n");\
+    HL_LOG(HLLOG::HL_severity_level_notification, "\n" << HLSTRING(#testMethodName) <<  ": ok\n");\
     }
 
+
+//------------------------------------------------------------------------------------------------------
+
+
+#define HL_IS_IN_MAP(mapObj, value) (mapObj.find(value)!=mapObj.end())
+
+
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+// useful template functions
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+
+template<class MAP_TYPE>
+inline typename MAP_TYPE::mapped_type & HL_mapFind(MAP_TYPE & mapObj,
+                                                const typename MAP_TYPE::key_type & key,
+                                                bool & alreadyExists)
+{
+
+    typename MAP_TYPE::iterator it = mapObj.find(key);
+
+    if(it==mapObj.end())
+    {
+        alreadyExists=false;
+        return mapObj[key];
+
+    }
+
+    alreadyExists=true;
+
+    return it->second;
+
+
+    //    typename MAP_TYPE::value_type x;
+
+    //    std::pair<typename MAP_TYPE::iterator, bool> ins =
+    //            mapObj.insert(std::pair<typename MAP_TYPE::key_type,
+    //                          typename MAP_TYPE::value_type> (key, x));
+
+    //    alreadyExists = !ins.second;
+
+    //    return ((ins.first)->second);
+
+} // end HL_mapFind
+
+//------------------------------------------------------------------------------------------------------
+
+
+template<class T>
+inline void HL_SwapVars(T &x, T&y)
+{
+    T tmp = y;
+    y=x;
+    x=tmp;
+} // end HL_SwapVars
 
 
 

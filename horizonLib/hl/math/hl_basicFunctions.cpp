@@ -40,16 +40,17 @@ HL_Ln::~HL_Ln()
 
 void HL_Ln::classDefaultInit()
 {
-    nDim_=1;
+
 } // end classDefaultInit
 
 //------------------------------------------------------------------------------------------------------
 
 void HL_Ln::descriptionImpl(std::ostream & os) const
 {
-    HL_Function::descriptionImpl(os);
+    HL_RealFunctor::descriptionImpl(os);
 
     os << "Ln function";
+
 
 } // end descriptionImpl
 

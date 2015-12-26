@@ -13,11 +13,6 @@ HL_SERIALIZATION_CLASS_EXPORT_GUID(HLINTP::HL_1_D_CubicInterpLocalParabolicContr
 HL_SERIALIZATION_CLASS_EXPORT_GUID(HLINTP::HL_1_D_CubicInterpLocalParabolic);
 
 
-int ggg()
-{
-
-    return 55;
-}
 
 
 
@@ -30,25 +25,25 @@ namespace HL_Interpolation
 
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
-// class HL_CubicInterp
+// class HL_1_D_CubicInterp
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
 
-HL_CubicInterp::HL_CubicInterp()
+HL_1_D_CubicInterp::HL_1_D_CubicInterp()
 {
 
     classDefaultInit();
 
-} // end HL_CubicInterp
+} // end HL_1_D_CubicInterp
 
 //------------------------------------------------------------------------------------------------------
 
-HL_CubicInterp::~HL_CubicInterp()
-{} // end ~HL_CubicInterp
+HL_1_D_CubicInterp::~HL_1_D_CubicInterp()
+{} // end ~HL_1_D_CubicInterp
 
 //------------------------------------------------------------------------------------------------------
 
-void HL_CubicInterp::classDefaultInit()
+void HL_1_D_CubicInterp::classDefaultInit()
 {
 
     applyMonotonicitConstraint_=false;
@@ -64,7 +59,7 @@ void HL_CubicInterp::classDefaultInit()
 
 //------------------------------------------------------------------------------------------------------
 
-HLR HL_CubicInterp::operator()(const VEC::const_iterator & b, const VEC::const_iterator & e)const
+HLR HL_1_D_CubicInterp::value_n_1(const VEC::const_iterator & b, const VEC::const_iterator & e)const
 {
 
     localize(b, e);
@@ -89,15 +84,27 @@ HLR HL_CubicInterp::operator()(const VEC::const_iterator & b, const VEC::const_i
 
     return fValue;
 
-} // end operator()
+} // end value_n_1
+//------------------------------------------------------------------------------------------------------
+
+
+void HL_1_D_CubicInterp::set_interpControlsPtr(const HL_InterpControlsPtr &interpControlsPtr)
+{
+
+    HL_Interpolator::set_interpControlsPtr(interpControlsPtr);
+
+    preInit();
+
+} // end set_interpControlsPtr
+
 
 //------------------------------------------------------------------------------------------------------
 
-void HL_CubicInterp::finalize()
+void HL_1_D_CubicInterp::preInit()
 {
-    HL_SRE(nDim_==1, "cannot deal with nDim_!=1, nDim_=" << nDim_);
+    HL_SRE(domainDim_==1, "cannot deal with domainDim_!=1, nDim_=" << domainDim_);
 
-    HL_SRE(get_directions().size()==nDim_, "get_directions().size()=" << get_directions().size());
+    HL_SRE(get_directions().size()==domainDim_, "get_directions().size()=" << get_directions().size());
 
     nPoints_ =dir()->nbPoints();
 
@@ -116,7 +123,26 @@ void HL_CubicInterp::finalize()
 
     d_.resize(nPoints_);
 
+    a_.resize(nPoints_minus_1_);
+    b_.resize(nPoints_minus_1_);
+    c_.resize(nPoints_minus_1_);
 
+} // end preInit
+
+
+//------------------------------------------------------------------------------------------------------
+
+void HL_1_D_CubicInterp::finalize()
+{
+
+
+    if(nonCubic())
+    {
+        /**
+         * In case nPoints_=2 the class gets linear, in case nPoints_=1 the class gets constant
+         *  */
+        return;
+    }
 
 
     computeIncrements();
@@ -128,14 +154,82 @@ void HL_CubicInterp::finalize()
     applyMonotonicitConstraint();
 
 
-    computeCubicCoefficients();
+    computeCubicCoefficientsLoop();
 
 
 } // end finalize
 
+
 //------------------------------------------------------------------------------------------------------
 
-HLR HL_CubicInterp::nonCubicOperator() const
+
+void HL_1_D_CubicInterp::setPointAndPerformInterpolationComputations(HLS xIdx,
+                                                                     HLR fEnd,
+                                                                     HLR dEnd)
+{
+
+    HL_SRE(!applyMonotonicitConstraint_, "cannot handle applyMonotonicitConstraint_=true "
+           << "during the bootstrapping of the interpolator.");
+
+
+    f(xIdx)=fEnd;
+
+    d_[xIdx] = dEnd;
+
+    HL_SRE(xIdx<nPoints_, "xIdx=" << xIdx << ", nPoints_=" << nPoints_);
+
+    if(nonCubic())
+    {
+        /**
+         * In case nPoints_=2 the class gets linear, in case nPoints_=1 the class gets constant
+         *  */
+        return;
+    }
+
+
+    if(xIdx==0)
+    {
+        // do nothing more
+
+    }else if(xIdx<nPoints_){
+
+        HLS xIdxPrevious = xIdx-1;
+
+        HLR & a = a_[xIdxPrevious];
+        HLR & b = b_[xIdxPrevious];
+        HLR & c = c_[xIdxPrevious];
+
+        HLR dx = get_dx()[xIdxPrevious];
+
+        HLR fStart =  f(xIdxPrevious);
+
+        HLR S = (fEnd - fStart) / dx;
+
+        HLR dStart = d_[xIdxPrevious];
+
+        computeIntervalCubicCoefficientsImpl(
+                    a,
+                    b,
+                    c,
+                    dx,
+                    S,
+                    dStart,
+                    dEnd
+                    );
+
+
+    }
+
+
+
+} // end setPointAndPerformInterpolationComputations
+
+
+
+
+//------------------------------------------------------------------------------------------------------
+
+HLR HL_1_D_CubicInterp::nonCubicOperator() const
 {
     HLR fValue;
 
@@ -170,7 +264,7 @@ HLR HL_CubicInterp::nonCubicOperator() const
 
 //------------------------------------------------------------------------------------------------------
 
-void HL_CubicInterp::computeIncrements()
+void HL_1_D_CubicInterp::computeIncrements()
 {
 
     const VEC & dx = get_dx();
@@ -205,7 +299,7 @@ void HL_CubicInterp::computeIncrements()
 
 //------------------------------------------------------------------------------------------------------
 
-void HL_CubicInterp::applyMonotonicitConstraint()
+void HL_1_D_CubicInterp::applyMonotonicitConstraint()
 {
 
     if(!applyMonotonicitConstraint_)
@@ -219,7 +313,7 @@ void HL_CubicInterp::applyMonotonicitConstraint()
 
     for (HLS i=0; i<nPoints_; ++i)
     {
-        HLR d_i_corrected=HL_NULL_REAL;
+        HLR d_i_corrected=HL_NAN;
         bool d_i_corrected_set=false;
         HLR & d_i = d_[i];
 
@@ -327,13 +421,10 @@ void HL_CubicInterp::applyMonotonicitConstraint()
 
 //------------------------------------------------------------------------------------------------------
 
-void HL_CubicInterp::computeCubicCoefficients()
+void HL_1_D_CubicInterp::computeCubicCoefficientsLoop()
 {
 
 
-    a_.resize(nPoints_minus_1_);
-    b_.resize(nPoints_minus_1_);
-    c_.resize(nPoints_minus_1_);
 
     const VEC & dx = get_dx();
 
@@ -353,7 +444,7 @@ void HL_CubicInterp::computeCubicCoefficients()
     BOOST_FOREACH(HLR dx_i, dx)
     {
         /*
-         * Notice that in the value method (operator()) the following coefficients will be
+         * Notice that in the value method (value_n_1) the following coefficients will be
          * multiplied by a weight instead of a dx, hence we have to normalize them accordingly.
          * */
         ++d_cIt;
@@ -362,9 +453,19 @@ void HL_CubicInterp::computeCubicCoefficients()
 
         HLR S_i = *S_cIt;
 
-        (*a_it) = d_i*dx_i;
-        (*b_it) = (3.0*S_i - d_ip1 - 2.0*d_i)*dx_i;
-        (*c_it) = (d_ip1 + d_i - 2.0*S_i)*dx_i;
+        //        (*a_it) = d_i*dx_i;
+        //        (*b_it) = (3.0*S_i - d_ip1 - 2.0*d_i)*dx_i;
+        //        (*c_it) = (d_ip1 + d_i - 2.0*S_i)*dx_i;
+
+        computeIntervalCubicCoefficientsImpl(
+                    (*a_it) ,
+                    (*b_it),
+                    (*c_it),
+                    dx_i,
+                    S_i,
+                    d_i /*dStart*/,
+                    d_ip1 /*dEnd*/
+                    );
 
 
         d_i = d_ip1;
@@ -376,19 +477,49 @@ void HL_CubicInterp::computeCubicCoefficients()
 
     } // end for i
 
-} // end computeCubicCoefficients
+} // end computeCubicCoefficientsLoop
+
 
 //------------------------------------------------------------------------------------------------------
 
-void HL_CubicInterp::descriptionImpl(std::ostream & os) const
+/**
+ * Related to interval [xStart, xEnd]
+ * dStart is the derivative at xStart
+ * dEnd is the derivative at xEnd
+ * dx=xEnd-xStart
+ * S= incremental ratio in [xStart, xEnd]
+*/
+void HL_1_D_CubicInterp::computeIntervalCubicCoefficientsImpl(
+        HLR & a,
+        HLR & b,
+        HLR & c,
+        HLR dx,
+        HLR S,
+        HLR dStart,
+        HLR dEnd
+        )
 {
+
+    a = dStart*dx;
+    b = (3.0*S - dEnd - 2.0*dStart)*dx;
+    c = (dEnd + dStart - 2.0*S)*dx;
+
+
+} // end computeIntervalCubicCoefficientsImpl
+
+
+//------------------------------------------------------------------------------------------------------
+
+void HL_1_D_CubicInterp::descriptionImpl(std::ostream & os) const
+{
+    os << "HL_1_D_CubicInterp:\n";
     HL_Interpolator::descriptionImpl(os);
 
 } // end descriptionImpl
 
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
-// class HL_CubicInterp: defines, utils
+// class HL_1_D_CubicInterp: defines, utils
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------
 
@@ -594,7 +725,9 @@ void HL_1_D_CubicSplineInterp::setTridiagOpLastRow() const
 
 void HL_1_D_CubicSplineInterp::descriptionImpl(std::ostream & os) const
 {
-    HL_CubicInterp::descriptionImpl(os);
+
+    os << "HL_1_D_CubicSplineInterp:\n";
+    HL_1_D_CubicInterp::descriptionImpl(os);
 
 } // end descriptionImpl
 
@@ -733,7 +866,8 @@ void HL_1_D_CubicInterpLocalParabolic::computeFirstDerivativeAtNodes()
 
 void HL_1_D_CubicInterpLocalParabolic::descriptionImpl(std::ostream & os) const
 {
-    HL_CubicInterp::descriptionImpl(os);
+    os << "HL_1_D_CubicInterpLocalParabolic:\n";
+    HL_1_D_CubicInterp::descriptionImpl(os);
 
 } // end descriptionImpl
 
@@ -796,16 +930,16 @@ HL_InterpControlsPtr HL_TEST_1D_InterpControlsPtr(
         HLR &b,
         const HL_TEST_F & F,
         /**
-             * proportionalityFactor_F to be used to rescale F as one wants...
-             * */
+                                     * proportionalityFactor_F to be used to rescale F as one wants...
+                                     * */
         HLR proportionalityFactor_F,
         HL_InterpolatorType interpolatorType,
         HL_CubicSplineBoundaryCondition leftBoundaryCondition,
         HL_CubicSplineBoundaryCondition rightBoundaryCondition,
         /**
-             * Another output of the method
-             * */
-        BSP<HL_CubicInterp> &interpolatorPtr
+                                     * Another output of the method
+                                     * */
+        BSP<HL_1_D_CubicInterp> &interpolatorPtr
         )
 {
 
@@ -908,19 +1042,69 @@ HL_InterpControlsPtr HL_TEST_1D_InterpControlsPtr(
 
 } // end HL_TEST_1D_InterpControlsPtr
 
+
 //------------------------------------------------------------------------------------------------------
 
-void HL_TEST_HL_CubicInterp(const HL_TEST_F & F,
-                            HL_InterpolatorType interpolatorType,
-                            HL_CubicSplineBoundaryCondition leftBoundaryCondition,
-                            HL_CubicSplineBoundaryCondition rightBoundaryCondition,
-                            HLS n=200)
+void HL_TEST_HL_1_D_CubicInterpCheck(const HL_TEST_F & F,
+                                     HLR a,
+                                     HLR b,
+                                     BSP<HL_1_D_CubicInterp> interpolatorPtr)
+{
+
+    HLSER::HL_CoreSerializableObj csObj;
+
+    csObj.oa() << interpolatorPtr;
+    csObj.getReadyForDeserialization();
+
+    BSP<HL_1_D_CubicInterp> interpolatorPtr_R;
+    csObj.ia() >> interpolatorPtr_R;
+
+
+    HLS nCheckPoints =1000;
+
+
+    HLR dxCheck = (b-a)/nCheckPoints;
+    VEC xVect(1);
+    for(HLS j=0;j<=nCheckPoints;++j)
+    {
+        HLR &x = xVect[0];
+
+        x = a+dxCheck*j;
+
+        x=std::min(x, b); // rounding
+
+        HLR valuePrime,valueSecond;
+
+        HLR value= F.value(x,valuePrime,valueSecond);
+
+        HLR valueInterp = interpolatorPtr->value_n_1(xVect.begin(), xVect.end());
+
+        HL_REQ_EQUAL_FLOATS_N(value, valueInterp, 1000);
+
+        HLR valueInterp_R = interpolatorPtr_R->value_n_1(xVect.begin(), xVect.end());
+
+        HL_REQ_EQUAL_FLOATS_N (valueInterp_R, valueInterp, 1);
+
+
+    } // end for j
+
+
+} // end HL_TEST_HL_1_D_CubicInterpCheck
+
+
+//------------------------------------------------------------------------------------------------------
+
+void HL_TEST_HL_1_D_CubicInterp(const HL_TEST_F & F,
+                                HL_InterpolatorType interpolatorType,
+                                HL_CubicSplineBoundaryCondition leftBoundaryCondition,
+                                HL_CubicSplineBoundaryCondition rightBoundaryCondition,
+                                HLS n=200)
 {
 
 
     HL_DirectionPtr dir = HL_TEST_build_DirectionPtr(n, -10. /*x_0*/, 2.6/* dx*/);
 
-    BSP<HL_CubicInterp> interpolatorPtr;
+    BSP<HL_1_D_CubicInterp> interpolatorPtr;
 
 
     HLR a, b;
@@ -931,15 +1115,15 @@ void HL_TEST_HL_CubicInterp(const HL_TEST_F & F,
                 b,
                 F,
                 /**
-                             * proportionalityFactor_F to be used to rescale F as one wants...
-                             * */
+                                                                 * proportionalityFactor_F to be used to rescale F as one wants...
+                                                                 * */
                 1 /*HLR proportionalityFactor_F*/,
                 interpolatorType,
                 leftBoundaryCondition,
                 rightBoundaryCondition,
                 /**
-                             * Another output of the method
-                             * */
+                                                                 * Another output of the method
+                                                                 * */
                 interpolatorPtr
                 );
 
@@ -968,53 +1152,104 @@ void HL_TEST_HL_CubicInterp(const HL_TEST_F & F,
     interpolatorPtr->finalize();
 
 
-    HLSER::HL_CoreSerializableObj csObj;
-
-    csObj.oa() << interpolatorPtr;
-    csObj.getReadyForDeserialization();
-
-    BSP<HL_CubicInterp> interpolatorPtr_R;
-    csObj.ia() >> interpolatorPtr_R;
-
-
-    HLS nCheckPoints =1000;
-
-
-    HLR dxCheck = (b-a)/nCheckPoints;
-    VEC xVect(1);
-    for(HLS j=0;j<=nCheckPoints;++j)
-    {
-        HLR &x = xVect[0];
-
-        x = a+dxCheck*j;
-
-        x=std::min(x, b); // rounding
-
-        HLR valuePrime,valueSecond;
-
-        HLR value= F.value(x,valuePrime,valueSecond);
-
-        HLR valueInterp = interpolatorPtr->operator()(xVect.begin(), xVect.end());
-
-        HL_REQ_EQUAL_FLOATS_N(value, valueInterp, 1000);
-
-        HLR valueInterp_R = interpolatorPtr_R->operator()(xVect.begin(), xVect.end());
-
-        HL_REQ_EQUAL_FLOATS_N (valueInterp_R, valueInterp, 1);
-
-
-    } // end for j
+    HL_TEST_HL_1_D_CubicInterpCheck(F,
+                                    a,
+                                    b,
+                                    interpolatorPtr);
 
 
 
 
+} // end HL_TEST_HL_1_D_CubicInterp
 
-} // end HL_TEST_HL_CubicInterp
+
 
 
 //------------------------------------------------------------------------------------------------------
 
-void HL_TEST_HL_CubicInterpAll()
+void HL_TEST_HL_1_D_CubicInterpBootstrap()
+{
+
+    HL_DirectionPtr dir = HL_TEST_build_DirectionPtr(50 /*n*/, -20. /*x_0*/, 4.6/* dx*/);
+
+
+    HL_TEST_F F;
+
+    F.a=-30;
+    F.b=+32;
+    F.c=-10.33;
+    F.d=0.2; // impose the parabola
+
+    HL_InterpolatorType interpolatorType = HL_InterpolatorType_1_D_CubicLocalParabolic;
+    HL_CubicSplineBoundaryCondition leftBoundaryCondition =HL_CubicSplineBoundaryCondition_InvalidMin;
+    HL_CubicSplineBoundaryCondition rightBoundaryCondition=HL_CubicSplineBoundaryCondition_InvalidMin;
+
+
+    BSP<HL_1_D_CubicInterp> interpolatorPtr;
+
+
+    HLR a, b;
+
+    HL_InterpControlsPtr interpControlsPtr  = HL_TEST_1D_InterpControlsPtr(
+                dir,
+                a,
+                b,
+                F,
+                /**
+                                                                 * proportionalityFactor_F to be used to rescale F as one wants...
+                                                                 * */
+                1 /*HLR proportionalityFactor_F*/,
+                interpolatorType,
+                leftBoundaryCondition,
+                rightBoundaryCondition,
+                /**
+                                                                 * Another output of the method
+                                                                 * */
+                interpolatorPtr
+                );
+
+    interpolatorPtr->set_applyMonotonicitConstraint(false);
+
+    HLMIDX multiIndex(1, 0);
+
+
+    HLS xIdx=0;
+
+    BOOST_FOREACH(HLR x, dir->get_x())
+    {
+
+        HLR valuePrime,valueSecond;
+
+        HLR value = F.value(x, valuePrime, valueSecond);
+
+
+
+        interpolatorPtr->setPointAndPerformInterpolationComputations( xIdx,
+                                                                      value /*fEnd*/,
+                                                                      valuePrime /*dEnd*/);
+
+
+        ++xIdx;
+    } // end for x
+
+    // no finalize needed
+    // interpolatorPtr->finalize();
+
+    HL_TEST_HL_1_D_CubicInterpCheck(F,
+                                    a,
+                                    b,
+                                    interpolatorPtr);
+
+
+
+
+
+} // end HL_TEST_HL_1_D_CubicInterpBootstrap
+
+
+//------------------------------------------------------------------------------------------------------
+
+void HL_TEST_HL_1_D_CubicInterpAll()
 {
 
     HL_GET_LOGGER(false/*addTimer*/);
@@ -1039,7 +1274,7 @@ void HL_TEST_HL_CubicInterpAll()
         HL_CubicSplineBoundaryCondition rightBoundaryCondition=HL_CubicSplineBoundaryCondition_FirstDerivative;
 
 
-        HL_TEST_HL_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition);
+        HL_TEST_HL_1_D_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition);
     }
     //************************************/
 
@@ -1056,7 +1291,7 @@ void HL_TEST_HL_CubicInterpAll()
         HL_CubicSplineBoundaryCondition rightBoundaryCondition=HL_CubicSplineBoundaryCondition_FirstDerivative;
 
 
-        HL_TEST_HL_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition);
+        HL_TEST_HL_1_D_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition);
     }
     //************************************/
     {
@@ -1072,7 +1307,7 @@ void HL_TEST_HL_CubicInterpAll()
         HL_CubicSplineBoundaryCondition rightBoundaryCondition=HL_CubicSplineBoundaryCondition_SecondDerivative;
 
 
-        HL_TEST_HL_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition);
+        HL_TEST_HL_1_D_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition);
     }
     //************************************/
     {
@@ -1088,7 +1323,7 @@ void HL_TEST_HL_CubicInterpAll()
         HL_CubicSplineBoundaryCondition rightBoundaryCondition=HL_CubicSplineBoundaryCondition_SecondDerivative;
 
 
-        HL_TEST_HL_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition);
+        HL_TEST_HL_1_D_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition);
     }
     /*
      * In the second set of tests, we fit a parabola with a parabola. So everything should work with no error (other than
@@ -1110,7 +1345,7 @@ void HL_TEST_HL_CubicInterpAll()
         HL_CubicSplineBoundaryCondition rightBoundaryCondition=HL_CubicSplineBoundaryCondition_InvalidMin;
 
 
-        HL_TEST_HL_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition);
+        HL_TEST_HL_1_D_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition);
     }
     //************************************/
     {
@@ -1128,7 +1363,7 @@ void HL_TEST_HL_CubicInterpAll()
 
         try
         {
-            HL_TEST_HL_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition);
+            HL_TEST_HL_1_D_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition);
             HL_FAIL("expected to fail, shouldn't get here");
         }
         catch(...)
@@ -1155,7 +1390,7 @@ void HL_TEST_HL_CubicInterpAll()
         HL_CubicSplineBoundaryCondition rightBoundaryCondition=HL_CubicSplineBoundaryCondition_FirstDerivative;
 
 
-        HL_TEST_HL_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition, 2/*n*/);
+        HL_TEST_HL_1_D_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition, 2/*n*/);
     }
     //************************************/
     {
@@ -1171,7 +1406,7 @@ void HL_TEST_HL_CubicInterpAll()
         HL_CubicSplineBoundaryCondition rightBoundaryCondition=HL_CubicSplineBoundaryCondition_InvalidMin;
 
 
-        HL_TEST_HL_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition, 2/*n*/);
+        HL_TEST_HL_1_D_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition, 2/*n*/);
     }
     //************************************/
     /*
@@ -1191,7 +1426,7 @@ void HL_TEST_HL_CubicInterpAll()
         HL_CubicSplineBoundaryCondition rightBoundaryCondition=HL_CubicSplineBoundaryCondition_FirstDerivative;
 
 
-        HL_TEST_HL_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition, 1/*n*/);
+        HL_TEST_HL_1_D_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition, 1/*n*/);
     }
     //************************************/
     {
@@ -1207,17 +1442,25 @@ void HL_TEST_HL_CubicInterpAll()
         HL_CubicSplineBoundaryCondition rightBoundaryCondition=HL_CubicSplineBoundaryCondition_InvalidMin;
 
 
-        HL_TEST_HL_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition, 1/*n*/);
+        HL_TEST_HL_1_D_CubicInterp(F, interpolatorType, leftBoundaryCondition, rightBoundaryCondition, 1/*n*/);
     }
     //************************************/
 
-    HL_SUCCESSFULL_TEST(HL_TEST_HL_CubicInterpAll);
+
+    HL_TEST_HL_1_D_CubicInterpBootstrap();
+
+    //************************************/
+
+
+    HL_SUCCESSFULL_TEST(HL_TEST_HL_1_D_CubicInterpAll);
 
 
 
 
 
-} // end HL_TEST_HL_CubicInterpAll
+} // end HL_TEST_HL_1_D_CubicInterpAll
+
+
 
 
 
