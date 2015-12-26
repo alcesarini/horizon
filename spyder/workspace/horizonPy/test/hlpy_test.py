@@ -2,7 +2,8 @@
 
 import ctypes
 
-
+import os
+os.environ['PATH'] = './' + ';' + os.environ['PATH']
 
 def primoTest(y):
     
@@ -10,10 +11,14 @@ def primoTest(y):
     print "x"*50
     print "start run"
     lib=None
+    #xxx
 
+    #lib = ctypes.cdll.LoadLibrary(
+    #"/home/ale/pro/build-horizonExtern-Desktop_Qt_5_2_1_GCC_64bit-Debug/libhorizonExtern.so.1.0.0")
 
-    lib = ctypes.cdll.LoadLibrary("/home/ale/pro/build-horizonExtern-Desktop_Qt_5_2_1_GCC_64bit-Debug/libhorizonExtern.so.1.0.0")
+    dllToLoad = str(os.path.dirname(os.path.realpath(__file__))) + "/libhorizonExtern.so.1.0.0"
 
+    lib = ctypes.cdll.LoadLibrary(dllToLoad)
                                                
     lib.ext_HE_TEST_INT_EXTERN_LINK.restype = None
     lib.ext_HE_TEST_INT_EXTERN_LINK.argtypes =[ctypes.POINTER(ctypes.c_int)]                                              
