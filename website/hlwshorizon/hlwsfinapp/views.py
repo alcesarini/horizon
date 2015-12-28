@@ -17,10 +17,39 @@ from .models import Post
 
 
 import sys
-sys.path.append('/home/ale/pro/spyder/workspace')
+#sys.path.append("../../../spyder/workspace")
+
+print 50*"1"
+
+import os
+
+scriptPath = str(os.path.realpath(os.path.dirname(sys.argv[0])))
+
+import re
+
+print scriptPath
+
+scriptPath = re.sub('website/hlwshorizon$', '', scriptPath)
+scriptPath = scriptPath + 'spyder/workspace'
+
+print scriptPath
+#os.chdir(scriptPath)
+
+sys.path.append(scriptPath)
+print sys.path
 
 
-print 50*"-"
+#print os.path.dirname(__file__)
+
+#sys.path.append(os.path.join(os.path.dirname(__file__), 
+#'..', '..', 'spyder', 'workspace'))
+
+print 50*"2"
+
+#print sys.path
+
+
+print 50*"3"
 import horizonPy.test.hlpy_test
 
 
