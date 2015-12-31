@@ -5,9 +5,7 @@ ADDED BY= A. Cesarini
 DATE= 20151212
 */
 
-#include <he/test/he_test.h>
-
-
+#include <hl/test/hl_test.h>
 
 
 
@@ -19,7 +17,7 @@ DATE= 20151212
 extern "C"
 {
 
-void ext_HE_TEST_INT_EXTERN_LINK(int * pInt)
+extern void ext_HE_TEST_INT_EXTERN_LINK(int * pInt)
 {
 
     HorizonLib::HL_Test::HL_TEST_get_int_nb((*pInt));
