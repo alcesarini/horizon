@@ -162,6 +162,43 @@ def calcolo(request):
 
         return render(request, 'hlwsfinapp/calcolo.html')
         
+###################################
+# calcolo
+###################################
+    
+def calcolo2(request):
+
+    if request.method == 'POST':
+        try:
+    
+            iborIndexName = request.POST.get('iborIndexNameField', None)
+            
+            print "iborIndexName=" + iborIndexName
+            
+            if iborIndexName == "":
+                iborIndexName = request.POST.get('iborIndexNameField 1', None)
+
+            print "iborIndexName=" + iborIndexName
+            
+            
+            iborIndex = get_object_or_404(IborIndex, pk=iborIndexName)
+
+            
+            periodNbUnits_integer = iborIndex.periodNbUnits_integer
+
+            
+            stringRisultato = horizonPy.test.hlpy_test.secondoTest(periodNbUnits_integer)
+            
+            
+            return HttpResponse(stringRisultato) 
+            
+        except:
+    
+            return HttpResponse("calcolo2 PROBLEMA")
+    else:
+        print "calcolo ELSE"        
+
+        return render(request, 'hlwsfinapp/calcolo2.html')
  
  
  

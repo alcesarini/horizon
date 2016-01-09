@@ -9,6 +9,7 @@ app_name = 'hlwsfinapp'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^calcolo/', views.calcolo, name='calcolo'), 
+    url(r'^calcolo2/', views.calcolo2, name='calcolo2'), 
     url(r'^underlyings/iborIndexes/(?P<ref_name>[-\w]+)/$', iborIndex_detailView, name='iborIndex_detailView'),
     url(r'^posts/', PostListing.as_view(), name='listing'),
     url(r'^posts-create/$', PostCreate.as_view(), name='create'),

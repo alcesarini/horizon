@@ -116,6 +116,9 @@ unix:!macx: PRE_TARGETDEPS += $$PWD/../build-horizonLib-Desktop_Qt_5_2_1_GCC_64b
 unix:!macx: LIBS += -L$$PWD/../boost_1_60_0/stage/lib/ -lboost_log
 unix:!macx: PRE_TARGETDEPS += $$PWD/../boost_1_60_0/stage/lib/libboost_log.a
 #------------------------------------------------------------------------------------------------------------------
+unix:!macx: LIBS += -L$$PWD/../boost_1_60_0/stage/lib/ -lboost_python
+unix:!macx: PRE_TARGETDEPS += $$PWD/../boost_1_60_0/stage/lib/libboost_python.a
+#------------------------------------------------------------------------------------------------------------------
 unix:!macx: LIBS += -L$$PWD/../boost_1_60_0/stage/lib/ -lboost_system
 unix:!macx: PRE_TARGETDEPS += $$PWD/../boost_1_60_0/stage/lib/libboost_system.a
 #------------------------------------------------------------------------------------------------------------------
@@ -135,7 +138,8 @@ unix:!macx: PRE_TARGETDEPS += $$PWD/../boost_1_60_0/stage/lib/libboost_date_time
 INCLUDEPATH += \
      /home/ale/pro/horizonExtern\
      /home/ale/pro/boost_1_60_0 \
-     /home/ale/pro/horizonLib
+     /home/ale/pro/horizonLib\
+     /usr/include/python2.7
 
 
 DEFINES += HORIZONEXTERN_LIBRARY
